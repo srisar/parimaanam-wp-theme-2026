@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+  "version": 3,
+  "settings": {
+    "layout": {
+      "contentSize": "44rem",
+      "wideSize": "80rem"
+    },
+    "spacing": {
+      "blockGap": true,
+      "customSpacingSize": false,
+      "margin": true,
+      "padding": true,
+      "spacingScale": {
+        "operator": "*",
+        "increment": 1.5,
+        "steps": 7,
+        "mediumStep": 1.5,
+        "unit": "rem"
+      },
+      "units": [
+        "rem",
+        "%"
+      ]
+    }
+  }
+}
