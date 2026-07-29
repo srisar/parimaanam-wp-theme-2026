@@ -22,8 +22,9 @@ parimaanam_2026/
 ├── theme.json           Layout and spacing foundation for the design system
 ├── assets/
 │   └── fonts/
-│       └── noto-sans-tamil/
-│           ├── NotoSansTamil-Variable.ttf
+│       └── google-sans/
+│           ├── GoogleSans-Latin-Variable.woff2
+│           ├── GoogleSans-Tamil-Variable.woff2
 │           └── OFL.txt
 └── templates/
     └── index.html       Required, unstyled template-hierarchy fallback
@@ -47,13 +48,15 @@ No palette, page padding, or per-block component styles are defined yet. Root-pa
 
 ### Typography
 
-The theme locally hosts a single variable font family, Noto Sans Tamil, under the SIL Open Font License 1.1. It supports Tamil, Latin, weights from 100 through 900, and widths from 62.5% through 100%. One family keeps mixed-script scientific writing visually coherent and avoids the extra request and rendering mismatch of a separate Latin or display face. The semantic `primary` preset decouples templates and styles from the font's product name.
+The theme locally hosts Google Sans under the SIL Open Font License 1.1. Two optimized WOFF2 subsets cover Tamil and Latin while sharing one variable family and a weight range of 400 through 700. WordPress emits both `@font-face` declarations directly from `theme.json`; their `unicodeRange` descriptors let the browser fetch only the subset required by the text on a page. This avoids a Google Fonts runtime dependency and is substantially smaller than shipping the full multi-script TTF package. System UI and generic sans-serif fonts remain fallbacks for characters outside the bundled ranges.
+
+The files are the unmodified variable subsets served by the official Google Fonts CSS API for Google Sans. The Tamil range is `U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC`; the Latin range is the API's standard Latin subset. Their SIL Open Font License is stored beside them. One family keeps mixed-script scientific writing visually coherent, while the semantic `primary` preset decouples templates and styles from the font's product name.
 
 The global reading size scales from `1.0625rem` to `1.125rem` with a `1.8` line height. Headings use the same family at weight 700, a `1.35` line height, and a five-step fluid scale. Core's default font-size presets are disabled so the theme can intentionally redefine the existing `small`, `medium`, `large`, `x-large`, and `xx-large` slugs. Imported content using those Core-compatible classes therefore continues to resolve predictably without inheriting Core's smaller defaults.
 
-Arbitrary font sizes, synthetic font styles, letter spacing, line-height overrides, text transforms, vertical writing, and drop caps are unavailable in the editor. These controls are unnecessary for the current editorial model or are unsafe without Tamil-specific testing. Font weight remains available because the bundled variable family supports it natively.
+Arbitrary font sizes, synthetic font styles, letter spacing, line-height overrides, text transforms, vertical writing, and drop caps are unavailable in the editor. These controls are unnecessary for the current editorial model or are unsafe without Tamil-specific testing. Font weight remains available within the bundled family's supported 400–700 range.
 
-Typography is registered and applied through `theme.json`, allowing WordPress to produce matching editor and front-end styles without a stylesheet or PHP enqueue logic. The font file and license are kept together in `assets/fonts/noto-sans-tamil/`.
+Typography is registered and applied through `theme.json`, allowing WordPress to produce matching editor and front-end styles without a stylesheet or PHP enqueue logic. The font files and license are kept together in `assets/fonts/google-sans/`.
 
 Future approved global tokens and block styles should go into `theme.json`. CSS in `assets/css/` is an exception for requirements the WordPress style system cannot express. This keeps Site Editor controls and front-end output aligned.
 
