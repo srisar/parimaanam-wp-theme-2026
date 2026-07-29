@@ -1,6 +1,13 @@
 {
   "$schema": "https://schemas.wp.org/wp/6.6/theme.json",
   "version": 3,
+  "templateParts": [
+    {
+      "area": "header",
+      "name": "header",
+      "title": "Header"
+    }
+  ],
   "settings": {
     "layout": {
       "contentSize": "44rem",
@@ -120,6 +127,12 @@
       "lineHeight": "1.8"
     },
     "elements": {
+      "caption": {
+        "typography": {
+          "fontSize": "var:preset|font-size|small",
+          "lineHeight": "1.5"
+        }
+      },
       "heading": {
         "typography": {
           "fontFamily": "var:preset|font-family|primary",
@@ -156,6 +169,11 @@
         "typography": {
           "fontSize": "var:preset|font-size|medium"
         }
+      }
+    },
+    "blocks": {
+      "core/post-content": {
+        "css": "& pre { max-width: 100%; overflow-x: auto; } & > table { display: block; max-width: 100%; overflow-x: auto; } & .wp-block-embed iframe { height: auto; max-width: 100%; width: 100%; } & .wp-embed-aspect-16-9 iframe { aspect-ratio: 16 / 9; } & .wp-embed-aspect-4-3 iframe { aspect-ratio: 4 / 3; } & .wp-caption { max-width: 100%; }"
       }
     }
   }
