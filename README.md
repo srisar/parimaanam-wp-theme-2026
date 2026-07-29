@@ -2,7 +2,7 @@
 
 Parimaanam 2026 is the custom native WordPress block theme for <https://parimaanam.net>. This repository contains the theme only. It does not include WordPress core, plugins, uploads, database content, or environment configuration.
 
-The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, and the native single-article reading experience. Branding, colors, the homepage, and later publication templates remain deliberately undefined.
+The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, and a latest-posts homepage. Branding, colors, and later publication templates remain deliberately undefined.
 
 ## Requirements
 
@@ -29,6 +29,7 @@ parimaanam_2026/
 ├── parts/
 │   └── header.html      Minimal site identity for article navigation
 └── templates/
+    ├── home.html        Latest-posts homepage with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
     └── single.html      Semantic reading experience for individual posts
 ```
@@ -37,9 +38,15 @@ Directories are added only when they have real content. Expected extension point
 
 ### Rendering model
 
-WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`; views without a more specific template continue to fall back to `templates/index.html`. The fallback's inherited Query Loop lets WordPress supply the current query, posts, URLs, and pagination without custom logic.
+WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, the posts index uses `templates/home.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
 
-`index.html` is required for a valid block theme; it is not a homepage implementation. The theme intentionally has no `home.html` or `front-page.html`. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
+`index.html` is required for a valid block theme; it is not a homepage implementation. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
+
+`home.html` follows the WordPress posts-index hierarchy and works whether the posts index is the site's front page or is assigned to a separate page. There is no `front-page.html`: the current site setting displays the latest posts, and adding a front-page override would duplicate the posts-index responsibility without an approved static front-page requirement.
+
+The homepage uses a Core Query Loop inherited from the main WordPress query, so the Reading setting continues to determine the number of posts and existing pagination URLs remain native. Its two-column post grid collapses through Core's responsive Post Template behavior. Each semantic `article` exposes the linked featured image, categories, date, H2 title, and a shortened excerpt; Core pagination provides access to older articles. The template adds no fixed heading, category selection, promotional copy, menu, or content IDs.
+
+The homepage renders the dynamic Site Title directly as its H1. The shared article header intentionally renders the same block without a heading level because the post title is the H1 on single views. Keeping this small contextual difference in the template preserves one meaningful H1 on both views without PHP, a custom block, or duplicate template parts.
 
 `single.html` is the first purpose-built front-end template. It follows WordPress's standard single-post hierarchy and is composed entirely of Core blocks. A linked Site Title provides a minimal route back to the site without assuming an approved logo, menu, or navigation structure. The article uses semantic `main`, `article`, and nested `header` elements; its category, title, author, publication date, content, tags, adjacent-post navigation, threaded comments, comment pagination, and comment form all come from the current WordPress query.
 
@@ -100,16 +107,16 @@ Because there is currently no compilation step, changes to HTML templates and `t
 
 1. **Native block theme:** maximizes compatibility with current WordPress editing and template APIs and avoids a parallel rendering system.
 2. **Required fallback only:** `index.html` exists to satisfy the block-theme contract and WordPress template hierarchy. It is deliberately not a homepage design.
-3. **Minimal shared header:** the single article establishes a need for linked site identity, so the header part contains only the dynamic Site Title. Navigation, logo treatment, search, and the footer remain deferred until their requirements are approved.
+3. **Minimal site identity:** the single article's shared header contains only the dynamic Site Title. The homepage renders that same dynamic block directly so it can be the page H1 while the article's post title remains its H1. Navigation, logo treatment, search, and the footer remain deferred until their requirements are approved.
 4. **Dynamic core blocks:** article metadata, content, taxonomies, adjacent posts, comments, query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
 5. **Constrained design-system foundation:** `theme.json` defines global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, the header template-part area, and readable captions. It does not choose colors or component branding.
 6. **No PHP by default:** no server-side customization is currently needed, so an empty compatibility layer would add maintenance without behavior.
 7. **No build toolchain:** the scaffold has nothing to compile. Tooling should be introduced only with a concrete, documented need.
-8. **Compatibility-first evolution:** future templates should follow WordPress's hierarchy and use existing queries, URLs, and taxonomy data rather than replacing content structures.
+8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, and taxonomy data rather than replacing content structures. The homepage uses Core post and pagination blocks and therefore requires no PHP query or hard-coded category assumptions.
 
 ## Future extension points
 
-- Use the established single-article hierarchy to inform the homepage, then build archives, search, Science Series, and polish in that order.
+- Use the established single-article and homepage hierarchy to build archives next, followed by search, Science Series, and polish.
 - Expand the minimal header and introduce a footer only when their navigation and information-architecture requirements are approved.
 - Add reusable editorial compositions to `patterns/`; use synced patterns or database content when editors must manage the copy.
 - Add an approved palette to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
@@ -120,4 +127,4 @@ Because there is currently no compilation step, changes to HTML templates and `t
 
 ## Scope guard
 
-This is not the final theme. It contains no finalized branding, homepage, archive or search design, specialized publication templates, custom editorial patterns, or production integration logic. The current phase establishes the native single-article reading structure; visual branding and later templates remain deliberately out of scope.
+This is not the final theme. It contains no finalized branding, archive or search design, specialized publication templates, custom editorial patterns, or production integration logic. The current phase establishes the native single-article reading structure and latest-posts homepage; visual branding and later templates remain deliberately out of scope.
