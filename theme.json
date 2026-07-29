@@ -9,6 +9,7 @@
     "spacing": {
       "blockGap": true,
       "customSpacingSize": false,
+      "defaultSpacingSizes": false,
       "margin": true,
       "padding": true,
       "spacingScale": {
@@ -22,6 +23,127 @@
         "rem",
         "%"
       ]
+    },
+    "typography": {
+      "customFontSize": false,
+      "defaultFontSizes": false,
+      "dropCap": false,
+      "fluid": true,
+      "fontFamilies": [
+        {
+          "fontFamily": "\"Noto Sans Tamil\", system-ui, sans-serif",
+          "name": "Primary",
+          "slug": "primary",
+          "fontFace": [
+            {
+              "fontFamily": "Noto Sans Tamil",
+              "fontStretch": "62.5% 100%",
+              "fontStyle": "normal",
+              "fontWeight": "100 900",
+              "src": [
+                "file:./assets/fonts/noto-sans-tamil/NotoSansTamil-Variable.ttf"
+              ]
+            }
+          ]
+        }
+      ],
+      "fontSizes": [
+        {
+          "fluid": false,
+          "name": "Small",
+          "size": "0.875rem",
+          "slug": "small"
+        },
+        {
+          "fluid": {
+            "min": "1.0625rem",
+            "max": "1.125rem"
+          },
+          "name": "Medium",
+          "size": "1.125rem",
+          "slug": "medium"
+        },
+        {
+          "fluid": {
+            "min": "1.25rem",
+            "max": "1.5rem"
+          },
+          "name": "Large",
+          "size": "1.5rem",
+          "slug": "large"
+        },
+        {
+          "fluid": {
+            "min": "1.75rem",
+            "max": "2.25rem"
+          },
+          "name": "Extra Large",
+          "size": "2.25rem",
+          "slug": "x-large"
+        },
+        {
+          "fluid": {
+            "min": "2.25rem",
+            "max": "3.25rem"
+          },
+          "name": "Extra Extra Large",
+          "size": "3.25rem",
+          "slug": "xx-large"
+        }
+      ],
+      "fontStyle": false,
+      "fontWeight": true,
+      "letterSpacing": false,
+      "lineHeight": false,
+      "textColumns": false,
+      "textTransform": false,
+      "writingMode": false
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "var:preset|font-family|primary",
+      "fontSize": "var:preset|font-size|medium",
+      "lineHeight": "1.8"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|primary",
+          "fontWeight": "700",
+          "lineHeight": "1.35"
+        }
+      },
+      "h1": {
+        "typography": {
+          "fontSize": "var:preset|font-size|xx-large"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontSize": "var:preset|font-size|x-large"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontSize": "var:preset|font-size|large"
+        }
+      },
+      "h4": {
+        "typography": {
+          "fontSize": "var:preset|font-size|medium"
+        }
+      },
+      "h5": {
+        "typography": {
+          "fontSize": "var:preset|font-size|medium"
+        }
+      },
+      "h6": {
+        "typography": {
+          "fontSize": "var:preset|font-size|medium"
+        }
+      }
     }
   }
 }
