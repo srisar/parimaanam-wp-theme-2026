@@ -2,7 +2,7 @@
 
 Parimaanam 2026 is the custom native WordPress block theme for <https://parimaanam.net>. This repository contains the theme only. It does not include WordPress core, plugins, uploads, database content, or environment configuration.
 
-The current state establishes the theme architecture and the non-branded foundation of its design system. Branding, colors, typography, editorial structures, and marketing content remain deliberately undefined.
+The current state establishes the theme architecture, non-branded design-system foundation, and Tamil-first typography. Branding, colors, editorial structures, and marketing content remain deliberately undefined.
 
 ## Requirements
 
@@ -20,6 +20,11 @@ parimaanam_2026/
 ├── README.md            Architecture and local workflow
 ├── style.css            WordPress theme registration metadata only
 ├── theme.json           Layout and spacing foundation for the design system
+├── assets/
+│   └── fonts/
+│       └── noto-sans-tamil/
+│           ├── NotoSansTamil-Variable.ttf
+│           └── OFL.txt
 └── templates/
     └── index.html       Required, unstyled template-hierarchy fallback
 ```
@@ -34,11 +39,21 @@ WordPress resolves requests through its standard template hierarchy. At this sta
 
 ### Styling model
 
-`theme.json` uses version 3 and pins its schema reference to the minimum supported WordPress release. The initial design-system layer defines a `44rem` reading measure, an `80rem` wide alignment, and a seven-step multiplicative spacing scale based on WordPress Core's default scale. Editors may use the generated spacing presets for block gaps, margins, and padding, but arbitrary spacing values are disabled to keep layouts consistent. `rem` and `%` are the only exposed spacing units because they cover scalable fixed spacing and container-relative spacing without encouraging viewport- or pixel-specific values.
+`theme.json` uses version 3 and pins its schema reference to the minimum supported WordPress release. The initial design-system layer defines a `44rem` reading measure, an `80rem` wide alignment, and a seven-step multiplicative spacing scale based on WordPress Core's default scale. The Core spacing presets are disabled so these theme-owned values remain authoritative even when their slugs overlap. Editors may use the generated spacing presets for block gaps, margins, and padding, but arbitrary spacing values are disabled to keep layouts consistent. `rem` and `%` are the only exposed spacing units because they cover scalable fixed spacing and container-relative spacing without encouraging viewport- or pixel-specific values.
 
 The reading measure prioritizes long-form Tamil content while retaining room for mixed Tamil and Latin text. The wide measure provides a controlled area for media, galleries, and future article-adjacent content. Both values are global defaults rather than template-specific widths and should be reassessed alongside real typography before the single article template is finalized.
 
-No root styles, palette, font family, font scale, or per-block styles are defined yet. Those choices belong to the color and typography work rather than this structural layer. Root-padding-aware alignments are also deferred until page padding and full-width behavior are designed together.
+No palette, page padding, or per-block component styles are defined yet. Root-padding-aware alignments are also deferred until page padding and full-width behavior are designed together.
+
+### Typography
+
+The theme locally hosts a single variable font family, Noto Sans Tamil, under the SIL Open Font License 1.1. It supports Tamil, Latin, weights from 100 through 900, and widths from 62.5% through 100%. One family keeps mixed-script scientific writing visually coherent and avoids the extra request and rendering mismatch of a separate Latin or display face. The semantic `primary` preset decouples templates and styles from the font's product name.
+
+The global reading size scales from `1.0625rem` to `1.125rem` with a `1.8` line height. Headings use the same family at weight 700, a `1.35` line height, and a five-step fluid scale. Core's default font-size presets are disabled so the theme can intentionally redefine the existing `small`, `medium`, `large`, `x-large`, and `xx-large` slugs. Imported content using those Core-compatible classes therefore continues to resolve predictably without inheriting Core's smaller defaults.
+
+Arbitrary font sizes, synthetic font styles, letter spacing, line-height overrides, text transforms, vertical writing, and drop caps are unavailable in the editor. These controls are unnecessary for the current editorial model or are unsafe without Tamil-specific testing. Font weight remains available because the bundled variable family supports it natively.
+
+Typography is registered and applied through `theme.json`, allowing WordPress to produce matching editor and front-end styles without a stylesheet or PHP enqueue logic. The font file and license are kept together in `assets/fonts/noto-sans-tamil/`.
 
 Future approved global tokens and block styles should go into `theme.json`. CSS in `assets/css/` is an exception for requirements the WordPress style system cannot express. This keeps Site Editor controls and front-end output aligned.
 
@@ -67,17 +82,17 @@ Because there is currently no compilation step, changes to HTML templates and `t
 2. **Required fallback only:** `index.html` exists to satisfy the block-theme contract and WordPress template hierarchy. It is deliberately not a homepage design.
 3. **No speculative template parts:** a header and footer are site-wide design and information-architecture decisions. They will be introduced when the single article template establishes their requirements.
 4. **Dynamic core blocks:** query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
-5. **Constrained design-system foundation:** `theme.json` defines only global layout widths and a predictable Core-compatible spacing scale. It does not choose colors, typography, page padding, or component styles.
+5. **Constrained design-system foundation:** `theme.json` defines global layout widths, a predictable Core-compatible spacing scale, and Tamil-first typography. It does not choose colors, page padding, or component styles.
 6. **No PHP by default:** no server-side customization is currently needed, so an empty compatibility layer would add maintenance without behavior.
 7. **No build toolchain:** the scaffold has nothing to compile. Tooling should be introduced only with a concrete, documented need.
 8. **Compatibility-first evolution:** future templates should follow WordPress's hierarchy and use existing queries, URLs, and taxonomy data rather than replacing content structures.
 
 ## Future extension points
 
-- Complete the remaining design-system decisions, then build typography, `single.html`, homepage, archives, search, Science Series, and polish in that order.
+- Complete the remaining design-system decisions, then build `single.html`, homepage, archives, search, Science Series, and polish in that order.
 - Introduce header and footer template parts when their role in the single article experience is defined.
 - Add reusable editorial compositions to `patterns/`; use synced patterns or database content when editors must manage the copy.
-- Add approved palettes and Tamil-capable font families to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
+- Add an approved palette to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
 - Add style variations under `styles/` only if the design calls for intentional alternate visual systems.
 - Add `functions.php` and `inc/` modules for narrowly scoped hooks, registrations, or compatibility behavior.
 - Add CSS or dependency-free JavaScript assets only for gaps in native block capabilities, documenting each exception here.
@@ -85,4 +100,4 @@ Because there is currently no compilation step, changes to HTML templates and `t
 
 ## Scope guard
 
-This scaffold is not the final theme. It contains no finalized branding, typography, homepage, single article design, specialized publication templates, custom editorial patterns, or production integration logic. The next phase completes the design system and typography before work begins on the single article template.
+This scaffold is not the final theme. It contains no finalized branding, homepage, single article design, specialized publication templates, custom editorial patterns, or production integration logic. The next phase completes the remaining design-system decisions before work begins on the single article template.
