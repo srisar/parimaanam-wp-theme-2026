@@ -30,10 +30,11 @@ parimaanam_2026/
 │   ├── footer.html      Minimal shared publication footer
 │   └── header.html      Shared site identity and Core search control
 ├── patterns/
-│   └── posts-grid.php   Shared inherited query, cards, pagination, and empty state
+│   ├── home-magazine.php Homepage editorial hierarchy and pagination
+│   └── posts-grid.php    Shared archive/search cards and empty state
 └── templates/
     ├── archive.html     Generic taxonomy, author, date, and post-type archives
-    ├── home.html        Latest-posts homepage with a native Query Loop
+    ├── home.html        Magazine-style posts index with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
     ├── page.html        Semantic pages, including the Science Series hierarchy
     ├── search.html      Search form and inherited search results
@@ -50,17 +51,19 @@ WordPress resolves requests through its standard template hierarchy. Individual 
 
 `home.html` follows the WordPress posts-index hierarchy and works whether the posts index is the site's front page or is assigned to a separate page. There is no `front-page.html`: the current site setting displays the latest posts, and adding a front-page override would duplicate the posts-index responsibility without an approved static front-page requirement.
 
-The homepage uses a Core Query Loop inherited from the main WordPress query, so the Reading setting continues to determine the number of posts and existing pagination URLs remain native. Its two-column post grid collapses through Core's responsive Post Template behavior. Each semantic `article` exposes the linked featured image, categories, date, H2 title, and a shortened excerpt; Core pagination provides access to older articles. The template adds no fixed heading, category selection, promotional copy, menu, or content IDs.
+The homepage uses the non-inserter `patterns/home-magazine.php` composition around one Core Query Loop inherited from the main WordPress query. The Reading setting therefore continues to determine the number of posts and existing pagination URLs remain native. On wide screens the newest article occupies a dominant eight-column area, the next article occupies the remaining four columns, and subsequent articles form a denser three-column grid. The layout becomes two columns at intermediate widths and a single reading stream on narrow screens. Only the lead article displays its excerpt, producing a clear editorial hierarchy without additional queries, duplicated posts, hand-picked content IDs, or invented section labels.
+
+Each semantic `article` exposes the linked featured image when one exists, categories, date, H2 title, and—on the lead item—a shortened excerpt. Missing featured images collapse naturally rather than reserving an empty hero area. Core pagination provides access to older articles. The template adds no fixed heading, category selection, promotional copy, menu, or content IDs.
 
 The homepage renders the dynamic Site Title directly as its H1. The shared article header intentionally renders the same block without a heading level because the post title is the H1 on single views. Keeping this small contextual difference in the template preserves one meaningful H1 on both views without PHP, a custom block, or duplicate template parts.
 
 `archive.html` is the generic Core-convention fallback for category, tag, author, date, custom-taxonomy, and post-type archives. It deliberately avoids category-specific files because the imported taxonomy data does not establish a requirement for different structures. The dynamic Query Title is the page H1 with Core's generic archive prefix hidden, leaving the actual term, author, date, or post-type label intact. The Term Description block displays editor-managed taxonomy context when present and remains empty for non-taxonomy archives.
 
-Archive results reuse the homepage's post-card composition and inherited two-column Query Loop.
+Archive results use the shared two-column post-card composition and inherited Query Loop.
 
 `search.html` adds a Core Query Title and Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
 
-Search is the third confirmed consumer of the same result layout, so `patterns/posts-grid.php` now owns the inherited Query Loop, semantic cards, pagination, and no-results state used by home, archive, and search templates. This native, non-inserter pattern prevents those templates from drifting while remaining represented as Core blocks in the Site Editor. Its only executable PHP is an escaped, context-aware translation call for the empty-state message under the `parimaanam-2026` text domain; there is no query logic or content rendering in PHP.
+Search and archives share the same result layout, so `patterns/posts-grid.php` owns their inherited Query Loop, semantic cards, pagination, and no-results state. The homepage has a separate composition because a posts index benefits from stronger editorial hierarchy, while search and archive results should remain predictable and uniform. Both native, non-inserter patterns remain represented as Core blocks in the Site Editor. Their only executable PHP is an escaped, context-aware translation call for the empty-state message under the `parimaanam-2026` text domain; there is no query logic or content rendering in PHP.
 
 ### Science Series content model
 
@@ -94,7 +97,7 @@ The theme defines a small semantic palette: warm `paper` (`#f7f6f1`), white `sur
 
 Global text uses ink on paper. Links remain visibly underlined, while linked headings and site identity use their surrounding typography and gain teal on hover. Buttons use white on observatory teal. The lowest normal-text contrast among the intended foreground/background pairs is 5.32:1. A three-pixel teal `:focus-visible` outline supports keyboard navigation, and selection colors maintain readable contrast. Featured images receive only a small corner radius; the system avoids decorative effects that would compete with editorial media.
 
-Template gutters continue to use the theme's spacing presets rather than root-aware global padding. This keeps full-width template-part borders and backgrounds predictable while constrained inner groups provide the readable page edge. Block-level custom CSS remains limited to interaction states, form controls, and demonstrated legacy Post Content compatibility issues described below.
+Template gutters continue to use the theme's spacing presets rather than root-aware global padding. This keeps full-width template-part borders and backgrounds predictable while constrained inner groups provide the readable page edge. Block-level custom CSS remains limited to interaction states, form controls, demonstrated legacy-content compatibility issues, and the homepage's asymmetric responsive grid. The homepage grid is scoped under `.home-magazine`; Core supports uniform columns but cannot express a first query item spanning a different number of grid tracks. It uses no content-dependent selectors beyond post position and falls back to one normal column without media-query support.
 
 ### Typography
 
@@ -118,7 +121,7 @@ Future approved global tokens and block styles should go into `theme.json`. CSS 
 
 ### Code model
 
-There is no `functions.php` because the current architecture requires no hooks or registrations; WordPress recognizes the block theme from `style.css` and `templates/index.html`, discovers the pattern automatically, and uses `theme.json` for versioned configuration. The pattern's escaped translation call is the theme's only PHP execution. A minimal `functions.php` may be introduced only when a necessary hook or asset registration exists, with larger concerns split into `inc/`.
+There is no `functions.php` because the current architecture requires no hooks or registrations; WordPress recognizes the block theme from `style.css` and `templates/index.html`, discovers the patterns automatically, and uses `theme.json` for versioned configuration. The patterns' escaped translation calls are the theme's only PHP execution. A minimal `functions.php` may be introduced only when a necessary hook or asset registration exists, with larger concerns split into `inc/`.
 
 `style.css` exists because WordPress reads its header to register the theme. It contains metadata only and is not the starting point for the visual system.
 
@@ -135,7 +138,7 @@ There is no custom JavaScript or build pipeline. The Core Search block condition
 
 Because there is currently no compilation step, changes to HTML templates and `theme.json` are loaded directly by WordPress. Note that Site Editor customizations stored in the database can override theme files; use a clean test database when verifying file changes.
 
-WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduced the first theme-owned pattern; version `0.3.0` records the shared visual-system polish.
+WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduced the first theme-owned pattern, version `0.3.0` recorded the shared visual-system polish, and version `0.4.0` introduces the magazine homepage pattern.
 
 ## Architectural decisions
 
@@ -144,10 +147,11 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 3. **Text-led site identity:** the shared header uses the dynamic Site Title rather than reproducing the production site's current image-logo treatment. The homepage renders the same dynamic block directly so it can be the page H1 while article and page titles remain their templates' H1. Core Search supplies the only header interaction, and the minimal footer avoids invented copy.
 4. **Dynamic core blocks:** article metadata, content, taxonomies, adjacent posts, comments, query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
 5. **Constrained publication design system:** `theme.json` defines semantic colors, global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, shared template-part areas, form controls, focus treatment, and readable captions. The system is intentionally distinct from the old site and avoids decorative branding that has not been approved.
-6. **Minimal PHP at the translation boundary:** no server-side customization is needed, so there is no `functions.php`. The shared query pattern uses PHP only to translate and escape its public empty-state message.
+6. **Minimal PHP at the translation boundary:** no server-side customization is needed, so there is no `functions.php`. Query patterns use PHP only to translate and escape their public empty-state messages.
 7. **No build toolchain:** the scaffold has nothing to compile. Tooling should be introduced only with a concrete, documented need.
-8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, taxonomy data, and search terms rather than replacing content structures. Homepage, archive, and search discovery use the same Core post and pagination pattern and therefore require no PHP query, content IDs, or hard-coded category assumptions.
+8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, taxonomy data, and search terms rather than replacing content structures. Homepage, archive, and search discovery use Core Query and pagination blocks and therefore require no PHP query, content IDs, or hard-coded category assumptions.
 9. **Portable navigation:** the theme does not hard-code an imported Navigation post or menu ID. Navigation remains an editor-owned Site Editor assignment so environments with different database IDs and content histories behave safely.
+10. **Magazine hierarchy without a framework:** the homepage adapts the editorial hierarchy of a modern news magazine using one inherited Core query and a narrowly scoped CSS grid. It does not copy a third-party theme's branding, proprietary components, subscription features, sliders, or popularity logic, and it does not introduce Tailwind or a build toolchain for one layout requirement.
 
 ## Future extension points
 
