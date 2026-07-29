@@ -2,7 +2,7 @@
 
 Parimaanam 2026 is the custom native WordPress block theme for <https://parimaanam.net>. This repository contains the theme only. It does not include WordPress core, plugins, uploads, database content, or environment configuration.
 
-The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, a latest-posts homepage, and generic archive discovery. Branding, colors, and later publication templates remain deliberately undefined.
+The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, a latest-posts homepage, generic archive discovery, and search results. Branding, colors, and later publication templates remain deliberately undefined.
 
 ## Requirements
 
@@ -28,10 +28,13 @@ parimaanam_2026/
 │           └── OFL.txt
 ├── parts/
 │   └── header.html      Minimal site identity for article navigation
+├── patterns/
+│   └── posts-grid.php   Shared inherited query, cards, pagination, and empty state
 └── templates/
     ├── archive.html     Generic taxonomy, author, date, and post-type archives
     ├── home.html        Latest-posts homepage with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
+    ├── search.html      Search form and inherited search results
     └── single.html      Semantic reading experience for individual posts
 ```
 
@@ -39,7 +42,7 @@ Directories are added only when they have real content. Expected extension point
 
 ### Rendering model
 
-WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, the posts index uses `templates/home.html`, archive requests use `templates/archive.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
+WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, the posts index uses `templates/home.html`, archive requests use `templates/archive.html`, search requests use `templates/search.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
 
 `index.html` is required for a valid block theme; it is not a homepage implementation. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
 
@@ -51,7 +54,11 @@ The homepage renders the dynamic Site Title directly as its H1. The shared artic
 
 `archive.html` is the generic Core-convention fallback for category, tag, author, date, custom-taxonomy, and post-type archives. It deliberately avoids category-specific files because the imported taxonomy data does not establish a requirement for different structures. The dynamic Query Title is the page H1 with Core's generic archive prefix hidden, leaving the actual term, author, date, or post-type label intact. The Term Description block displays editor-managed taxonomy context when present and remains empty for non-taxonomy archives.
 
-Archive results reuse the homepage's post-card composition and inherited two-column Query Loop. This is a small amount of intentional template duplication: a reusable PHP pattern or query template part would add abstraction before a third confirmed consumer exists. Search may justify extracting the result composition later if its requirements prove identical.
+Archive results reuse the homepage's post-card composition and inherited two-column Query Loop.
+
+`search.html` adds a Core Query Title and Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
+
+Search is the third confirmed consumer of the same result layout, so `patterns/posts-grid.php` now owns the inherited Query Loop, semantic cards, pagination, and no-results state used by home, archive, and search templates. This native, non-inserter pattern prevents those templates from drifting while remaining represented as Core blocks in the Site Editor. Its only executable PHP is an escaped, context-aware translation call for the empty-state message under the `parimaanam-2026` text domain; there is no query logic or content rendering in PHP.
 
 `single.html` is the first purpose-built front-end template. It follows WordPress's standard single-post hierarchy and is composed entirely of Core blocks. A linked Site Title provides a minimal route back to the site without assuming an approved logo, menu, or navigation structure. The article uses semantic `main`, `article`, and nested `header` elements; its category, title, author, publication date, content, tags, adjacent-post navigation, threaded comments, comment pagination, and comment form all come from the current WordPress query.
 
@@ -91,7 +98,7 @@ Future approved global tokens and block styles should go into `theme.json`. CSS 
 
 ### Code model
 
-There is no `functions.php` because the current architecture requires no PHP; WordPress recognizes the block theme from `style.css` and `templates/index.html`, while `theme.json` establishes the versioned configuration foundation. A minimal `functions.php` may be introduced only when a necessary hook or asset registration exists, with larger concerns split into `inc/`.
+There is no `functions.php` because the current architecture requires no hooks or registrations; WordPress recognizes the block theme from `style.css` and `templates/index.html`, discovers the pattern automatically, and uses `theme.json` for versioned configuration. The pattern's escaped translation call is the theme's only PHP execution. A minimal `functions.php` may be introduced only when a necessary hook or asset registration exists, with larger concerns split into `inc/`.
 
 `style.css` exists because WordPress reads its header to register the theme. It contains metadata only and is not the starting point for the visual system.
 
@@ -108,6 +115,8 @@ There is no JavaScript or build pipeline. Progressive enhancement can be added u
 
 Because there is currently no compilation step, changes to HTML templates and `theme.json` are loaded directly by WordPress. Note that Site Editor customizations stored in the database can override theme files; use a clean test database when verifying file changes.
 
+WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduces the first theme-owned pattern.
+
 ## Architectural decisions
 
 1. **Native block theme:** maximizes compatibility with current WordPress editing and template APIs and avoids a parallel rendering system.
@@ -115,13 +124,13 @@ Because there is currently no compilation step, changes to HTML templates and `t
 3. **Minimal site identity:** the single article's shared header contains only the dynamic Site Title. The homepage renders that same dynamic block directly so it can be the page H1 while the article's post title remains its H1. Navigation, logo treatment, search, and the footer remain deferred until their requirements are approved.
 4. **Dynamic core blocks:** article metadata, content, taxonomies, adjacent posts, comments, query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
 5. **Constrained design-system foundation:** `theme.json` defines global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, the header template-part area, and readable captions. It does not choose colors or component branding.
-6. **No PHP by default:** no server-side customization is currently needed, so an empty compatibility layer would add maintenance without behavior.
+6. **Minimal PHP at the translation boundary:** no server-side customization is needed, so there is no `functions.php`. The shared query pattern uses PHP only to translate and escape its public empty-state message.
 7. **No build toolchain:** the scaffold has nothing to compile. Tooling should be introduced only with a concrete, documented need.
-8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, and taxonomy data rather than replacing content structures. Homepage and archive discovery use Core post and pagination blocks and therefore require no PHP query, content IDs, or hard-coded category assumptions.
+8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, taxonomy data, and search terms rather than replacing content structures. Homepage, archive, and search discovery use the same Core post and pagination pattern and therefore require no PHP query, content IDs, or hard-coded category assumptions.
 
 ## Future extension points
 
-- Use the established publication templates to build search next, followed by Science Series and polish.
+- Use the established publication templates to define Science Series next, followed by polish.
 - Expand the minimal header and introduce a footer only when their navigation and information-architecture requirements are approved.
 - Add reusable editorial compositions to `patterns/`; use synced patterns or database content when editors must manage the copy.
 - Add an approved palette to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
@@ -132,4 +141,4 @@ Because there is currently no compilation step, changes to HTML templates and `t
 
 ## Scope guard
 
-This is not the final theme. It contains no finalized branding, search design, specialized publication templates, custom editorial patterns, or production integration logic. The current phase establishes the native single-article reading structure, latest-posts homepage, and generic archives; visual branding and later templates remain deliberately out of scope.
+This is not the final theme. It contains no finalized branding, specialized Science Series template, custom editorial patterns, or production integration logic. The current phase establishes the native single-article reading structure and Core-based homepage, archive, and search discovery; visual branding and later templates remain deliberately out of scope.
