@@ -2,7 +2,7 @@
 
 Parimaanam 2026 is the custom native WordPress block theme for <https://parimaanam.net>. This repository contains the theme only. It does not include WordPress core, plugins, uploads, database content, or environment configuration.
 
-The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, a latest-posts homepage, generic archive discovery, and search results. Branding, colors, and later publication templates remain deliberately undefined.
+The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, Core-based discovery, and compatibility for the existing Science Series page hierarchy. Branding, colors, and final visual polish remain deliberately undefined.
 
 ## Requirements
 
@@ -34,6 +34,7 @@ parimaanam_2026/
     ├── archive.html     Generic taxonomy, author, date, and post-type archives
     ├── home.html        Latest-posts homepage with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
+    ├── page.html        Semantic pages, including the Science Series hierarchy
     ├── search.html      Search form and inherited search results
     └── single.html      Semantic reading experience for individual posts
 ```
@@ -42,7 +43,7 @@ Directories are added only when they have real content. Expected extension point
 
 ### Rendering model
 
-WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, the posts index uses `templates/home.html`, archive requests use `templates/archive.html`, search requests use `templates/search.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
+WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, pages use `templates/page.html`, the posts index uses `templates/home.html`, archive requests use `templates/archive.html`, search requests use `templates/search.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
 
 `index.html` is required for a valid block theme; it is not a homepage implementation. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
 
@@ -59,6 +60,16 @@ Archive results reuse the homepage's post-card composition and inherited two-col
 `search.html` adds a Core Query Title and Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
 
 Search is the third confirmed consumer of the same result layout, so `patterns/posts-grid.php` now owns the inherited Query Loop, semantic cards, pagination, and no-results state used by home, archive, and search templates. This native, non-inserter pattern prevents those templates from drifting while remaining represented as Core blocks in the Site Editor. Its only executable PHP is an escaped, context-aware translation call for the empty-state message under the `parimaanam-2026` text domain; there is no query logic or content rendering in PHP.
+
+### Science Series content model
+
+The imported Science Series is existing editorial content, not a custom post type or taxonomy. The published page with slug `science-series` is the parent of six normal child pages. Each child page acts as a curated series index: its stored content contains the introduction, media, ordered parts, descriptions, and links to the corresponding posts. The legacy category named for series is empty and is not treated as authoritative.
+
+`page.html` preserves this established WordPress page hierarchy and its nested permalinks. It renders the dynamic page title as the H1, the complete stored content through the Core Post Content block, and Core comments where the individual page allows them. It omits author/date metadata because these are reference pages rather than chronological posts. It also omits a template-level featured image because most imported series pages already begin with the same lead image in their stored content.
+
+The parent Science Series page currently stores only its approved introductory paragraph; its six child links are represented by the WordPress parent/child relationship but are not present in that content. Core's Page List block can list a selected page's children, but that selection is stored as a numeric page ID and a static theme template cannot bind it to the current page dynamically. The theme therefore does not hard-code imported ID `620`, invent links, or add a PHP query. An editor can add a Page List block filtered to the Science Series parent in the page content, or a future companion plugin can provide a portable dynamic-child-pages block if the same behavior is required more broadly.
+
+Several series pages retain links to both `parimaanam.net` and the site's earlier `parimaanam.wordpress.com` address. The theme intentionally does not rewrite stored editorial URLs. Those links should be verified or migrated at the content layer so redirects and canonical history can be handled explicitly.
 
 `single.html` is the first purpose-built front-end template. It follows WordPress's standard single-post hierarchy and is composed entirely of Core blocks. A linked Site Title provides a minimal route back to the site without assuming an approved logo, menu, or navigation structure. The article uses semantic `main`, `article`, and nested `header` elements; its category, title, author, publication date, content, tags, adjacent-post navigation, threaded comments, comment pagination, and comment form all come from the current WordPress query.
 
@@ -130,7 +141,8 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 
 ## Future extension points
 
-- Use the established publication templates to define Science Series next, followed by polish.
+- Apply the approved visual identity and complete the final polish phase across the established publication templates.
+- If automatic child-page discovery is approved, add it to Science Series content with Core's Page List block or define a companion-plugin requirement; do not hard-code its imported page ID in the theme.
 - Expand the minimal header and introduce a footer only when their navigation and information-architecture requirements are approved.
 - Add reusable editorial compositions to `patterns/`; use synced patterns or database content when editors must manage the copy.
 - Add an approved palette to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
@@ -141,4 +153,4 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 
 ## Scope guard
 
-This is not the final theme. It contains no finalized branding, specialized Science Series template, custom editorial patterns, or production integration logic. The current phase establishes the native single-article reading structure and Core-based homepage, archive, and search discovery; visual branding and later templates remain deliberately out of scope.
+This is not the final theme. It contains no finalized branding, custom editorial patterns, child-page query logic, or production integration logic. The current phase establishes the native publication templates and preserves the existing Science Series hierarchy; visual branding and final polish remain deliberately out of scope.
