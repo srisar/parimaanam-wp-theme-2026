@@ -2,7 +2,7 @@
 
 Parimaanam 2026 is the custom native WordPress block theme for <https://parimaanam.net>. This repository contains the theme only. It does not include WordPress core, plugins, uploads, database content, or environment configuration.
 
-The current state establishes the theme architecture, non-branded design-system foundation, Tamil-first typography, the native single-article reading experience, Core-based discovery, and compatibility for the existing Science Series page hierarchy. Branding, colors, and final visual polish remain deliberately undefined.
+The current state establishes the theme architecture, a restrained publication design system, Tamil-first typography, the native single-article reading experience, Core-based discovery, and compatibility for the existing Science Series page hierarchy. The visual direction is intentionally new rather than a reproduction of the production site's current design.
 
 ## Requirements
 
@@ -27,7 +27,8 @@ parimaanam_2026/
 │           ├── GoogleSans-Tamil-Variable.woff2
 │           └── OFL.txt
 ├── parts/
-│   └── header.html      Minimal site identity for article navigation
+│   ├── footer.html      Minimal shared publication footer
+│   └── header.html      Shared site identity and Core search control
 ├── patterns/
 │   └── posts-grid.php   Shared inherited query, cards, pagination, and empty state
 └── templates/
@@ -77,7 +78,11 @@ Single-post titles use the existing `x-large` token instead of the global displa
 
 The imported archive commonly uses the featured image again inside the post content. The template therefore does not render the Post Featured Image block: doing so would duplicate the lead image on existing articles. It also omits the Post Excerpt because imported posts commonly begin their content with the same paragraph used as the excerpt. Both decisions preserve existing content without custom PHP detection. A future editorial migration may revisit them after content conventions are normalized.
 
-The reusable `parts/header.html` contains only the dynamic Site Title. It intentionally has no logo, menu, search control, or invented labels. Its header area is registered in `theme.json` so WordPress exposes it correctly in the Site Editor. A site footer remains deferred until its information architecture and content are approved.
+The reusable `parts/header.html` contains the dynamic linked Site Title and a button-only Core Search block. The Search block supplies its own accessible label and expands through WordPress Core's Interactivity API; the theme ships no JavaScript. Its header area is registered in `theme.json` so WordPress exposes it correctly in the Site Editor. The homepage keeps an equivalent inline header because its Site Title must be the page H1, while post and page titles remain the H1 in shared-template views.
+
+The header deliberately does not ship a Navigation block. A Navigation block without an explicit reference resolves to database content selected by WordPress, which in the imported local site is a generic Page List containing obsolete utility and plugin pages. Hard-coding the imported main-menu post ID would make the theme non-portable. An editor should add or select the approved navigation in the Site Editor when the information architecture is reviewed.
+
+`parts/footer.html` contains only the dynamic linked Site Title. This provides a consistent semantic footer without inventing a copyright statement, slogan, menu, or editorial copy.
 
 ### Styling model
 
@@ -85,7 +90,11 @@ The reusable `parts/header.html` contains only the dynamic Site Title. It intent
 
 The reading measure prioritizes long-form Tamil content while retaining room for mixed Tamil and Latin text. The wide measure provides a controlled area for media, galleries, and future article-adjacent content. Both values are global defaults rather than template-specific widths and were verified against representative imported articles while building the single template.
 
-No palette or global page padding is defined yet. The single template applies its own one-step horizontal gutter so the fallback and future templates remain visually unopinionated. Root-padding-aware alignments remain deferred until page padding and full-width behavior are designed across the whole site. The only block-level custom CSS handles demonstrated legacy Post Content compatibility issues described below.
+The theme defines a small semantic palette: warm `paper` (`#f7f6f1`), white `surface`, deep blue-black `ink`, `muted` text, `observatory` teal and its darker interaction state, a quiet `line`, and a pale `highlight`. This is a new text-led publication identity, not a recreation of the current production site's image-logo, type, or color treatment. The palette is intentionally restrained so long-form Tamil text remains primary; teal is an editorial accent rather than a literal space-themed decoration. WordPress's default palette, gradients, and arbitrary custom colors are disabled so editor choices remain coherent.
+
+Global text uses ink on paper. Links remain visibly underlined, while linked headings and site identity use their surrounding typography and gain teal on hover. Buttons use white on observatory teal. The lowest normal-text contrast among the intended foreground/background pairs is 5.32:1. A three-pixel teal `:focus-visible` outline supports keyboard navigation, and selection colors maintain readable contrast. Featured images receive only a small corner radius; the system avoids decorative effects that would compete with editorial media.
+
+Template gutters continue to use the theme's spacing presets rather than root-aware global padding. This keeps full-width template-part borders and backgrounds predictable while constrained inner groups provide the readable page edge. Block-level custom CSS remains limited to interaction states, form controls, and demonstrated legacy Post Content compatibility issues described below.
 
 ### Typography
 
@@ -97,7 +106,7 @@ The global reading size scales from `1.0625rem` to `1.125rem` with a `1.8` line 
 
 Figure captions use the small preset with a `1.5` line height. This is the only article-specific global typography addition: it improves the dense scientific image credits and descriptions present in imported posts while remaining available to future templates through Core's caption element.
 
-The imported archive also contains a small number of legacy tables and unclassed preformatted blocks, older responsive embeds whose rendered iframes retain fixed HTML dimensions, and fixed-width classic caption wrappers. Narrowly scoped custom-CSS declarations live under the Core Post Content block in `theme.json`: tables and preformatted lines scroll within the reading column, embed iframes scale to their container while preserving their intrinsic aspect ratio, and legacy captions cannot exceed the reading column. Scoping them to Post Content is necessary because this markup predates the wrappers expected by current Core blocks. These compatibility rules prevent horizontal page overflow without rewriting stored post content or adding a stylesheet, PHP asset loader, or JavaScript.
+The imported archive also contains a small number of legacy tables and unclassed preformatted blocks, older responsive embeds whose rendered iframes retain fixed HTML dimensions, fixed-width classic caption wrappers, and an obsolete page-builder shortcode that can surface as one unbroken token in a search excerpt. Narrowly scoped custom-CSS declarations live under the affected Core blocks in `theme.json`: tables and preformatted lines scroll within the reading column, embed iframes scale to their container while preserving their intrinsic aspect ratio, legacy captions cannot exceed the reading column, and excerpts may wrap an otherwise unbreakable token. Scoping these rules to Post Content and Post Excerpt is necessary because the stored content predates the wrappers expected by current Core blocks. These compatibility rules prevent horizontal page overflow without rewriting stored content or adding a stylesheet, PHP asset loader, or JavaScript.
 
 The template does not rewrite stored heading levels. A content audit found eight legacy posts containing an H1 inside the article body; those headings should be reviewed and normalized editorially rather than silently changed during rendering.
 
@@ -113,7 +122,7 @@ There is no `functions.php` because the current architecture requires no hooks o
 
 `style.css` exists because WordPress reads its header to register the theme. It contains metadata only and is not the starting point for the visual system.
 
-There is no JavaScript or build pipeline. Progressive enhancement can be added under `assets/js/` only for a confirmed interaction that core blocks cannot provide. Tailwind, Bootstrap, jQuery-by-default, front-end frameworks, and page builders are excluded.
+There is no custom JavaScript or build pipeline. The Core Search block conditionally loads WordPress's own Interactivity API module for its expandable field; that behavior is owned and maintained by Core. Theme JavaScript can be added under `assets/js/` only for a confirmed interaction that Core blocks cannot provide. Tailwind, Bootstrap, jQuery-by-default, front-end frameworks, and page builders are excluded.
 
 ## Local development
 
@@ -126,26 +135,27 @@ There is no JavaScript or build pipeline. Progressive enhancement can be added u
 
 Because there is currently no compilation step, changes to HTML templates and `theme.json` are loaded directly by WordPress. Note that Site Editor customizations stored in the database can override theme files; use a clean test database when verifying file changes.
 
-WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduces the first theme-owned pattern.
+WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduced the first theme-owned pattern; version `0.3.0` records the shared visual-system polish.
 
 ## Architectural decisions
 
 1. **Native block theme:** maximizes compatibility with current WordPress editing and template APIs and avoids a parallel rendering system.
 2. **Required fallback only:** `index.html` exists to satisfy the block-theme contract and WordPress template hierarchy. It is deliberately not a homepage design.
-3. **Minimal site identity:** the single article's shared header contains only the dynamic Site Title. The homepage renders that same dynamic block directly so it can be the page H1 while the article's post title remains its H1. Navigation, logo treatment, search, and the footer remain deferred until their requirements are approved.
+3. **Text-led site identity:** the shared header uses the dynamic Site Title rather than reproducing the production site's current image-logo treatment. The homepage renders the same dynamic block directly so it can be the page H1 while article and page titles remain their templates' H1. Core Search supplies the only header interaction, and the minimal footer avoids invented copy.
 4. **Dynamic core blocks:** article metadata, content, taxonomies, adjacent posts, comments, query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
-5. **Constrained design-system foundation:** `theme.json` defines global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, the header template-part area, and readable captions. It does not choose colors or component branding.
+5. **Constrained publication design system:** `theme.json` defines semantic colors, global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, shared template-part areas, form controls, focus treatment, and readable captions. The system is intentionally distinct from the old site and avoids decorative branding that has not been approved.
 6. **Minimal PHP at the translation boundary:** no server-side customization is needed, so there is no `functions.php`. The shared query pattern uses PHP only to translate and escape its public empty-state message.
 7. **No build toolchain:** the scaffold has nothing to compile. Tooling should be introduced only with a concrete, documented need.
 8. **Compatibility-first evolution:** templates follow WordPress's hierarchy and use inherited queries, URLs, taxonomy data, and search terms rather than replacing content structures. Homepage, archive, and search discovery use the same Core post and pagination pattern and therefore require no PHP query, content IDs, or hard-coded category assumptions.
+9. **Portable navigation:** the theme does not hard-code an imported Navigation post or menu ID. Navigation remains an editor-owned Site Editor assignment so environments with different database IDs and content histories behave safely.
 
 ## Future extension points
 
-- Apply the approved visual identity and complete the final polish phase across the established publication templates.
 - If automatic child-page discovery is approved, add it to Science Series content with Core's Page List block or define a companion-plugin requirement; do not hard-code its imported page ID in the theme.
-- Expand the minimal header and introduce a footer only when their navigation and information-architecture requirements are approved.
+- Assign approved navigation to the shared header in the Site Editor after obsolete imported menu items and the information architecture have been reviewed.
+- Add an approved site icon or logo only if a future identity requires one; the current text-led identity does not depend on an image asset.
 - Add reusable editorial compositions to `patterns/`; use synced patterns or database content when editors must manage the copy.
-- Add an approved palette to `theme.json`; add block variations only when a demonstrated editorial requirement needs them.
+- Add block variations only when a demonstrated editorial requirement needs them.
 - Add style variations under `styles/` only if the design calls for intentional alternate visual systems.
 - Add `functions.php` and `inc/` modules for narrowly scoped hooks, registrations, or compatibility behavior.
 - Add CSS or dependency-free JavaScript assets only for gaps in native block capabilities, documenting each exception here.
@@ -153,4 +163,4 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 
 ## Scope guard
 
-This is not the final theme. It contains no finalized branding, custom editorial patterns, child-page query logic, or production integration logic. The current phase establishes the native publication templates and preserves the existing Science Series hierarchy; visual branding and final polish remain deliberately out of scope.
+This remains an evolving theme rather than a production-complete release. It now contains the polished visual foundation for the established publication templates, but no hard-coded navigation, custom editorial content, automatic child-page query logic, analytics, deployment integration, or content migration logic. Those concerns require approved information architecture, editorial decisions, or companion-plugin/infrastructure work and are intentionally outside this theme change.
