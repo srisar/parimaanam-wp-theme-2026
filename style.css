@@ -181,6 +181,24 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 /*
+ * The listing grid is the theme's one filled card, and the rule is orientation
+ * rather than page: a box traces the outline of an image stacked above its
+ * text. Cards whose image sits beside their text — the homepage category pair,
+ * the sidebar's recent posts — are rows, and rows are separated by rules.
+ * Eight boxes stacked in a half-width column read as clutter, not structure.
+ */
+.posts-grid .wp-block-post {
+	background: var(--wp--preset--color--surface);
+	border-radius: var(--parimaanam-radius-card);
+	overflow: hidden;
+	padding: var(--wp--preset--spacing--50);
+}
+
+.posts-grid .wp-block-post-featured-image img {
+	border-radius: var(--parimaanam-radius-media);
+}
+
+/*
  * Archive and search listings on phones.
  *
  * The global type minimums are set for reading an article; in a list of ten
