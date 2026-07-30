@@ -7,6 +7,25 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.25.1
+
+- Replaced the red-tinted section backgrounds with two neutral graphite
+  gradient presets that alternate, so every seam meets on the same value. The
+  accent and the grounds previously shared a hue, which left crimson looking
+  muddy rather than sharp.
+- Removed the eighty-one pixel bands of bare page background between sections.
+  They came from Core's default block gap on the main container, not from the
+  sections themselves; `home.html` now sets `blockGap` to zero and each section
+  carries its own padding instead.
+- Deleted the `surface-crimson` and `surface-cool` tokens, which no section
+  used any more, and raised `surface` to `#1e1e1e`. At its old value a filled
+  card became indistinguishable from the gradient behind its lower edge.
+- Category directory: the post count now sits on the label's baseline instead
+  of riding above it, and its crimson rule is centred on the label's first line
+  rather than offset by a fixed margin that only held at one font size.
+- Category directory is now two columns on mobile with a smaller label, three
+  at tablet, and five at desktop.
+
 ## 0.24.1
 
 - Removed the Science Series column from the footer; the series are already one

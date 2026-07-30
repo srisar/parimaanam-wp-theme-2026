@@ -345,33 +345,47 @@
 .home-category-directory__list {
 	display: grid;
 	gap: var(--wp--preset--spacing--40) var(--wp--preset--spacing--50);
-	grid-template-columns: minmax(0, 1fr);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
+/*
+ * Core emits the post count as a bare text node after the link, so it can only
+ * be sized through the list item itself. Baseline alignment sits it on the
+ * label's baseline instead of letting it ride above, which is what a
+ * flex-start row sized by the larger link produced. The rule is positioned
+ * rather than flexed so it centres on the label's first line at every size,
+ * instead of relying on a fixed margin that only held at one font size.
+ */
 .home-category-directory__list li {
-	align-items: flex-start;
+	align-items: baseline;
 	color: var(--wp--preset--color--muted);
 	display: flex;
-	font-size: var(--wp--preset--font-size--small);
-	gap: 0.4rem;
-	padding-left: 0;
+	flex-wrap: wrap;
+	font-size: 0.75rem;
+	gap: 0.3rem;
+	line-height: 1.35;
+	padding-left: 1.15rem;
+	position: relative;
 }
 
 .home-category-directory__list li::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
-	flex: 0 0 0.75rem;
 	height: 1px;
-	margin-top: 0.85rem;
+	left: 0;
+	position: absolute;
+	top: 0.63rem;
+	width: 0.75rem;
 }
 
 .home-category-directory__list a {
 	color: var(--wp--preset--color--ink);
-	font-size: var(--wp--preset--font-size--medium);
+	font-size: 0.9375rem;
 	font-weight: 700;
+	line-height: 1.35;
 	text-decoration: none;
 }
 
@@ -381,12 +395,32 @@
 
 @media (min-width: 48rem) {
 	.home-category-directory__list {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.home-category-directory__list li {
+		font-size: 0.8125rem;
+	}
+
+	.home-category-directory__list li::before {
+		top: 0.68rem;
+	}
+
+	.home-category-directory__list a {
+		font-size: 1rem;
 	}
 }
 
 @media (min-width: 64rem) {
 	.home-category-directory__list {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+
+	.home-category-directory__list li::before {
+		top: 0.76rem;
+	}
+
+	.home-category-directory__list a {
+		font-size: var(--wp--preset--font-size--medium);
 	}
 }

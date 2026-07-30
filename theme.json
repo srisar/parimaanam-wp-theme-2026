@@ -27,6 +27,18 @@
       "defaultDuotone": false,
       "defaultGradients": false,
       "defaultPalette": false,
+      "gradients": [
+        {
+          "gradient": "linear-gradient(180deg, #090909 0%, #151515 100%)",
+          "name": "Graphite Descend",
+          "slug": "graphite-descend"
+        },
+        {
+          "gradient": "linear-gradient(180deg, #151515 0%, #090909 100%)",
+          "name": "Graphite Ascend",
+          "slug": "graphite-ascend"
+        }
+      ],
       "palette": [
         {
           "color": "#090909",
@@ -34,19 +46,9 @@
           "slug": "paper"
         },
         {
-          "color": "#151112",
+          "color": "#1e1e1e",
           "name": "Surface",
           "slug": "surface"
-        },
-        {
-          "color": "#130c0e",
-          "name": "Crimson Surface",
-          "slug": "surface-crimson"
-        },
-        {
-          "color": "#0d1215",
-          "name": "Cool Surface",
-          "slug": "surface-cool"
         },
         {
           "color": "#f3efee",

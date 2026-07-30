@@ -106,7 +106,7 @@
 
 @media (min-width: 64rem) {
 	.site-navigation .wp-block-navigation__submenu-container {
-		background: var(--wp--preset--color--surface-crimson) !important;
+		background: var(--wp--preset--color--surface) !important;
 		border: 0 !important;
 		border-left: 3px solid var(--wp--preset--color--crimson) !important;
 		box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.5);
@@ -227,7 +227,7 @@
 	}
 
 	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-container {
-		background: var(--wp--preset--color--surface-crimson) !important;
+		background: var(--wp--preset--color--surface) !important;
 		border: 0 !important;
 		display: none !important;
 		grid-column: 1 / -1;
