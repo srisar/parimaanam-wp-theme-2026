@@ -34,7 +34,7 @@ if ( $parimaanam_biology_term instanceof WP_Term ) :
 		<div class="wp-block-column"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 		<div class="wp-block-group"><!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /-->
 
-		<!-- wp:post-date {"isLink":true,"textColor":"muted","fontSize":"small"} /--></div>
+		<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline","fontSize":"small"} /--></div>
 		<!-- /wp:group --></div>
 		<!-- /wp:column --></div>
 		<!-- /wp:columns --></article>
@@ -49,7 +49,7 @@ if ( $parimaanam_biology_term instanceof WP_Term ) :
 
 		<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /-->
 
-		<!-- wp:post-date {"isLink":true,"textColor":"muted","fontSize":"small"} /--></article>
+		<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline","fontSize":"small"} /--></article>
 		<!-- /wp:group -->
 	<!-- /wp:post-template --></div>
 	<!-- /wp:query --></div>

@@ -224,15 +224,20 @@
 }
 
 /*
- * The category over a photograph is the one accent that keeps the lime in
- * both skins. Elsewhere in the light skin the accent darkens to #4e7a1e so it
- * reads on paper, but here the ground is a dark scrim, and the dark green
- * disappeared into it. The fill value is the light one, so it behaves over a
- * photograph exactly as it does in the dark skin.
+ * The category over a photograph needed no special case once it became a
+ * chip: the fill is lime in both skins and carries near-black text, so it
+ * behaves over an image exactly as it does on paper. The rule that used to
+ * force the accent colour here is gone — with a chip it would have painted
+ * lime text onto a lime fill.
+ *
+ * The outlined date chip does still need one. Its border reads `line`, which
+ * is a pale grey in the light skin and a dark green in the dark one; neither
+ * was chosen against a photograph. A translucent tint of the on-media colour
+ * sits correctly on any image in both skins.
  */
-.home-hero__lead-content .wp-block-post-terms a,
-.home-category-showcase__feature-content .wp-block-post-terms a {
-	color: var(--parimaanam-accent-fill);
+.home-hero__lead-content .parimaanam-chip--outline a,
+.home-category-showcase__feature-content .parimaanam-chip--outline a {
+	border-color: rgba(243, 239, 238, 0.4);
 }
 
 /*
