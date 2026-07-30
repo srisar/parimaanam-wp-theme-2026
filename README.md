@@ -143,7 +143,9 @@ The copyright line is the one piece of supplied editorial copy: `© %1$s %2$s. �
 
 The reading measure prioritizes long-form Tamil content while retaining room for mixed Tamil and Latin text. The wide measure provides a controlled area for media, galleries, and future article-adjacent content. Both values are global defaults rather than template-specific widths and were verified against representative imported articles while building the single template.
 
-The theme defines a neutral near-black palette: black `paper` (`#090909`), a raised `surface` (`#1e1e1e`), off-white `ink` (`#f3efee`), warm-gray `muted` text, a lime accent (`#c5f27e`), a lighter hover state, a quiet `line`, and a green-black `highlight`. This is a new publication identity, not a recreation of the current production site's color treatment. The palette remains deliberately near-black so long-form Tamil text and scientific imagery stay primary. WordPress's default palette, default gradients, and arbitrary custom colors are disabled so editor choices remain coherent.
+The theme defines a neutral near-black palette: black `paper` (`#090909`), a raised `surface` (`#1e1e1e`), off-white `ink` (`#f3efee`), warm-gray `muted` text, a lime accent (`#c5f27e`), a lighter hover state, a quiet `line`, and a green-black `highlight`. This is a new publication identity, not a recreation of the current production site's color treatment. WordPress's default palette, default gradients, and arbitrary custom colors are disabled so editor choices remain coherent.
+
+Those are the values in `theme.json`, and from `0.43.0` they are the *dark* skin rather than the only one — see "Colour schemes" below for the light values and how the two are switched. `theme.json` is still where a browser without `light-dark()` support lands, so the dark palette remains the theme's baseline. It stays deliberately near-black so long-form Tamil text and scientific imagery stay primary.
 
 The accent was crimson (`#d45656`) until `0.42.0`. Its slugs are still `crimson` and `crimson-hover`, deliberately: one post in the database carries `has-crimson-color`, and the production Header and Footer are Site Editor customizations whose markup cannot be inspected from the theme repository, so renaming the slug would silently drop the colour from content nobody can audit. Only the editor-facing names changed, to Accent and Accent Hover. A future change that renames the slug must first rewrite that stored content.
 
@@ -159,13 +161,61 @@ One gradient preset remains, `graphite-ascend`, used only by the masthead.
 
 `surface` sits at `#1e1e1e`, deliberately above the gradient's `#151515` peak. At the previous value a filled card in the Science section became indistinguishable from the gradient behind its lower edge — a one-value difference. Raising it keeps cards, form controls, quotes, and the navigation dropdown legible against every point of the gradient.
 
-Global text uses ink on paper. Links remain visibly underlined, while linked headings and site identity use their surrounding typography and gain the lighter accent on hover. Buttons use black paper text on the accent, and `color-scheme: dark` aligns native browser controls with the theme. Intended text combinations range from 8.37:1 to 17.44:1; the accent on black is 15.5:1, and near-black text on an accent fill is 16.4:1. A three-pixel accent `:focus-visible` outline supports keyboard navigation, and selection colors maintain readable contrast.
+Global text uses ink on paper. Links remain visibly underlined, while linked headings and site identity use their surrounding typography and gain the lighter accent on hover. Buttons use near-black text on an accent fill, and `color-scheme` aligns native browser controls with whichever skin is active. Intended text combinations range from 8.37:1 to 17.44:1; in the dark skin the accent on paper is 15.5:1, and near-black text on an accent fill is 16.4:1 in both. A three-pixel accent `:focus-visible` outline supports keyboard navigation, and selection colors maintain readable contrast.
 
-Those two accent figures are the reason the accent is used as a fill and not as a text colour. Lime reads 15.5:1 on paper but only 1.3:1 on white, so it cannot serve as text in both a dark and a light theme. As a fill carrying near-black text it is legible against either ground at a single value, which is what will let a light theme reuse the accent unchanged rather than defining a second one.
+Those accent figures are why the accent is a fill wherever text sits on it. Lime reads 15.5:1 on paper but 1.28:1 on white, so it cannot serve as text in both skins — as a fill carrying near-black text it is legible against either ground at one value. Where the accent is a *line* rather than a fill there is nothing on top to rescue it, so the `crimson` preset itself carries a value that reads in both. The split, and why it is that way round, is under "Colour schemes".
 
 Template gutters continue to use the theme's spacing presets rather than root-aware global padding. This keeps full-width template-part borders and backgrounds predictable while constrained inner groups provide the readable page edge. The shared header uses a native Core Group bottom border as a strong five-pixel crimson rule, while the locally owned logo is capped at `15rem` so it does not dominate the masthead. The same border is declared on `.site-header` in global theme CSS so file-based and Site Editor-customized copies retain one consistent treatment. Block-level custom CSS remains limited to interaction states, form controls, demonstrated legacy-content compatibility issues, the responsive logo size, Core Navigation presentation, homepage editorial treatments, and the article/sidebar responsive grid. The sidebar rules live in `style.css` because Core block attributes and `theme.json` cannot express this class-scoped two-region breakpoint; they add no new tokens and continue to consume the global spacing, color, and type presets. The hero's named responsive grid areas and lead-image overlay are scoped under `.home-hero`. Technology overlay and compact-card rules are scoped through the Core Group blocks that own those cards; the surrounding Core Query blocks own responsive column behavior. These text-over-image and media-object arrangements cannot be expressed entirely through block attributes.
 
 The homepage's revised visual system keeps each module structurally native while giving the sections one editorial language. The hero stays on black paper, then the Science/Environment pair, Technology, Biology and the category directory alternate the two flat grounds, `paper` and `band`, so each section stays distinct from its neighbour. `home.html` sets the main container's `blockGap` to zero and drops its bottom padding; otherwise Core's default block gap left an eighty-one pixel band of bare page background between every section, which broke the continuity the backgrounds were there to create. Each section's own padding now provides that breathing room from the inside. These full-width Core Group backgrounds create section rhythm while their children remain on the shared `80rem` editorial grid. Numbered lists improve scanning in the latest-post and Science support regions, while typography, whitespace and image scale establish hierarchy. From `0.42.0` that hierarchy is expressed through a shared card vocabulary — see "Card design language" below — rather than through the square-edged, unadorned treatment the sections originally used. Technology intentionally remains denser than Science and Biology. Its four feature stories still reduce to two columns at tablet width so Tamil headlines retain a usable measure, but that now falls out of the grid's minimum column width rather than a media query overriding Core's inline widths. Motion is limited to small image hover feedback and is disabled by `prefers-reduced-motion`.
+
+### Colour schemes
+
+From `0.43.0` the theme has a light skin and a dark skin. A first-time reader gets whichever their operating system prefers; an explicit choice overrides it permanently.
+
+`assets/css/color-scheme.css` is the whole mechanism. It redefines the nine `--wp--preset--color--*` variables through `light-dark()`, driven by `color-scheme`. Every rule in the theme already read those variables — including Core's own `has-*-background-color` utilities — so nine declarations reskin the site. `theme.json` keeps the dark values, so a browser that never reaches the file renders the theme as it shipped.
+
+Three things in that file are load-bearing and easy to undo by accident:
+
+**The selector is `html:root`, not `:root`.** WordPress prints the same nine variables from `theme.json` in an inline `global-styles` block, also at `:root`, and prints it *after* this stylesheet. At equal specificity `theme.json` wins on source order and both skins render dark. `(0,1,1)` beats `(0,1,0)` regardless of where WordPress chooses to print, which is not something a theme should depend on.
+
+**The `@supports (color: light-dark(#fff, #000))` guard is not decoration.** Custom properties validate at *use*, not at declaration. Without the guard, a browser lacking `light-dark()` accepts every declaration and then fails when the value is consumed, leaving each property guaranteed-invalid and the site unstyled. Inside the guard it never sees them and keeps the dark theme.
+
+**The dark island re-declares `color`, not only the variables.** `theme.json` sets the body text colour, which WordPress compiles to a rule on `body`. That resolves `var(--wp--preset--color--ink)` *outside* the island, and what reaches the masthead is an inherited computed colour. Re-pinning a variable cannot retroactively re-resolve it.
+
+#### The accent splits by role
+
+`crimson` carries `light-dark(#4e7a1e, #c5f27e)` — the readable value at 5.09:1 on paper — because the theme draws the accent as a rule, a numeral, a link or a border about fifteen times and as a fill about four. Making the common case the default left every existing rule correct untouched.
+
+`--parimaanam-accent-fill` carries the lime for the four fills: the accent chip, its hover, the button element and the search submit. Lime works there in both skins only because near-black text sits on it, at 16.4:1 either way.
+
+#### Three tokens that must never flip
+
+| Token | Job |
+|---|---|
+| `--parimaanam-on-accent` | text on an accent fill |
+| `--parimaanam-on-media` | text over a photograph |
+| `--parimaanam-scrim-rgb` | the overlay-card scrims |
+
+**Never reach for `paper` or `ink` in those three situations.** `paper` as chip text measures 15.5:1 in the dark skin and 1.28:1 in the light one; `ink` over a photograph is near-black on a dark image. The scrims are dark in both skins because white text sits on them, which is as true in daylight as at night.
+
+#### The dark island
+
+`.site-header` and `.site-footer` re-pin the palette to its dark values and set `color-scheme: dark`, so they look identical in both skins. The reason is practical before it is aesthetic: the logo is a single `#e6e6e6` fill, and Core's Site Logo block renders one image whatever the theme, so a light masthead would need a second asset the publication does not have.
+
+The search overlay's `<dialog>` is a descendant of `.site-header` and therefore inherits the island. That is deliberate — a modal takeover launched from a dark masthead should match it rather than flash white — and is recorded here so it is not "fixed" later.
+
+#### The toggle
+
+A button in the masthead beside the search trigger, at every width. It was intended to sit inside the navigation overlay on phones, where there is unused space, but Core's Navigation block declares an `allowed_blocks` list (`navigation-link`, `search`, `social-links`, `page-list`, `spacer`, `home-link`, `icon`, `site-title`, `site-logo`, `navigation-submenu`, `loginout`, `buttons`) and `core/html` is not on it.
+
+Nothing is written to the document on load unless the reader has chosen. Pinning `data-theme` to whatever the system said at load would record a preference nobody expressed and stop the page following a system change made while it is open.
+
+A stored choice is restored by an inline `wp_head` script at priority 1, not by the deferred file — that is the entire reason the two are separate. It lands at head index 4 against the first stylesheet at index 14, so the attribute is set before any stylesheet is parsed and the wrong skin cannot flash. The button is hidden until that script adds `has-theme-toggle`, so a reader without JavaScript is never shown a control that cannot work; they still get their operating-system preference, which needs no script at all.
+
+Its labels are English by editorial decision, not by oversight. Core translates `Dark` as அடர்ந்த (*dense*) and `Light` as ஒளி (*illumination*) — both the wrong sense for a theme switch — so unlike the navigation and 404 strings these could not reuse Core's Tamil.
+
+**Known limit:** the block editor canvas always renders dark. It cannot follow a front-end toggle without a second editor stylesheet, which is deliberately not shipped. Editors see dark while editing regardless of the skin they read in.
 
 ### Card design language
 
