@@ -140,6 +140,35 @@
 }
 
 @media (max-width: 63.99rem) {
+	/*
+	 * The masthead carries three children, and distributing them evenly left
+	 * the two controls stranded 48px apart with the logo dominating. The logo
+	 * steps down and the controls group together at the right instead.
+	 */
+	.site-header > .wp-block-group {
+		min-height: 4rem;
+	}
+
+	.site-header .parimaanam-site-logo img {
+		max-width: min(9rem, 44vw);
+	}
+
+	.site-header .site-navigation {
+		flex: 0 0 auto;
+		margin-left: auto;
+	}
+
+	/*
+	 * The open control was a bare 24px icon — half the search trigger beside
+	 * it, and well under a usable tap target.
+	 */
+	.site-navigation .wp-block-navigation__responsive-container-open {
+		align-items: center;
+		justify-content: center;
+		min-height: 2.75rem;
+		min-width: 2.75rem;
+	}
+
 	.site-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) {
 		display: none;
 	}

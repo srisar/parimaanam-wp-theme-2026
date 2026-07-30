@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.30.0
+
+- Gave the masthead its own background: the `graphite-ascend` gradient rather
+  than flat `paper`, so it reads as a distinct band instead of sharing the
+  page's colour exactly. Reuses an existing preset, adding no token.
+- Reworked the header below `64rem`. The logo drops from 180px to 144px, the
+  two controls group together at the right instead of all three children being
+  spread evenly, and the header is 95px tall rather than 107px.
+- The navigation's open control was a bare 24px icon — half the size of the
+  search trigger beside it and well under a usable tap target. It is now 44px,
+  matching search.
+
 ## 0.29.1
 
 - Replaced the header's Core Search block with a full-focus overlay. The block
