@@ -159,106 +159,114 @@
 	padding: 0 0 var(--wp--preset--spacing--40);
 }
 
-.home-hero__support .wp-block-post-featured-image img, .home-category-section__lead-card .wp-block-post-featured-image img, .home-category-showcase__feature-card .wp-block-post-featured-image img, .home-category-editorial .wp-block-post-featured-image img {
+.home-hero__support .wp-block-post-featured-image img, .home-category-showcase__feature-card .wp-block-post-featured-image img, .home-category-editorial .wp-block-post-featured-image img {
 	transition: transform 420ms ease;
 }
 
-.home-hero__support .wp-block-post:hover .wp-block-post-featured-image img, .home-category-section__lead-card:hover .wp-block-post-featured-image img, .home-category-showcase__feature-card:hover .wp-block-post-featured-image img, .home-category-editorial article:hover .wp-block-post-featured-image img {
+.home-hero__support .wp-block-post:hover .wp-block-post-featured-image img, .home-category-showcase__feature-card:hover .wp-block-post-featured-image img, .home-category-editorial article:hover .wp-block-post-featured-image img {
 	transform: scale(1.025);
 }
 
-.home-hero .wp-block-post-title a, .home-category-section .wp-block-post-title a, .home-category-showcase .wp-block-post-title a, .home-category-editorial .wp-block-post-title a {
+.home-hero .wp-block-post-title a, .home-category-showcase .wp-block-post-title a, .home-category-editorial .wp-block-post-title a {
 	color: var(--wp--preset--color--ink);
 	text-decoration: none;
 }
 
-.home-hero .wp-block-post-title a:hover, .home-category-section .wp-block-post-title a:hover, .home-category-showcase .wp-block-post-title a:hover, .home-category-editorial .wp-block-post-title a:hover {
+.home-hero .wp-block-post-title a:hover, .home-category-showcase .wp-block-post-title a:hover, .home-category-editorial .wp-block-post-title a:hover {
 	color: var(--wp--preset--color--crimson-hover);
 }
 
-.home-category-section__heading {
+/*
+ * Two categories side by side, four posts each. Each card is a media object:
+ * square thumbnail beside the date and title. The first grid track is fixed
+ * rather than `auto` because every card here is expected to have a featured
+ * image; a missing one leaves an empty slot rather than reflowing its
+ * neighbours out of alignment.
+ */
+.home-category-pair__layout {
+	display: grid;
+	gap: var(--wp--preset--spacing--70);
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.home-category-pair__column {
+	min-width: 0;
+}
+
+.home-category-pair__heading {
 	align-items: center;
 	display: flex;
 	gap: var(--wp--preset--spacing--30);
 }
 
-/*
- * Science was the first section built and never received the crimson rule the
- * other section headings carry, though its flex row and gap were already set
- * up for one. The rule is a flex item, so it needs an explicit basis; without
- * it a long Tamil heading can shrink it away.
- */
-.home-category-section__heading::before {
+.home-category-pair__heading::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
 	flex: 0 0 2rem;
 	height: 2px;
 }
 
-.home-category-section__heading a {
+.home-category-pair__heading a {
 	color: var(--wp--preset--color--ink);
 	text-decoration: none;
 }
 
-.home-category-section__heading a:hover {
+.home-category-pair__heading a:hover {
 	color: var(--wp--preset--color--crimson-hover);
 }
 
-.home-category-section__layout {
+.home-category-pair .wp-block-post-template {
 	display: grid;
-	gap: var(--wp--preset--spacing--60);
-	grid-template-columns: minmax(0, 1fr);
-}
-
-.home-category-section__lead, .home-category-section__support {
-	min-width: 0;
-}
-
-.home-category-section__lead-card {
-	background: var(--wp--preset--color--surface);
-	overflow: hidden;
-}
-
-.home-category-section__lead-content {
-	padding: var(--wp--preset--spacing--50);
-}
-
-.home-category-section__support .wp-block-post-template {
-	counter-reset: science-story;
-	display: grid;
-	gap: 0.5rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.home-category-section__support .wp-block-post {
-	border: 0;
+.home-category-pair .wp-block-post {
+	border-bottom: 1px solid var(--wp--preset--color--line);
 	margin: 0;
-	padding: 0;
+	padding-bottom: var(--wp--preset--spacing--40);
 }
 
-.home-category-section__support-card {
-	counter-increment: science-story;
-	min-height: 7rem;
-	padding: var(--wp--preset--spacing--40) var(--wp--preset--spacing--40) var(--wp--preset--spacing--40) 4.25rem;
-	position: relative;
-	transition: background-color 180ms ease;
+.home-category-pair .wp-block-post:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
 }
 
-.home-category-section__support-card::before {
-	color: var(--wp--preset--color--crimson);
-	content: counter(science-story, decimal-leading-zero);
-	font-size: var(--wp--preset--font-size--large);
-	font-weight: 700;
-	left: var(--wp--preset--spacing--30);
-	opacity: 0.55;
-	position: absolute;
-	top: var(--wp--preset--spacing--40);
+.home-category-pair__card {
+	column-gap: var(--wp--preset--spacing--40);
+	display: grid;
+	grid-template-columns: 5rem minmax(0, 1fr);
+	row-gap: 0.25rem;
 }
 
-.home-category-section__support-card:hover {
-	background: var(--wp--preset--color--surface);
+.home-category-pair__card .wp-block-post-featured-image {
+	grid-row: 1 / span 2;
+	margin: 0;
+	overflow: hidden;
+}
+
+.home-category-pair__card .wp-block-post-featured-image img {
+	transition: transform 420ms ease;
+}
+
+.home-category-pair__card:hover .wp-block-post-featured-image img {
+	transform: scale(1.05);
+}
+
+.home-category-pair__card .wp-block-post-date,
+.home-category-pair__card .wp-block-post-title {
+	grid-column: 2;
+	margin-block: 0;
+}
+
+.home-category-pair__card .wp-block-post-title a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+
+.home-category-pair__card .wp-block-post-title a:hover {
+	color: var(--wp--preset--color--crimson-hover);
 }
 
 .home-category-showcase__heading {
@@ -312,8 +320,8 @@
 		padding: var(--wp--preset--spacing--60);
 	}
 
-	.home-category-section__layout {
-		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+	.home-category-pair__layout {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	/*
@@ -347,7 +355,6 @@
 @media (prefers-reduced-motion: reduce) {
 	.home-hero__lead .wp-block-post-featured-image img,
 	.home-hero__support .wp-block-post-featured-image img,
-	.home-category-section__lead-card .wp-block-post-featured-image img,
 	.home-category-showcase__feature-card .wp-block-post-featured-image img,
 	.home-category-editorial .wp-block-post-featured-image img,
 	.home-category-editorial__feature-card,
@@ -357,7 +364,6 @@
 
 	.home-hero__lead article:hover .wp-block-post-featured-image img,
 	.home-hero__support .wp-block-post:hover .wp-block-post-featured-image img,
-	.home-category-section__lead-card:hover .wp-block-post-featured-image img,
 	.home-category-showcase__feature-card:hover .wp-block-post-featured-image img,
 	.home-category-editorial article:hover .wp-block-post-featured-image img,
 	.home-category-editorial__feature-card:hover,

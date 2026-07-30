@@ -37,6 +37,16 @@
           "gradient": "linear-gradient(180deg, #151515 0%, #090909 100%)",
           "name": "Graphite Ascend",
           "slug": "graphite-ascend"
+        },
+        {
+          "gradient": "linear-gradient(180deg, #090909 0%, #1c1c1c 100%)",
+          "name": "Graphite Deep Descend",
+          "slug": "graphite-deep-descend"
+        },
+        {
+          "gradient": "linear-gradient(180deg, #1c1c1c 0%, #090909 100%)",
+          "name": "Graphite Deep Ascend",
+          "slug": "graphite-deep-ascend"
         }
       ],
       "palette": [

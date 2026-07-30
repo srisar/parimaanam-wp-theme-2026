@@ -7,6 +7,19 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.37.0
+
+- Replaced the Science section with a fifty-fifty pair: Science and Environment
+  side by side, four posts each, every card a square thumbnail beside its date
+  and title. The columns stack on phones.
+- The section takes a deeper background than its neighbours, `#090909` to
+  `#1c1c1c`. Two gradient presets were added rather than one, because
+  Technology needs the matching ascent to keep every seam meeting on the same
+  value — verified still zero across all four boundaries.
+- `patterns/category-science.php` and its CSS are removed, since the pair
+  supersedes them. Both categories are resolved by slug, and one that does not
+  exist is dropped rather than breaking the section.
+
 ## 0.36.4
 
 - Image captions now sit below the image on every template and in all three
