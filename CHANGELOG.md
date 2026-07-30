@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.23.0
+
+- Reworked the footer after review: the category list is gone, the site logo
+  appears at a smaller size, and a Core Navigation block supplies secondary
+  links an editor can manage in the Site Editor.
+- The category list restated the homepage directory and made the mobile footer
+  1340px tall; without it the footer is 753px.
+- `patterns/footer-discovery.php` is now `patterns/footer-columns.php`, since
+  the band is no longer only discovery.
+- Dropped the linked Site Title from the meta strip; the logo already links
+  home.
+
 ## 0.22.1
 
 - Replaced the site-title-only footer with a discovery footer: the six Science

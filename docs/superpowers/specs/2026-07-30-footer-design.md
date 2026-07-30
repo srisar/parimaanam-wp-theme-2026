@@ -1,7 +1,13 @@
 # Footer design
 
 Date: 2026-07-30
-Status: approved, not yet implemented
+Status: implemented, then revised after review — see "Revision" at the end
+
+> **Revised.** Sections below describe the design as first approved. After
+> seeing it rendered, the category list was dropped, the logo was added, and
+> the second region became an editor-managed menu. The Revision section at the
+> end records what changed and why; the body is kept for the reasoning behind
+> the decisions that still stand.
 
 ## Problem
 
@@ -141,3 +147,37 @@ document outline remains correct on every template.
   reverted locally to verify, or verified on a clean install.
 - Moving paths out of `header-navigation.php` touches working navigation.
   Acceptance criterion 8 exists to catch a regression.
+
+## Revision — after seeing it rendered
+
+Three changes were made once the footer was on screen:
+
+1. **The category list was removed.** It restated the homepage category
+   directory, and on a 375px viewport it pushed the footer to 1340px — about
+   1.6 screens. Without it the footer is 753px. Decision 2 above therefore no
+   longer applies; categories remain served by the sidebar and the homepage.
+2. **The site logo was added**, reusing `patterns/site-logo.php` so it stays
+   the Core Site Logo block wherever one is set. Only its maximum width is
+   overridden, to `min(9rem, 40vw)` against the masthead's `min(15rem, 48vw)`.
+   The linked Site Title was dropped from the meta strip, since the logo
+   already links home.
+3. **A secondary link group was added** as a Core Navigation block with its
+   overlay disabled, so an editor manages it in the Site Editor rather than
+   through a theme commit. Its four default labels already existed in the
+   header pattern, so no new copy was introduced.
+
+`patterns/footer-discovery.php` became `patterns/footer-columns.php`, since the
+band is no longer only discovery.
+
+The layout is now three regions rather than two: identity, series, and
+secondary links, at `1fr / 1.4fr / 1fr` above `48rem` and stacked below it.
+
+### Correction to the approved-inputs section
+
+The Risks section stated the local Footer template part held only a site title.
+That was an unverified assumption and it was wrong. It actually contained
+About, Privacy, Social, and "Designed with WordPress" links, and it was hard
+deleted during implementation before the content was examined. The text was
+captured, but the markup was not recoverable. Its About and Social links are
+evidence worth weighing in any future footer decision — the secondary menu now
+covers the About case.

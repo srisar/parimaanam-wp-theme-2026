@@ -24,7 +24,7 @@ parimaanam_2026/
 ├── theme.json           Design tokens, global styles, and block compatibility
 ├── assets/
 │   ├── css/
-│   │   ├── footer.css   Footer regions and the category column grid
+│   │   ├── footer.css   Footer regions, logo size, and secondary menu
 │   │   ├── header.css   Masthead, logo, and Core Navigation presentation
 │   │   └── homepage.css Hero, category sections, and category directory
 │   ├── fonts/
@@ -45,7 +45,7 @@ parimaanam_2026/
 │   ├── category-biology.php Editorial Biology feature and card section
 │   ├── article-sidebar.php Native single-article discovery widgets
 │   ├── error-404.php     Not-found copy, search, and recent articles
-│   ├── footer-discovery.php Science Series links and the category list
+│   ├── footer-columns.php Logo, Science Series, and secondary menu
 │   ├── footer-meta.php   Site title, copyright, and privacy link
 │   ├── home-categories.php Dynamic category directory
 │   ├── search-title.php  Tamil search-results heading with the query term
@@ -125,11 +125,15 @@ The reusable `parts/header.html` is the single header source for every template.
 
 The navigation uses the four labels and destinations approved from the existing site: Science Series, Downloads, Contact, and About. Science Series and Downloads expose their existing child pages as native Navigation submenus. The pattern resolves published pages by stable hierarchical path and falls back to the corresponding installation-relative URL, avoiding imported page IDs, a database-specific Navigation post reference, and production-domain URLs. This is the portable first-activation default. When an editor changes and saves the Navigation block, WordPress Core creates or updates its `wp_navigation` entity and stores the resulting reference in the customized shared Header template part. Subsequent menu changes are database-managed through the Site Editor and apply to every template; the theme never hard-codes that environment-specific entity ID.
 
-`parts/footer.html` is a discovery footer. A two-region band pairs the six Science Series pages with the Core Categories block, and a thin strip beneath carries the linked Site Title, a copyright line, and a privacy link.
+`parts/footer.html` composes three regions over a thin meta strip: the site logo at a quieter size, the six Science Series pages, and a secondary link group. The strip beneath carries a copyright line and a privacy link.
 
-The two regions were chosen against what the rest of the theme already offers. Search, categories, monthly archives, and latest posts all appear in the article sidebar, and the homepage ends with a category directory, so repeating search or recent posts here would put the same links in three places. The Science Series is the one substantial content group reachable only from a header dropdown, which makes it the footer's most useful addition for a reader who has just finished an article.
+The regions were chosen against what the rest of the theme already offers. Search, categories, monthly archives, and latest posts all appear in the article sidebar, and the homepage ends with a category directory, so repeating them here would put the same links in three places. A category list was tried and removed for exactly that reason: it restated the homepage directory and made the mobile footer nearly twice as tall. The Science Series is the one substantial content group reachable only from a header dropdown, which makes it the footer's most useful addition for a reader who has just finished an article.
 
-Nothing in it is invented copy. Both region headings reuse strings the theme already ships — `அறிவியல் தொடர்கள்` from the navigation and `பிரிவுகள்` from the sidebar and homepage directory. The category list comes from Core, so it needs no maintenance and stores no term IDs. The copyright year comes from `wp_date()` and the site name from settings, so neither can go stale. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title. The only new string is the `© %1$s %2$s` format, which is boilerplate rather than editorial content.
+The secondary links are a Core Navigation block, so an editor can add, rename, reorder, or remove them in the Site Editor exactly as they already can for the header. Saving there makes WordPress own that menu; the four links in the pattern are only the portable first-activation default. Its overlay menu is disabled so it never collapses into a hamburger inside a footer column.
+
+The logo reuses `patterns/site-logo.php`, so it is the Core Site Logo block wherever an editor has set one and the bundled asset otherwise. Only its maximum width is overridden, since the masthead and the footer want different weights from the same mark. The linked Site Title is gone from the strip because the logo already links home.
+
+Nothing in the footer is invented copy. The series heading reuses `அறிவியல் தொடர்கள்` from the navigation, and every secondary link label already existed in the header pattern. The copyright year comes from `wp_date()` and the site name from settings, so neither can go stale. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title. The only new string is the `© %1$s %2$s` format, which is boilerplate rather than editorial content.
 
 ### Styling model
 
@@ -222,7 +226,7 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
 19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
 20. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
-21. **Discovery-led footer, one source for navigation paths:** the footer offers onward routes rather than restating site information, pairing the Science Series with a Core-driven category list. Search and recent posts are deliberately excluded because both already appear in the article sidebar and would otherwise sit in three places. The approved page paths moved to `inc/navigation.php` so the header and footer resolve the same destinations from one list rather than two copies that can drift.
+21. **Footer as identity plus onward routes, one source for navigation paths:** the footer pairs the logo with the Science Series and an editor-managed secondary menu. Search, categories, and recent posts are deliberately excluded because each already appears in the article sidebar or the homepage directory; a category list was built and then removed once it proved to restate the homepage and nearly double the mobile footer's height. The approved page paths moved to `inc/navigation.php` so the header and footer resolve the same destinations from one list rather than two copies that can drift.
 
 ## Future extension points
 
