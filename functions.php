@@ -5,6 +5,8 @@
  * @package Parimaanam_2026
  */
 
+require_once get_theme_file_path( 'inc/navigation.php' );
+
 /**
  * Register the theme text domain so pattern strings can be translated.
  *
