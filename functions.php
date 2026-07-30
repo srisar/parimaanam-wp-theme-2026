@@ -41,14 +41,30 @@ function parimaanam_2026_preload_fonts( $preload_resources ) {
 add_filter( 'wp_preload_resources', 'parimaanam_2026_preload_fonts' );
 
 /**
- * Load the theme stylesheet on the front end and in the block editor.
+ * Load the theme stylesheets on the front end and in the block editor.
+ *
+ * style.css carries the single-article layout; assets/css/ carries the
+ * masthead and homepage rules that block supports and theme.json cannot
+ * express. Keeping them as files rather than a theme.json css string makes
+ * them reviewable in a diff and lets the browser cache them between views.
  */
 function parimaanam_2026_enqueue_block_styles() {
+	$parimaanam_version = wp_get_theme()->get( 'Version' );
+
 	wp_enqueue_style(
 		'parimaanam-2026-style',
 		get_stylesheet_uri(),
 		array(),
-		wp_get_theme()->get( 'Version' )
+		$parimaanam_version
 	);
+
+	foreach ( array( 'header', 'homepage' ) as $parimaanam_stylesheet ) {
+		wp_enqueue_style(
+			'parimaanam-2026-' . $parimaanam_stylesheet,
+			get_theme_file_uri( "assets/css/{$parimaanam_stylesheet}.css" ),
+			array( 'parimaanam-2026-style' ),
+			$parimaanam_version
+		);
+	}
 }
 add_action( 'enqueue_block_assets', 'parimaanam_2026_enqueue_block_styles' );
