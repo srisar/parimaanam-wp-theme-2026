@@ -40,7 +40,7 @@
 }
 
 .site-search__overlay::backdrop {
-	background: rgba(9, 9, 9, 0.94);
+	background: rgba(var(--parimaanam-scrim-rgb), 0.94);
 }
 
 .site-search__close {
@@ -103,10 +103,10 @@
 }
 
 .site-search__submit {
-	background: var(--wp--preset--color--crimson);
+	background: var(--parimaanam-accent-fill);
 	border: 0;
 	border-radius: var(--parimaanam-radius-control);
-	color: var(--wp--preset--color--paper);
+	color: var(--parimaanam-on-accent);
 	cursor: pointer;
 	flex: 0 0 auto;
 	font-family: inherit;

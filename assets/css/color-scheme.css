@@ -1,0 +1,166 @@
+/*
+ * The light and dark palettes.
+ *
+ * theme.json holds the dark values, so every consumer has a working default
+ * and a browser that never reaches this file renders the theme exactly as it
+ * shipped before 0.43.0. This file redefines the same nine preset variables
+ * through light-dark(), which resolves against the computed color-scheme.
+ *
+ * Every rule in the theme already reads these variables, including Core's own
+ * has-*-background-color utilities, so nine declarations reskin the whole
+ * site. That is the entire mechanism; there is no per-component light theme.
+ */
+
+:root {
+	color-scheme: light dark;
+
+	/*
+	 * Three colours that hold one value in both skins.
+	 *
+	 * Text on an accent fill and text over a photograph do not care which skin
+	 * the page is in, because the surface beneath them is the same either way.
+	 * Reaching for paper or ink here is the specific mistake this file exists
+	 * to prevent: paper as text on the lime fill measures 15.5:1 in the dark
+	 * skin and 1.3:1 in the light one.
+	 *
+	 * The scrims are dark in both skins for the same reason — white text sits
+	 * on them, in daylight as much as at night. They are named rather than
+	 * themed so the next reader can see the value is deliberate and not a
+	 * stale copy of paper.
+	 */
+	--parimaanam-on-accent: #0d0f0c;
+	--parimaanam-on-media: #f3efee;
+	--parimaanam-scrim-rgb: 9, 9, 9;
+
+	/*
+	 * The accent as a fill, which is the one job the lime can keep in both
+	 * skins — because near-black text sits on it, at 16.4:1 either way.
+	 *
+	 * Everywhere else the accent is a line, a numeral or a link, and there is
+	 * nothing on top to rescue it: lime on white measures 1.28:1. So the
+	 * `crimson` preset itself carries the readable value (see below) and this
+	 * token carries the fill. That split is this way round because the theme
+	 * uses the accent as a line or as text about fifteen times and as a fill
+	 * about four; making the common case the default keeps every existing rule
+	 * correct without touching it.
+	 */
+	--parimaanam-accent-fill: #c5f27e;
+	--parimaanam-accent-fill-hover: #d9f7a6;
+
+	/*
+	 * Toggle glyphs, drawn as masks so they inherit the surrounding colour and
+	 * stay out of the accessibility tree — the button's label carries the
+	 * meaning. Same technique the theme uses for its other decorative icons.
+	 */
+	--parimaanam-icon-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 6.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zm0 1.5a4 4 0 110 8 4 4 0 010-8zM11.25 2h1.5v3h-1.5V2zm0 17h1.5v3h-1.5v-3zM2 11.25h3v1.5H2v-1.5zm17 0h3v1.5h-3v-1.5zM4.4 5.46l1.06-1.06 2.12 2.12-1.06 1.06L4.4 5.46zm12.02 12.02l1.06-1.06 2.12 2.12-1.06 1.06-2.12-2.12zm2.12-13.08l1.06 1.06-2.12 2.12-1.06-1.06 2.12-2.12zM6.52 16.42l1.06 1.06-2.12 2.12-1.06-1.06 2.12-2.12z'/%3E%3C/svg%3E");
+	--parimaanam-icon-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.3 13.85a8.5 8.5 0 01-10.15-10.1 1 1 0 00-1.36-1.13 10 10 0 1012.64 12.6 1 1 0 00-1.13-1.37zM12 20a8 8 0 01-3.4-15.24A10 10 0 0019.24 15.4 8 8 0 0112 20z'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+}
+
+/*
+ * The guard is not optional.
+ *
+ * Custom properties validate at use rather than at declaration, so a browser
+ * without light-dark() would accept every line below and only fail when the
+ * value is consumed — leaving each property guaranteed-invalid and the site
+ * unstyled rather than falling back. Inside the guard, such a browser never
+ * sees them and keeps theme.json's dark values.
+ */
+@supports (color: light-dark(#fff, #000)) {
+	/*
+	 * `html:root` rather than `:root`, and the extra element selector is doing
+	 * real work. WordPress prints these same nine variables from theme.json in
+	 * an inline `global-styles` block, also at `:root`, and it prints *after*
+	 * this file — so at equal specificity theme.json would win on source order
+	 * and both skins would render dark. (0,1,1) beats (0,1,0) regardless of
+	 * where WordPress chooses to print, which is not something a theme should
+	 * depend on.
+	 */
+	html:root {
+		--wp--preset--color--paper: light-dark(#ffffff, #090909);
+		--wp--preset--color--band: light-dark(#f7f7f7, #141414);
+		--wp--preset--color--surface: light-dark(#f1f1f1, #1e1e1e);
+		--wp--preset--color--ink: light-dark(#16181d, #f3efee);
+
+		/*
+		 * #67696f rather than the #6e7076 originally sampled. That value
+		 * measures 4.45:1 against the surface card fill, under AA, and muted
+		 * carries excerpt body text. This reads 4.93:1 on cards and 5.57:1 on
+		 * paper with no visible change in character.
+		 */
+		--wp--preset--color--muted: light-dark(#67696f, #b9aaa8);
+
+		/*
+		 * The accent, as a line, a numeral, a link and a border.
+		 *
+		 * In the dark skin this is the lime, unchanged. In the light skin it
+		 * is the same hue carried to a weight that reads on paper: #4e7a1e is
+		 * 5.09:1 against white, past both the 4.5:1 that link text needs and
+		 * the 3:1 that rules and borders need. The lime itself would be
+		 * 1.28:1 — present but invisible.
+		 *
+		 * Every existing rule that draws the accent picks this up untouched.
+		 * The four places that use it as a *fill* reach for
+		 * --parimaanam-accent-fill instead.
+		 */
+		--wp--preset--color--crimson: light-dark(#4e7a1e, #c5f27e);
+		--wp--preset--color--crimson-hover: light-dark(#3d6118, #d9f7a6);
+
+		--wp--preset--color--line: light-dark(#e3e4e6, #2e372a);
+		--wp--preset--color--highlight: light-dark(#e4f7c4, #3d4f22);
+	}
+}
+
+/*
+ * The masthead and footer keep the dark palette in both skins.
+ *
+ * Re-pinning the variables is what makes this nearly free: has-band-background-color
+ * and every colour reference in footer.css resolve to dark values with no
+ * markup change and no per-rule overrides. header.css needs nothing at all,
+ * because the masthead's gradient is literal hex and was already dark in both.
+ *
+ * The reason is practical before it is aesthetic. The logo is a single
+ * #e6e6e6 fill, and Core's Site Logo block renders one image whatever the
+ * theme, so a light masthead would need a second asset the publication does
+ * not have. It also keeps the identity in daylight rather than turning the
+ * site into a generic white blog.
+ *
+ * color-scheme is set here too, so the search field and any other native
+ * control inside these regions renders dark to match. The search overlay's
+ * dialog is a descendant of .site-header, so it inherits this and stays dark
+ * in both skins — correct for a modal takeover launched from a dark masthead,
+ * and deliberate rather than an oversight.
+ */
+.site-header,
+.site-footer {
+	color-scheme: dark;
+
+	/*
+	 * `color` is re-declared, not just the variable, and this is load-bearing.
+	 *
+	 * theme.json sets the body text colour, which WordPress compiles to a rule
+	 * on `body`. That resolves `var(--wp--preset--color--ink)` *there*, outside
+	 * this island, and what reaches the masthead is the resolved value — light
+	 * ink — inherited as a computed colour. Re-pinning the variable below
+	 * cannot retroactively re-resolve it, so without this line the navigation
+	 * renders near-black on the dark masthead in the light skin.
+	 */
+	color: var(--wp--preset--color--ink);
+
+	--wp--preset--color--paper: #090909;
+	--wp--preset--color--band: #141414;
+	--wp--preset--color--surface: #1e1e1e;
+	--wp--preset--color--ink: #f3efee;
+	--wp--preset--color--muted: #b9aaa8;
+	--wp--preset--color--crimson: #c5f27e;
+	--wp--preset--color--crimson-hover: #d9f7a6;
+	--wp--preset--color--line: #2e372a;
+	--wp--preset--color--highlight: #3d4f22;
+}

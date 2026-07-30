@@ -7,6 +7,67 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.43.0
+
+- The theme has a light skin and a dark skin. A first-time reader gets
+  whichever their operating system prefers; an explicit choice, once made,
+  overrides it permanently.
+- The mechanism is `light-dark()` driven by `color-scheme`, redefining the
+  nine `--wp--preset--color--*` variables in `assets/css/color-scheme.css`.
+  Every rule in the theme already read those variables, so nine declarations
+  reskin the site and `theme.json` keeps the dark values as the default.
+- The selector is `html:root`, not `:root`. WordPress prints the same nine
+  variables from `theme.json` in an inline `global-styles` block *after* this
+  file, so at equal specificity `theme.json` won on source order and both
+  skins rendered dark. `(0,1,1)` beats `(0,1,0)` wherever WordPress prints.
+- Every `light-dark()` declaration sits inside
+  `@supports (color: light-dark(#fff, #000))`. Custom properties validate at
+  use rather than at declaration, so without the guard a browser lacking
+  `light-dark()` would accept them and then fail when consumed, leaving the
+  site unstyled instead of falling back. Guarded, it keeps the dark theme.
+- The accent splits by role. `crimson` now carries
+  `light-dark(#4e7a1e, #c5f27e)` — the readable value, 5.09:1 on paper — and
+  a new `--parimaanam-accent-fill` carries the lime for the four places the
+  accent is a fill. This is the way round it is because the theme draws the
+  accent as a line, a numeral or a link about fifteen times and as a fill
+  about four, so the common case is the default and every existing rule stayed
+  correct untouched.
+- Three tokens hold one value in both skins: `--parimaanam-on-accent` for text
+  on an accent fill, `--parimaanam-on-media` for text over a photograph, and
+  `--parimaanam-scrim-rgb` for the overlay-card scrims. Without them, `paper`
+  as chip text would have measured 1.28:1 in the light skin.
+- `muted` is `#67696f`, not the `#6e7076` originally sampled. That value gives
+  4.45:1 against the card surface — under AA for the excerpt text it carries.
+- The masthead and footer keep the dark palette in both skins, by re-pinning
+  the palette variables on `.site-header` and `.site-footer`. The logo is a
+  single `#e6e6e6` fill and Core's Site Logo block renders one image whatever
+  the theme, so a light masthead would need an asset the publication does not
+  have. The island also re-declares `color`: `theme.json` sets the body text
+  colour, which resolves on `body` outside the island, and what reaches the
+  masthead is an inherited computed value that re-pinning a variable cannot
+  touch.
+- The search overlay stays dark in both skins. Its `<dialog>` is a descendant
+  of `.site-header`, so it inherits the island — correct for a modal takeover
+  launched from a dark masthead, and recorded so it is not "fixed" later.
+- The toggle is a button in the masthead beside the search trigger. It was
+  meant to sit inside the navigation overlay on phones, but Core's Navigation
+  block declares an `allowed_blocks` list that excludes `core/html`.
+- Nothing is written to the document on load unless the reader has chosen.
+  Pinning `data-theme` to whatever the system said would record a preference
+  nobody expressed and stop the page following a system change made while it
+  is open.
+- A stored choice is restored by an inline `wp_head` script at priority 1,
+  measured landing at head index 4 against the first stylesheet at index 14,
+  so the wrong skin cannot flash. The button is hidden until that script runs,
+  so a reader without JavaScript sees no control that cannot work — they still
+  get their operating system's preference, which is pure CSS.
+- Toggle labels are English. Core translates `Dark` as அடர்ந்த, meaning dense,
+  and `Light` as ஒளி, meaning illumination, so reusing its Tamil would have
+  put visibly wrong words in the masthead.
+- Known limit: the block editor canvas always renders dark. It cannot follow a
+  front-end toggle without a second editor stylesheet, deliberately not
+  shipped.
+
 ## 0.42.0
 
 - The accent moves from crimson `#d45656` to lime `#c5f27e`. Every colour in

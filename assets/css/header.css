@@ -273,3 +273,72 @@
 		width: 100%;
 	}
 }
+
+/*
+ * Theme toggle.
+ *
+ * It sits in the masthead beside the search trigger at every width. The
+ * original intent was to put it inside the navigation overlay on phones,
+ * where there is a screen of empty space — but Core's Navigation block
+ * declares an allowed_blocks list (navigation-link, search, social-links,
+ * page-list, spacer, home-link, icon, site-title, site-logo,
+ * navigation-submenu, loginout, buttons) and core/html is not on it, so
+ * arbitrary markup cannot go there.
+ *
+ * Hidden until the inline head script adds .has-theme-toggle to the document,
+ * so a reader without JavaScript sees no control that cannot work.
+ */
+.theme-toggle {
+	display: none;
+}
+
+.has-theme-toggle .theme-toggle {
+	align-items: center;
+	background: transparent;
+	border: 0;
+	border-radius: var(--parimaanam-radius-control);
+	color: var(--wp--preset--color--ink);
+	cursor: pointer;
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: center;
+	padding: 0.5rem;
+}
+
+.has-theme-toggle .theme-toggle:hover {
+	color: var(--wp--preset--color--crimson);
+}
+
+/*
+ * The glyph is a mask so it inherits the surrounding colour, matching how the
+ * theme draws its other decorative icons. It is aria-hidden; the button's
+ * label carries the meaning.
+ *
+ * The icon shows the theme the reader would move *to*, so a sun in the dark
+ * skin and a moon in the light one.
+ */
+.theme-toggle__icon {
+	background: currentColor;
+	display: block;
+	height: 1.375rem;
+	mask-image: var(--parimaanam-icon-sun);
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	width: 1.375rem;
+}
+
+:root[data-theme="light"] .theme-toggle__icon {
+	mask-image: var(--parimaanam-icon-moon);
+}
+
+/*
+ * The reader who has never chosen has no data-theme attribute, so the icon
+ * has to follow the operating system the same way the palette does. The
+ * :not() keeps an explicit dark choice winning over a light OS.
+ */
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme="dark"]) .theme-toggle__icon {
+		mask-image: var(--parimaanam-icon-moon);
+	}
+}

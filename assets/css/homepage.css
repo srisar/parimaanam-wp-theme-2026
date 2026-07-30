@@ -123,7 +123,7 @@
 }
 
 .home-hero__lead article::after {
-	background: linear-gradient(180deg, rgba(9, 9, 9, 0.02) 15%, rgba(9, 9, 9, 0.2) 42%, rgba(9, 9, 9, 0.97) 100%);
+	background: linear-gradient(180deg, rgba(var(--parimaanam-scrim-rgb), 0.02) 15%, rgba(var(--parimaanam-scrim-rgb), 0.2) 42%, rgba(var(--parimaanam-scrim-rgb), 0.97) 100%);
 	content: '';
 	inset: 0;
 	pointer-events: none;
@@ -167,10 +167,6 @@
 	display: none;
 }
 
-.home-hero__lead .wp-block-post-date, .home-hero__lead .wp-block-post-date a, .home-hero__lead .wp-block-post-excerpt {
-	color: var(--wp--preset--color--ink);
-}
-
 .home-hero__support .wp-block-post-template {
 	gap: var(--wp--preset--spacing--50);
 }
@@ -195,6 +191,53 @@
 
 .home-hero .wp-block-post-title a:hover, .home-category-showcase .wp-block-post-title a:hover, .home-category-editorial .wp-block-post-title a:hover {
 	color: var(--wp--preset--color--crimson-hover);
+}
+
+/*
+ * Everything printed on top of a photograph.
+ *
+ * None of this can take `ink` or `muted`, which are near-black and mid-grey
+ * in the light skin — the text would sink into the image. What sits under it
+ * is a dark scrim in both skins, so the text stays light in both, and
+ * --parimaanam-on-media is how that is said.
+ *
+ * The scope is the content container rather than a list of block classes.
+ * Listing the blocks meant every element added to one of these cards later
+ * had to be remembered separately, and the first version already missed the
+ * excerpt and the category.
+ *
+ * It sits *after* the title rule above because the two resolve to the same
+ * specificity, (0,2,1), and source order decides. Ordering is the honest fix;
+ * adding a class to win would only disguise that the two rules overlap.
+ */
+.home-hero__lead-content,
+.home-hero__lead-content .wp-block-post-excerpt,
+.home-hero__lead-content .wp-block-post-date,
+.home-hero__lead-content .wp-block-post-date a,
+.home-hero__lead-content .wp-block-post-title a,
+.home-category-showcase__feature-content,
+.home-category-showcase__feature-content .wp-block-post-excerpt,
+.home-category-showcase__feature-content .wp-block-post-date,
+.home-category-showcase__feature-content .wp-block-post-date a,
+.home-category-showcase__feature-content .wp-block-post-title a {
+	color: var(--parimaanam-on-media);
+}
+
+/*
+ * The category over a photograph needed no special case once it became a
+ * chip: the fill is lime in both skins and carries near-black text, so it
+ * behaves over an image exactly as it does on paper. The rule that used to
+ * force the accent colour here is gone — with a chip it would have painted
+ * lime text onto a lime fill.
+ *
+ * The outlined date chip does still need one. Its border reads `line`, which
+ * is a pale grey in the light skin and a dark green in the dark one; neither
+ * was chosen against a photograph. A translucent tint of the on-media colour
+ * sits correctly on any image in both skins.
+ */
+.home-hero__lead-content .parimaanam-chip--outline a,
+.home-category-showcase__feature-content .parimaanam-chip--outline a {
+	border-color: rgba(243, 239, 238, 0.4);
 }
 
 /*
@@ -243,10 +286,26 @@
 	padding: 0;
 }
 
+/*
+ * Padding on both sides of the rule, not just below it.
+ *
+ * These posts carry no row gap, so the separator is the only thing between one
+ * card and the next. With padding only on the bottom the rule sat 16px clear
+ * of the card above and flush against the card below — the next date chip
+ * started 0.4px under the line and read as colliding with it.
+ *
+ * The first and last cards drop their outer padding so the column still starts
+ * under its heading and ends level with its neighbour. This matches the hero's
+ * numbered index, which had it right already.
+ */
 .home-category-pair .wp-block-post {
 	border-bottom: 1px solid var(--wp--preset--color--line);
 	margin: 0;
-	padding-bottom: var(--wp--preset--spacing--40);
+	padding-block: var(--wp--preset--spacing--40);
+}
+
+.home-category-pair .wp-block-post:first-child {
+	padding-top: 0;
 }
 
 .home-category-pair .wp-block-post:last-child {
@@ -304,7 +363,7 @@
 }
 
 .home-category-showcase__feature-card::after {
-	background: linear-gradient(180deg, transparent 18%, rgba(9, 9, 9, 0.92) 100%) !important;
+	background: linear-gradient(180deg, transparent 18%, rgba(var(--parimaanam-scrim-rgb), 0.92) 100%) !important;
 }
 
 .home-category-showcase__compact-card {

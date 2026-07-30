@@ -28,7 +28,7 @@ if ( $parimaanam_technology_term instanceof WP_Term ) :
 		<article class="wp-block-group home-category-showcase__feature-card has-surface-background-color has-background"><!-- wp:post-featured-image {"isLink":true,"width":"100%","sizeSlug":"medium_large"} /-->
 
 			<!-- wp:group {"className":"home-category-showcase__feature-content","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
-			<div class="wp-block-group home-category-showcase__feature-content"><!-- wp:post-date {"isLink":true,"fontSize":"small"} /-->
+			<div class="wp-block-group home-category-showcase__feature-content"><!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline","fontSize":"small"} /-->
 
 				<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /--></div>
 			<!-- /wp:group --></article>
@@ -46,7 +46,7 @@ if ( $parimaanam_technology_term instanceof WP_Term ) :
 		<article class="wp-block-group home-category-showcase__compact-card"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group"><!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /-->
 
-				<!-- wp:post-date {"isLink":true,"fontSize":"small"} /--></div>
+				<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline","fontSize":"small"} /--></div>
 			<!-- /wp:group -->
 
 			<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","width":"96px","height":"96px","sizeSlug":"thumbnail"} /--></article>

@@ -40,9 +40,9 @@
 
 				<!-- wp:group {"className":"home-hero__lead-content","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"constrained"}} -->
 				<div class="wp-block-group home-hero__lead-content"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
-					<div class="wp-block-group has-small-font-size"><!-- wp:post-terms {"term":"category"} /-->
+					<div class="wp-block-group has-small-font-size"><!-- wp:post-terms {"term":"category","className":"parimaanam-chip parimaanam-chip--accent"} /-->
 
-						<!-- wp:post-date {"isLink":true} /--></div>
+						<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline"} /--></div>
 					<!-- /wp:group -->
 
 					<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"x-large"} /-->
@@ -63,9 +63,9 @@
 			<article class="wp-block-group"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","width":"100%","sizeSlug":"medium_large"} /-->
 
 				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
-				<div class="wp-block-group has-small-font-size"><!-- wp:post-terms {"term":"category"} /-->
+				<div class="wp-block-group has-small-font-size"><!-- wp:post-terms {"term":"category","className":"parimaanam-chip parimaanam-chip--accent"} /-->
 
-					<!-- wp:post-date {"isLink":true} /--></div>
+					<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline"} /--></div>
 				<!-- /wp:group -->
 
 				<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /--></article>
