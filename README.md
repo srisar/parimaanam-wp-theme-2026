@@ -45,7 +45,6 @@ parimaanam_2026/
 │   ├── home-categories.php Dynamic category directory
 │   ├── search-title.php  Tamil search-results heading with the query term
 │   ├── home-hero.php     Eight latest posts in three editorial regions
-│   ├── page-parent-link.php Upward link shown only on child pages
 │   ├── header-navigation.php Portable approved primary navigation
 │   ├── posts-grid.php    Shared archive/search cards and empty state
 │   └── site-logo.php     Core Site Logo when set, theme asset as fallback
@@ -106,8 +105,6 @@ The imported Science Series is existing editorial content, not a custom post typ
 `page.html` preserves this established WordPress page hierarchy and its nested permalinks. It renders the dynamic page title as the H1, the complete stored content through the Core Post Content block, and Core comments where the individual page allows them. It omits author/date metadata because these are reference pages rather than chronological posts. It also omits a template-level featured image because most imported series pages already begin with the same lead image in their stored content.
 
 The parent Science Series page currently stores only its approved introductory paragraph; its six child links are represented by the WordPress parent/child relationship but are not present in that content. Core's Page List block can list a selected page's children, but that selection is stored as a numeric page ID and a static theme template cannot bind it to the current page dynamically. The theme therefore does not hard-code imported ID `620`, invent links, or add a PHP query. An editor can add a Page List block filtered to the Science Series parent in the page content, or a future companion plugin can provide a portable dynamic-child-pages block if the same behavior is required more broadly.
-
-The reverse direction is provided, because it does not require a query. `patterns/page-parent-link.php` reads the current page from `get_queried_object()` and, when that page has a published parent, renders a single link to it above the title. Without it a reader inside a series could only return to the series index through the primary menu. This is one object lookup rather than a listing query, stores no page ID, and generalizes to any hierarchical page — the `downloads` hierarchy gets the same treatment. The arrow is supplied in CSS so the link's accessible name stays the parent page's own title, and nothing is rendered for top-level pages or posts.
 
 Several series pages retain links to both `parimaanam.net` and the site's earlier `parimaanam.wordpress.com` address. The theme intentionally does not rewrite stored editorial URLs. Those links should be verified or migrated at the content layer so redirects and canonical history can be handled explicitly.
 
@@ -213,8 +210,7 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 17. **A designed not-found response:** `404.html` replaces the unstyled `index.html` fallback for missing URLs, which are an expected condition given the stored links to the site's earlier address. Its copy lives in a pattern because block templates cannot hold translatable strings.
 18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
 19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
-20. **Upward hierarchy without a query:** child pages link to their parent, resolved from the current query rather than a stored ID. Listing a parent's children remains out of scope because that needs a query and belongs in content or a companion plugin; a single parent lookup for navigation does not, and it closes a real dead end in the Science Series.
-21. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
+20. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
 
 ## Future extension points
 
