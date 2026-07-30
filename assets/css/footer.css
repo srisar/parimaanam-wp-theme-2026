@@ -1,32 +1,48 @@
 /*
- * Footer layout: the logo and a horizontal secondary menu on one row, over a
- * thin meta strip. Core Navigation's internal markup and the logo's
- * footer-specific size cannot be expressed through block attributes. Consumes
- * global presets only.
+ * Footer layout: a centred stack on phones, resolving to the logo opposite a
+ * horizontal menu from tablet up. Core Navigation's internal markup and the
+ * logo's footer-specific size cannot be expressed through block attributes.
+ * Consumes global presets only.
  *
- * No width queries: the row wraps intrinsically, which is the preferred
- * approach over adding a breakpoint. See the canonical scale in style.css.
+ * Breakpoint used: 40rem (tablet). See the canonical scale in style.css.
  */
 .site-footer__columns {
 	align-items: center;
 	display: flex;
-	flex-wrap: wrap;
-	gap: var(--wp--preset--spacing--40) var(--wp--preset--spacing--50);
-	justify-content: space-between;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--50);
+	text-align: center;
 }
 
 .site-footer__region {
 	min-width: 0;
 }
 
-/* The masthead logo is capped at 15rem; the footer wants a quieter mark. */
-.site-footer .parimaanam-site-logo img {
-	max-width: min(9rem, 40vw);
+/*
+ * On a phone the logo is the centred focal point and carries a little more
+ * weight. From tablet up it steps back to a quieter mark beside the menu. The
+ * masthead's own cap is 15rem.
+ */
+.site-footer .parimaanam-site-logo {
+	margin-inline: auto;
 }
 
+.site-footer .parimaanam-site-logo img {
+	max-width: min(11rem, 55vw);
+}
+
+.site-footer__nav .wp-block-navigation__container {
+	justify-content: center;
+}
+
+/*
+ * Vertical padding gives the links a tap target closer to the 44px guideline;
+ * as bare text they were only as tall as their line box.
+ */
 .site-footer__nav .wp-block-navigation-item__content {
 	color: var(--wp--preset--color--ink);
 	font-weight: 600;
+	padding: 0.65rem 0;
 	text-decoration: none;
 }
 
@@ -35,11 +51,19 @@
 	text-decoration: underline;
 }
 
-.site-footer__meta {
+/*
+ * Core prints the group's flex justification as an inline style in the head,
+ * which lands after this file at equal specificity. The extra ancestor is what
+ * wins the cascade; without it the strip stays space-between and would split
+ * the copyright and the privacy link apart once that link appears.
+ */
+.site-footer .site-footer__meta {
 	border-top: 1px solid var(--wp--preset--color--line);
 	color: var(--wp--preset--color--muted);
+	justify-content: center;
 	margin-top: var(--wp--preset--spacing--50);
 	padding-top: var(--wp--preset--spacing--40);
+	text-align: center;
 }
 
 .site-footer__meta p {
@@ -52,4 +76,31 @@
 
 .site-footer__meta a:hover {
 	color: var(--wp--preset--color--crimson-hover);
+}
+
+@media (min-width: 40rem) {
+	.site-footer__columns {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--wp--preset--spacing--40) var(--wp--preset--spacing--50);
+		justify-content: space-between;
+		text-align: left;
+	}
+
+	.site-footer .parimaanam-site-logo {
+		margin-inline: 0;
+	}
+
+	.site-footer .parimaanam-site-logo img {
+		max-width: min(9rem, 40vw);
+	}
+
+	.site-footer__nav .wp-block-navigation__container {
+		justify-content: flex-end;
+	}
+
+	.site-footer .site-footer__meta {
+		justify-content: space-between;
+		text-align: left;
+	}
 }

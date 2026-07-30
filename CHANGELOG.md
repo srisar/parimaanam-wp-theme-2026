@@ -7,6 +7,20 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.27.1
+
+- Centred the footer on phones: the logo, the menu, and the copyright now sit
+  in a centred stack rather than flush left, and the logo grows from `9rem` to
+  `11rem` since it is the focal point there. From tablet up the previous row
+  layout is unchanged.
+- Gave the footer links vertical padding. As bare text their tap targets were
+  about twenty pixels tall; they are now forty-six, above the forty-four pixel
+  guideline.
+- Fixed the meta strip's justification, which Core prints as an inline style
+  after the theme's stylesheet at equal specificity and so was winning on
+  order. Left unfixed it would have split the copyright and the privacy link
+  apart once that link appears.
+
 ## 0.26.1
 
 - Gave the Technology feature row and the Biology card row explicit column
