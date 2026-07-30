@@ -8,8 +8,8 @@
  */
 ?>
 
-<!-- wp:query {"query":{"inherit":true},"displayLayout":{"type":"flex","columns":2},"align":"wide","layout":{"type":"constrained"}} -->
-<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
+<!-- wp:query {"query":{"inherit":true},"align":"wide","layout":{"type":"constrained"}} -->
+<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"26rem"}} -->
 	<!-- wp:group {"tagName":"article","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"constrained"}} -->
 	<article class="wp-block-group"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2","width":"100%","sizeSlug":"medium_large"} /-->
 
