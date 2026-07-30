@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.26.1
+
+- Gave the Technology feature row and the Biology card row explicit column
+  counts: two at tablet, four at desktop. Both hold exactly four posts, and an
+  intrinsic column count stranded the fourth on a row of its own wherever three
+  tracks happened to fit — visible from roughly 850px to 1150px.
+- No minimum column width can avoid this. Four tracks at the narrow end need
+  241px or less, while stopping a fifth track at the 80rem maximum needs more
+  than 243px, so the two requirements do not overlap.
+- Verified 375 / 900 / 1059 / 1400: one column of four, two by two, one row of
+  four, and still four rather than a phantom fifth track above the 80rem cap.
+
 ## 0.26.0
 
 - Moved the tablet breakpoint from `48rem` to `40rem`. At 768px every tablet

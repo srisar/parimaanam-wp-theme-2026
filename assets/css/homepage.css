@@ -302,6 +302,19 @@
 	.home-category-section__layout {
 		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 	}
+
+	/*
+	 * These two grids hold exactly four posts, so an intrinsic column count
+	 * strands one on a row of its own wherever three tracks happen to fit. No
+	 * minimum column width avoids it: four tracks at the narrow end need 241px
+	 * or less, while stopping a fifth track at the 80rem maximum needs more
+	 * than 243px. The counts are therefore explicit — two rows of two here,
+	 * one row of four at desktop.
+	 */
+	.home-category-showcase__features .wp-block-post-template,
+	.home-category-editorial__cards .wp-block-post-template {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (min-width: 64rem) {
@@ -309,6 +322,12 @@
 		align-items: start;
 		grid-template-areas: 'latest latest latest lead lead lead lead lead lead support support support';
 		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	/* Four posts, one row. See the note at the tablet breakpoint above. */
+	.home-category-showcase__features .wp-block-post-template,
+	.home-category-editorial__cards .wp-block-post-template {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
