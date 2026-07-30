@@ -281,10 +281,26 @@
 	padding: 0;
 }
 
+/*
+ * Padding on both sides of the rule, not just below it.
+ *
+ * These posts carry no row gap, so the separator is the only thing between one
+ * card and the next. With padding only on the bottom the rule sat 16px clear
+ * of the card above and flush against the card below — the next date chip
+ * started 0.4px under the line and read as colliding with it.
+ *
+ * The first and last cards drop their outer padding so the column still starts
+ * under its heading and ends level with its neighbour. This matches the hero's
+ * numbered index, which had it right already.
+ */
 .home-category-pair .wp-block-post {
 	border-bottom: 1px solid var(--wp--preset--color--line);
 	margin: 0;
-	padding-bottom: var(--wp--preset--spacing--40);
+	padding-block: var(--wp--preset--spacing--40);
+}
+
+.home-category-pair .wp-block-post:first-child {
+	padding-top: 0;
 }
 
 .home-category-pair .wp-block-post:last-child {
