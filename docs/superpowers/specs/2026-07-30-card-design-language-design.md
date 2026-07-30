@@ -92,16 +92,19 @@ header, which presents the same two facts in the same order.
 
 ### Superseded work
 
-This removes four rules shipped in `0.40.0`:
+This removes work shipped in `0.40.0`:
 
 - `.posts-grid__category::before` and `.article-header__category::before`, the
   2px accent rules the chip fill replaces
-- the calendar glyph on `.posts-grid__date`, replaced by the outlined chip
+- the calendar glyph on both `.posts-grid__date` and
+  `.article-header__meta .wp-block-post-date` (a shared rule at
+  `style.css:286`), replaced by the outlined chip
+- the `--parimaanam-icon-calendar` custom property at `style.css:54`, which
+  has no remaining consumer once that rule goes
 
-`--parimaanam-icon-calendar` stays. `style.css:286` is a shared rule serving
-both `.article-header__meta .wp-block-post-date::before` and
-`.posts-grid__date::before`; only the second selector is removed, so the glyph
-survives on the article header where no chip replaces it.
+Retiring the glyph is the point, not a side effect. It existed to make a bare
+date read as designed metadata; the outlined chip does that job better, and
+keeping both would put a border and an icon around the same four words.
 
 ### Letter-spacing must go
 
@@ -135,12 +138,20 @@ at 15px.
 
 ## Filled box scope
 
-Applies to `posts-grid` and `category-pair__card`: `surface` fill, `1.25rem`
-padding, card radius, media radius on the image within.
+The rule is **orientation, not page**: a card gets the box when its image sits
+*above* its text, because that stack has an outline the box can trace. A card
+whose image sits *beside* its text is already a row, and rows are separated by
+rules, not by boxes — eight stacked boxes in a half-width column read as
+clutter rather than structure.
 
-`sidebar__latest` is excluded. Those are thumbnail rows in a narrow column;
-filled boxes stacked there read as clutter rather than structure. It takes the
-radius, chips and type scale like everything else, without the fill.
+That leaves exactly one recipient: **`posts-grid`** — `surface` fill,
+`1.25rem` padding, card radius, media radius on the image within.
+
+Excluded, and why: `category-pair__card` and `sidebar__latest` are both
+`5rem`-thumbnail rows separated by `1px` `line` borders — structurally the
+same object. `home-hero__lead`, `showcase__feature-card` and
+`editorial__card` are art-directed, with text overlaid on the image. All five
+take the radius scale, the chip pair and the type scale; none takes the fill.
 
 In dark mode the fill is `surface` `#1e1e1e` against `paper` `#090909` — a
 quiet but visible step.
