@@ -6,6 +6,7 @@
  */
 
 require_once get_theme_file_path( 'inc/navigation.php' );
+require_once get_theme_file_path( 'inc/hero.php' );
 
 /**
  * Register the theme text domain so pattern strings can be translated.

@@ -7,6 +7,42 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.44.0
+
+- The homepage hero is rebuilt as three featured slots — a dominant lead
+  beside two stacked companions — with a row of three recent posts beneath.
+  The five-item text-only index is removed; it was a wall of text beside the
+  images and three cards do its work better.
+- **Sticky posts now choose what fronts the publication.** Tick "Stick to the
+  top of the blog" on any post and it takes a featured slot, in order. The
+  feature was already in the post editor and the theme had ignored it.
+- Any slot the editor has not filled falls back to the most recent unfeatured
+  post. Ticking nothing behaves exactly as the old hero did, newest first;
+  ticking three art-directs the whole hero. There is no state in which the
+  hero renders a hole because nobody remembered to feature something.
+- All three hardcoded offsets are gone. They sliced the archive by position,
+  so every publication silently re-sliced all three regions — and the index
+  headed புதிய கட்டுரைகள் began at article *two*, because article one had
+  been taken by the lead. That heading now sits above the recent row, where
+  it is accurate.
+- Two Core constraints are worth recording. A Query block **cannot** be
+  restricted to given post IDs: the `include` key it accepts belongs to
+  `taxQuery`, and `post__in` is set only by `sticky: "only"`. Position is the
+  only lever, so the offsets are computed from
+  `get_option( 'sticky_posts' )` at render time — the opposite of the
+  hardcoded ones they replace, in that they describe the site's real state.
+- And this must not be verified with `get_posts()`, which special-cases
+  `include` by overriding `numberposts` and ignoring `offset`. A check
+  written with it reports duplicate posts in three of the five sticky states;
+  they are artefacts of the wrapper, not of the design. Use `WP_Query`.
+- Slot resolution lives in `inc/hero.php`, not in the pattern. Patterns are
+  included on every render and a bare function declaration in one would fatal
+  the second time it ran.
+- The recent row uses `sticky: "ignore"` with an explicit `exclude` of the
+  featured three, rather than `sticky: "exclude"`. The latter bars *every*
+  sticky post from the row, so an editor who marked five would find the
+  fourth and fifth gone from the homepage altogether.
+
 ## 0.43.0
 
 - The theme has a light skin and a dark skin. A first-time reader gets
