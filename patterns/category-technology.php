@@ -18,8 +18,8 @@ if ( $parimaanam_technology_term instanceof WP_Term ) :
 	?>
 
 <!-- wp:group {"align":"full","gradient":"graphite-ascend","className":"home-category-showcase","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","right":"var:preset|spacing|40","bottom":"var:preset|spacing|70","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull home-category-showcase has-graphite-ascend-gradient-background has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)"><!-- wp:heading {"align":"wide","className":"home-category-showcase__heading","fontSize":"large"} -->
-	<h2 class="wp-block-heading alignwide home-category-showcase__heading has-large-font-size"><a href="<?php echo esc_url( $parimaanam_technology_url ); ?>"><?php echo esc_html( $parimaanam_technology_term->name ); ?></a></h2>
+<div class="wp-block-group alignfull home-category-showcase has-graphite-ascend-gradient-background has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)"><!-- wp:heading {"align":"wide","className":"home-category-showcase__heading","fontSize":"x-large"} -->
+	<h2 class="wp-block-heading alignwide home-category-showcase__heading has-x-large-font-size"><a href="<?php echo esc_url( $parimaanam_technology_url ); ?>"><?php echo esc_html( $parimaanam_technology_term->name ); ?></a></h2>
 	<!-- /wp:heading -->
 
 	<!-- wp:query {"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_technology_term_id; ?>]}},"align":"wide","className":"home-category-showcase__features","layout":{"type":"constrained"}} -->

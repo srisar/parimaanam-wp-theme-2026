@@ -179,7 +179,20 @@
 .home-category-section__heading {
 	align-items: center;
 	display: flex;
-	gap: var(--wp--preset--spacing--40);
+	gap: var(--wp--preset--spacing--30);
+}
+
+/*
+ * Science was the first section built and never received the crimson rule the
+ * other section headings carry, though its flex row and gap were already set
+ * up for one. The rule is a flex item, so it needs an explicit basis; without
+ * it a long Tamil heading can shrink it away.
+ */
+.home-category-section__heading::before {
+	background: var(--wp--preset--color--crimson);
+	content: '';
+	flex: 0 0 2rem;
+	height: 2px;
 }
 
 .home-category-section__heading a {
@@ -257,8 +270,8 @@
 .home-category-showcase__heading::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
+	flex: 0 0 2rem;
 	height: 2px;
-	width: 2rem;
 }
 
 .home-category-showcase__feature-card::after {
@@ -362,8 +375,8 @@
 .home-category-directory__heading::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
+	flex: 0 0 2rem;
 	height: 2px;
-	width: 2rem;
 }
 
 .home-category-directory__list {

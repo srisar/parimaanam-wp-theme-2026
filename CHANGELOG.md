@@ -7,6 +7,16 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.28.1
+
+- Made the four category section headings consistent. Science was missing the
+  crimson rule the others carry, though its flex row and gap were already set
+  up for one; Technology rendered at 24px against the others' 36px, and a
+  `width: fit-content` rule combined with Core's alignwide auto margins to
+  centre it while every other heading sat flush left.
+- Gave each rule an explicit flex basis. As a bare width it could be shrunk
+  away by a long Tamil heading.
+
 ## 0.27.2
 
 - Made the footer menu a single centred column with hairline dividers on
