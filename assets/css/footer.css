@@ -1,0 +1,52 @@
+/*
+ * Footer layout: the logo and a horizontal secondary menu on one row, over a
+ * thin meta strip. Core Navigation's internal markup and the logo's
+ * footer-specific size cannot be expressed through block attributes. Consumes
+ * global presets only.
+ */
+.site-footer__columns {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--40) var(--wp--preset--spacing--50);
+	justify-content: space-between;
+}
+
+.site-footer__region {
+	min-width: 0;
+}
+
+/* The masthead logo is capped at 15rem; the footer wants a quieter mark. */
+.site-footer .parimaanam-site-logo img {
+	max-width: min(9rem, 40vw);
+}
+
+.site-footer__nav .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.site-footer__nav .wp-block-navigation-item__content:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
+
+.site-footer__meta {
+	border-top: 1px solid var(--wp--preset--color--line);
+	color: var(--wp--preset--color--muted);
+	margin-top: var(--wp--preset--spacing--50);
+	padding-top: var(--wp--preset--spacing--40);
+}
+
+.site-footer__meta p {
+	margin: 0;
+}
+
+.site-footer__meta a {
+	color: var(--wp--preset--color--muted);
+}
+
+.site-footer__meta a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}

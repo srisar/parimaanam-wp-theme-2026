@@ -8,8 +8,8 @@
  */
 ?>
 
-<!-- wp:query {"query":{"inherit":true},"displayLayout":{"type":"flex","columns":2},"align":"wide","layout":{"type":"constrained"}} -->
-<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
+<!-- wp:query {"query":{"inherit":true},"align":"wide","layout":{"type":"constrained"}} -->
+<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"26rem"}} -->
 	<!-- wp:group {"tagName":"article","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"constrained"}} -->
 	<article class="wp-block-group"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2","width":"100%","sizeSlug":"medium_large"} /-->
 
@@ -35,7 +35,7 @@
 
 	<!-- wp:query-no-results -->
 		<!-- wp:paragraph -->
-		<p><?php echo esc_html_x( 'No results were found.', 'Message shown when a query returns no content', 'parimaanam-2026' ); ?></p>
+		<p><?php echo esc_html_x( 'முடிவுகள் எதுவும் கிடைக்கவில்லை.', 'Message shown when a query returns no content', 'parimaanam-2026' ); ?></p>
 		<!-- /wp:paragraph -->
 	<!-- /wp:query-no-results -->
 </div>

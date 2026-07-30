@@ -30,7 +30,11 @@
 		<!-- /wp:group -->
 
 		<!-- wp:query {"query":{"perPage":1,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"className":"home-hero__lead","layout":{"type":"constrained"}} -->
-		<div class="wp-block-query home-hero__lead"><!-- wp:post-template -->
+		<div class="wp-block-query home-hero__lead"><!-- wp:heading {"className":"screen-reader-text"} -->
+			<h2 class="wp-block-heading screen-reader-text"><?php echo esc_html_x( 'முதன்மைக் கட்டுரை', 'Hidden heading naming the homepage lead story region', 'parimaanam-2026' ); ?></h2>
+			<!-- /wp:heading -->
+
+			<!-- wp:post-template -->
 			<!-- wp:group {"tagName":"article","backgroundColor":"surface","layout":{"type":"constrained"}} -->
 			<article class="wp-block-group has-surface-background-color has-background"><!-- wp:post-featured-image {"isLink":true,"width":"100%","sizeSlug":"large"} /-->
 
@@ -41,7 +45,7 @@
 						<!-- wp:post-date {"isLink":true} /--></div>
 					<!-- /wp:group -->
 
-					<!-- wp:post-title {"level":2,"isLink":true,"fontSize":"x-large"} /-->
+					<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"x-large"} /-->
 
 					<!-- wp:post-excerpt {"excerptLength":26} /--></div>
 				<!-- /wp:group --></article>
@@ -50,7 +54,11 @@
 		<!-- /wp:query -->
 
 		<!-- wp:query {"query":{"perPage":2,"pages":0,"offset":6,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"className":"home-hero__support","layout":{"type":"constrained"}} -->
-		<div class="wp-block-query home-hero__support"><!-- wp:post-template -->
+		<div class="wp-block-query home-hero__support"><!-- wp:heading {"className":"screen-reader-text"} -->
+			<h2 class="wp-block-heading screen-reader-text"><?php echo esc_html_x( 'மேலும் கட்டுரைகள்', 'Hidden heading naming the homepage supporting story region', 'parimaanam-2026' ); ?></h2>
+			<!-- /wp:heading -->
+
+			<!-- wp:post-template -->
 			<!-- wp:group {"tagName":"article","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"constrained"}} -->
 			<article class="wp-block-group"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","width":"100%","sizeSlug":"medium_large"} /-->
 
@@ -60,7 +68,7 @@
 					<!-- wp:post-date {"isLink":true} /--></div>
 				<!-- /wp:group -->
 
-				<!-- wp:post-title {"level":2,"isLink":true,"fontSize":"medium"} /--></article>
+				<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /--></article>
 			<!-- /wp:group -->
 		<!-- /wp:post-template --></div>
 		<!-- /wp:query --></div>

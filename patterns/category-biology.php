@@ -22,8 +22,8 @@ if ( $parimaanam_biology_term instanceof WP_Term ) :
 	<h2 class="wp-block-heading alignwide home-category-editorial__heading has-x-large-font-size"><a href="<?php echo esc_url( $parimaanam_biology_url ); ?>"><?php echo esc_html( $parimaanam_biology_term->name ); ?></a></h2>
 	<!-- /wp:heading -->
 
-	<!-- wp:query {"query":{"perPage":2,"pages":0,"offset":1,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_biology_term_id; ?>]}},"displayLayout":{"type":"flex","columns":2},"align":"wide","className":"home-category-editorial__features","layout":{"type":"constrained"}} -->
-	<div class="wp-block-query alignwide home-category-editorial__features"><!-- wp:post-template {"align":"wide"} -->
+	<!-- wp:query {"query":{"perPage":2,"pages":0,"offset":1,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_biology_term_id; ?>]}},"align":"wide","className":"home-category-editorial__features","layout":{"type":"constrained"}} -->
+	<div class="wp-block-query alignwide home-category-editorial__features"><!-- wp:post-template {"align":"wide","layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"28rem"}} -->
 		<!-- wp:group {"tagName":"article","className":"home-category-editorial__feature-card","layout":{"type":"constrained"}} -->
 		<article class="wp-block-group home-category-editorial__feature-card"><!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var:preset|spacing|50"}}}} -->
 		<div class="wp-block-columns"><!-- wp:column -->
@@ -42,8 +42,8 @@ if ( $parimaanam_biology_term instanceof WP_Term ) :
 	<!-- /wp:post-template --></div>
 	<!-- /wp:query -->
 
-	<!-- wp:query {"query":{"perPage":4,"pages":0,"offset":3,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_biology_term_id; ?>]}},"displayLayout":{"type":"flex","columns":4},"align":"wide","className":"home-category-editorial__cards","layout":{"type":"constrained"}} -->
-	<div class="wp-block-query alignwide home-category-editorial__cards"><!-- wp:post-template {"align":"wide"} -->
+	<!-- wp:query {"query":{"perPage":4,"pages":0,"offset":3,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_biology_term_id; ?>]}},"align":"wide","className":"home-category-editorial__cards","layout":{"type":"constrained"}} -->
+	<div class="wp-block-query alignwide home-category-editorial__cards"><!-- wp:post-template {"align":"wide","layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"16rem"}} -->
 		<!-- wp:group {"tagName":"article","className":"home-category-editorial__card","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 		<article class="wp-block-group home-category-editorial__card"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","width":"100%","sizeSlug":"medium_large"} /-->
 

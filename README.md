@@ -17,11 +17,16 @@ No Node.js build, Composer install, CSS framework, JavaScript framework, or page
 ```text
 parimaanam_2026/
 ├── AGENTS.md            Project rules for contributors and coding agents
-├── functions.php        Minimal shared stylesheet enqueue hook
+├── CHANGELOG.md         Version history and the pattern-cache version rule
+├── functions.php        Text domain, font preload, and stylesheet enqueues
 ├── README.md            Architecture and local workflow
 ├── style.css            Theme metadata and the scoped article-sidebar layout
 ├── theme.json           Design tokens, global styles, and block compatibility
 ├── assets/
+│   ├── css/
+│   │   ├── footer.css   Footer regions, logo size, and secondary menu
+│   │   ├── header.css   Masthead, logo, and Core Navigation presentation
+│   │   └── homepage.css Hero, category sections, and category directory
 │   ├── fonts/
 │   │   └── google-sans/
 │   │       ├── GoogleSans-Latin-Variable.woff2
@@ -29,20 +34,27 @@ parimaanam_2026/
 │   │       └── OFL.txt
 │   └── images/
 │       └── parimaanam-logo-web.svg Approved light-on-dark site logo
+├── inc/
+│   └── navigation.php   Approved page paths shared by header and footer
 ├── parts/
-│   ├── footer.html      Minimal shared publication footer
+│   ├── footer.html      Shared discovery footer composition
 │   └── header.html      Shared site identity, navigation, and Core search
 ├── patterns/
 │   ├── category-science.php First category-led homepage section
 │   ├── category-technology.php Image-led Technology showcase
 │   ├── category-biology.php Editorial Biology feature and card section
 │   ├── article-sidebar.php Native single-article discovery widgets
+│   ├── error-404.php     Not-found copy, search, and recent articles
+│   ├── footer-columns.php Logo, Science Series, and secondary menu
+│   ├── footer-meta.php   Site title, copyright, and privacy link
 │   ├── home-categories.php Dynamic category directory
+│   ├── search-title.php  Tamil search-results heading with the query term
 │   ├── home-hero.php     Eight latest posts in three editorial regions
 │   ├── header-navigation.php Portable approved primary navigation
 │   ├── posts-grid.php    Shared archive/search cards and empty state
-│   └── site-logo.php     Portable theme-owned logo linked to the site root
+│   └── site-logo.php     Core Site Logo when set, theme asset as fallback
 └── templates/
+    ├── 404.html         Designed response for URLs that match no content
     ├── archive.html     Generic taxonomy, author, date, and post-type archives
     ├── home.html        Magazine-style posts index with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
@@ -59,6 +71,8 @@ WordPress resolves requests through its standard template hierarchy. Individual 
 
 `index.html` is required for a valid block theme; it is not a homepage implementation. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
 
+`404.html` exists because that deliberate plainness is the wrong response to a missing URL. Without it WordPress falls back to `index.html`, so a reader following a stale link would land on an unstyled page with no route onward. The imported Science Series content still contains links to the site's earlier `parimaanam.wordpress.com` address, so missing URLs are an expected condition rather than a hypothetical one. The template pairs the shared header with `patterns/error-404.php`, which supplies a Core Search block and the three newest posts. Its copy lives in a pattern because block templates cannot contain PHP, and therefore cannot hold translatable strings.
+
 `home.html` follows the WordPress posts-index hierarchy and works whether the posts index is the site's front page or is assigned to a separate page. There is no `front-page.html`: the current site setting displays the latest posts, and adding a front-page override would duplicate the posts-index responsibility without an approved static front-page requirement.
 
 The homepage is being assembled section by section. Its first section is the non-inserter `patterns/home-hero.php` composition, made from three non-inherited Core Queries with non-overlapping offsets. The lead query renders the newest article as an image-led feature, the latest-stories query renders the next five articles as a compact headline list, and the supporting query renders the following two articles with images. On wide screens these occupy a three-column editorial layout; intermediate screens place the lead first with the two supporting regions beneath it, and narrow screens form one reading stream.
@@ -69,7 +83,7 @@ Section two is the existing Science category (`science`, displayed from WordPres
 
 The category section is intentionally its own module beneath the hero. Its lead/support structure can guide later approved category sections, but each category remains explicit so its slug, ordering, post count, and editorial treatment are documented rather than hidden in generic PHP query logic.
 
-Section three uses the existing Technology category (`technology`, displayed as `தொழில்நுட்பம்`). Its ten newest posts all have featured images, so `patterns/category-technology.php` adapts the approved showcase reference into four image-overlay feature cards followed by six compact image-and-headline cards. Two Core Query blocks use offsets `0` and `4`, preventing overlap within the section. Core's four- and three-column Post Template layouts provide responsive collapse without a custom grid implementation.
+Section three uses the existing Technology category (`technology`, displayed as `தொழில்நுட்பம்`). Its ten newest posts all have featured images, so `patterns/category-technology.php` adapts the approved showcase reference into four image-overlay feature cards followed by six compact image-and-headline cards. Two Core Query blocks use offsets `0` and `4`, preventing overlap within the section. Both use Core's Post Template grid layout with a minimum column width, so columns are chosen from the space actually available rather than from viewport breakpoints, and no custom grid implementation is needed.
 
 The Technology heading uses the dark crimson-and-black identity instead of the reference's generic Breaking label. This avoids presenting evergreen archive content as time-sensitive news. As with Science, the pattern resolves the stable category slug to the current environment's term ID and links its database-managed name to the generated Core archive URL.
 
@@ -77,13 +91,15 @@ Section four uses the existing Biology category (`biology`, displayed as `உய
 
 The final homepage module is a category directory headed `பிரிவுகள்`. It uses the Core Categories block rather than a hand-maintained menu or hard-coded term IDs, so it lists the current installation's non-empty categories, archive links, and post counts. The wide five-column desktop grid reduces to four columns at tablet width and one column on narrow screens, preserving a comfortable measure for long Tamil category names. Category ordering and visibility remain standard WordPress behavior and can evolve with the publication taxonomy without theme changes.
 
-Every public template, including the homepage, renders the same `parts/header.html` template part with the approved theme-owned logo, primary navigation, and search control. The homepage places the dynamic Site Title immediately after that part as a screen-reader-only H1, while post, page, archive, and search titles remain their templates' visible H1. The logo pattern derives its asset URL, homepage URL, and alternative text through WordPress APIs, so it remains portable across domains and installation paths.
+Every public template, including the homepage, renders the same `parts/header.html` template part with the approved theme-owned logo, primary navigation, and search control. The homepage places the dynamic Site Title immediately after that part as a screen-reader-only H1, while post, page, archive, and search titles remain their templates' visible H1. The logo follows the same portable-default-then-database-managed model as the navigation. When an editor has set a logo in WordPress, `patterns/site-logo.php` emits Core's Site Logo block, so the image, its responsive `srcset`, its link, and its alternative text all become WordPress-managed and editable in the Site Editor. Until then the pattern falls back to the bundled theme asset, deriving its URL, homepage URL, and alternative text through WordPress APIs so a fresh installation is never left without site identity. Both branches carry the `parimaanam-site-logo` class, so the responsive cap in `assets/css/header.css` applies either way.
 
 `archive.html` is the generic Core-convention fallback for category, tag, author, date, custom-taxonomy, and post-type archives. It deliberately avoids category-specific files because the imported taxonomy data does not establish a requirement for different structures. The dynamic Query Title is the page H1 with Core's generic archive prefix hidden, leaving the actual term, author, date, or post-type label intact. The Term Description block displays editor-managed taxonomy context when present and remains empty for non-taxonomy archives.
 
 Archive results use the shared two-column post-card composition and inherited Query Loop.
 
-`search.html` adds a Core Query Title and Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
+`search.html` adds a results heading and a Core Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
+
+The heading comes from `patterns/search-title.php` rather than the Core Query Title block. Core uses two different source strings for this view: `wp_get_document_title()` renders the browser tab through a string the Tamil translation pack covers, while the Query Title block uses a separate string it does not. On a `ta-IN` installation that produced a Tamil browser tab above an English `Search results for:` heading on the same page. The pattern reuses the phrasing Core's own Tamil translation already applies to the document title, so heading and tab now match. The search term is read unescaped through `get_search_query( false )` and escaped once for HTML output, which was verified against markup-bearing input.
 
 Search and archives share the same result layout, so `patterns/posts-grid.php` owns their inherited Query Loop, semantic cards, pagination, and no-results state. The homepage has separate compositions because a posts index benefits from stronger editorial hierarchy, while search and archive results should remain predictable and uniform. These native, non-inserter patterns remain represented as Core blocks in the Site Editor. PHP is limited to escaped output, portable URL resolution for the logo and approved navigation pages, and resolving an approved category slug to its environment-specific term ID; WordPress Core Query blocks still perform all post retrieval and rendering.
 
@@ -109,7 +125,17 @@ The reusable `parts/header.html` is the single header source for every template.
 
 The navigation uses the four labels and destinations approved from the existing site: Science Series, Downloads, Contact, and About. Science Series and Downloads expose their existing child pages as native Navigation submenus. The pattern resolves published pages by stable hierarchical path and falls back to the corresponding installation-relative URL, avoiding imported page IDs, a database-specific Navigation post reference, and production-domain URLs. This is the portable first-activation default. When an editor changes and saves the Navigation block, WordPress Core creates or updates its `wp_navigation` entity and stores the resulting reference in the customized shared Header template part. Subsequent menu changes are database-managed through the Site Editor and apply to every template; the theme never hard-codes that environment-specific entity ID.
 
-`parts/footer.html` contains only the dynamic linked Site Title. This provides a consistent semantic footer without inventing a copyright statement, slogan, menu, or editorial copy.
+`parts/footer.html` is deliberately quiet: the site logo and a horizontal secondary menu on one row, over a thin strip carrying the copyright line and a privacy link.
+
+It reached that shape by subtraction. A category list was built first and removed because it restated the homepage directory and pushed the mobile footer to 1340px. A Science Series column followed and was also removed: the series are already one click away in the header dropdown, and a publication footer that repeats navigation earns less than one that simply closes the page. Search, categories, monthly archives, and latest posts all remain available in the article sidebar, so none of them belong here either. The footer is now 189px at desktop and 320px on a phone.
+
+The secondary links are a Core Navigation block, so an editor can add, rename, reorder, or remove them in the Site Editor exactly as they already can for the header. Saving there makes WordPress own that menu; the four links in the pattern are only the portable first-activation default. Its overlay menu is disabled so it never collapses into a hamburger inside a footer column.
+
+The logo reuses `patterns/site-logo.php`, so it is the Core Site Logo block wherever an editor has set one and the bundled asset otherwise. Only its maximum width is overridden, since the masthead and the footer want different weights from the same mark. The linked Site Title is gone from the strip because the logo already links home.
+
+Nothing in the footer is invented copy. Every secondary link label already existed in the header pattern. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title.
+
+The copyright line is the one piece of supplied editorial copy: `© %1$s %2$s. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.` Its wording was given by the publication rather than drafted here, because a rights assertion is an editorial and legal statement rather than boilerplate. The year comes from `wp_date()` and the name from settings, so neither can go stale and neither is hard-coded — an installation whose Site Title is not yet Tamil will render its own name in the same sentence.
 
 ### Styling model
 
@@ -123,7 +149,7 @@ Global text uses ink on paper. Links remain visibly underlined, while linked hea
 
 Template gutters continue to use the theme's spacing presets rather than root-aware global padding. This keeps full-width template-part borders and backgrounds predictable while constrained inner groups provide the readable page edge. The shared header uses a native Core Group bottom border as a strong five-pixel crimson rule, while the locally owned logo is capped at `15rem` so it does not dominate the masthead. The same border is declared on `.site-header` in global theme CSS so file-based and Site Editor-customized copies retain one consistent treatment. Block-level custom CSS remains limited to interaction states, form controls, demonstrated legacy-content compatibility issues, the responsive logo size, Core Navigation presentation, homepage editorial treatments, and the article/sidebar responsive grid. The sidebar rules live in `style.css` because Core block attributes and `theme.json` cannot express this class-scoped two-region breakpoint; they add no new tokens and continue to consume the global spacing, color, and type presets. The hero's named responsive grid areas and lead-image overlay are scoped under `.home-hero`. Technology overlay and compact-card rules are scoped through the Core Group blocks that own those cards; the surrounding Core Query blocks own responsive column behavior. These text-over-image and media-object arrangements cannot be expressed entirely through block attributes.
 
-The homepage's revised visual system keeps each module structurally native while giving the sections one editorial language. The hero stays on black paper; Science uses the warm surface, Technology uses the red-black surface, Biology uses the cool charcoal surface, and the category directory returns to the warm surface. These full-width Core Group backgrounds create section rhythm while their children remain on the shared `80rem` editorial grid. Numbered lists improve scanning in the latest-post and Science support regions, while typography, whitespace, image scale, square-edged imagery, and short crimson rules establish hierarchy without outlined cards, pill labels, decorative frames, or rounded image treatments. Technology intentionally remains denser than Science and Biology, but its four feature stories reduce to two columns at the intermediate breakpoint so Tamil headlines retain a usable measure. Motion is limited to small image hover feedback and is disabled by `prefers-reduced-motion`.
+The homepage's revised visual system keeps each module structurally native while giving the sections one editorial language. The hero stays on black paper; Science uses the warm surface, Technology uses the red-black surface, Biology uses the cool charcoal surface, and the category directory returns to the warm surface. These full-width Core Group backgrounds create section rhythm while their children remain on the shared `80rem` editorial grid. Numbered lists improve scanning in the latest-post and Science support regions, while typography, whitespace, image scale, square-edged imagery, and short crimson rules establish hierarchy without outlined cards, pill labels, decorative frames, or rounded image treatments. Technology intentionally remains denser than Science and Biology. Its four feature stories still reduce to two columns at tablet width so Tamil headlines retain a usable measure, but that now falls out of the grid's minimum column width rather than a media query overriding Core's inline widths. Motion is limited to small image hover feedback and is disabled by `prefers-reduced-motion`.
 
 ### Typography
 
@@ -143,11 +169,19 @@ Arbitrary font sizes, synthetic font styles, letter spacing, line-height overrid
 
 Typography is registered and applied through `theme.json`, allowing WordPress to produce matching editor and front-end styles without a stylesheet or PHP enqueue logic. The font files and license are kept together in `assets/fonts/google-sans/`.
 
+The masthead and homepage rules now live in `assets/css/header.css` and `assets/css/homepage.css` rather than in a `theme.json` `styles.css` string. That string had grown to roughly eleven kilobytes on a single line, which made any change to navigation or homepage styling impossible to review in a diff and easy to break silently. Only genuinely global declarations remain in `theme.json`: `color-scheme`, the selection colours, and the `:focus-visible` outline. Block-scoped `css` entries stay in `theme.json` because their `&` prefix gets block scoping that a plain stylesheet cannot reproduce.
+
+The split changes no rendered styling. It was verified by flattening the original string and the new files into normalised selector-and-declaration triples and diffing them; the only intended difference is the `prefers-reduced-motion` rule, whose selector list is divided so each half sits beside the component it styles. Because these rules are now an external file rather than inline global styles, browsers can also cache them between views instead of re-downloading them inside every HTML response.
+
 Future approved global tokens and block styles should go into `theme.json`. CSS in `assets/css/` is an exception for requirements the WordPress style system cannot express. This keeps Site Editor controls and front-end output aligned.
 
 ### Code model
 
-`functions.php` contains one Core `enqueue_block_assets` hook so the responsive sidebar rules in `style.css` load both on the front end and in the block editor. It renders no markup and contains no business logic. Pattern PHP is limited to escaped translations, portable theme/home/page URLs, the dynamic site-name alternative text, translated article-sidebar headings, and category patterns' `get_category_by_slug()`/`get_category_link()` boundary. The navigation pattern uses `get_page_by_path()` and `get_permalink()` only to preserve existing hierarchical page URLs without content IDs. Larger PHP concerns should be added only for a necessary hook or registration and split into `inc/`.
+`functions.php` contains three narrowly scoped Core hooks and renders no markup. An `enqueue_block_assets` hook loads `style.css` and the two `assets/css/` files on both the front end and in the block editor, keeping editor and front-end presentation aligned. An `after_setup_theme` hook calls `load_theme_textdomain()`: the pattern strings were already marked for translation, but without this nothing loaded the domain, so none of them could actually be translated. A `wp_preload_resources` filter preloads the Tamil font subset, because WordPress emits the `@font-face` rules from `theme.json` but does not preload them, leaving the browser to discover the file only after parsing the stylesheet. Tamil carries the headline text on every view, so it is the subset worth an early connection; Latin stays lazily fetched.
+
+`inc/` now exists and holds one module. `inc/navigation.php` owns the approved page-path map and resolves paths to URLs, because the header and the footer link to the same destinations and two copies of that list would eventually drift apart. `functions.php` requires it. Labels deliberately stay in the patterns that output them: translation calls must receive string literals, so `esc_html_x( $variable )` would not be extractable by tooling. `inc/` therefore owns paths and resolution only.
+
+Source strings are Tamil throughout rather than English. The publication is Tamil-only, so an English source layer would add a translation catalogue that nobody would ever translate away from. The one English string that had survived in `patterns/posts-grid.php` was an inconsistency rather than a convention. Pattern PHP is limited to escaped translations, portable theme/home/page URLs, the dynamic site-name alternative text, translated article-sidebar headings, and category patterns' `get_category_by_slug()`/`get_category_link()` boundary. The navigation pattern uses `get_page_by_path()` and `get_permalink()` only to preserve existing hierarchical page URLs without content IDs. Larger PHP concerns should be added only for a necessary hook or registration and split into `inc/`.
 
 `style.css` begins with the metadata WordPress uses to register the theme. Its only presentation rules are the responsive single-article grid and sidebar details that cannot be represented with block attributes or `theme.json`; design tokens and global block styles remain in `theme.json`.
 
@@ -164,15 +198,19 @@ There is no custom JavaScript or build pipeline. The Core Search block condition
 
 Because there is currently no compilation step, changes to HTML templates and `theme.json` are loaded directly by WordPress. Note that Site Editor customizations stored in the database can override theme files; use a clean test database when verifying file changes.
 
-To manage the primary menu, open **Appearance → Editor**, select the shared **Header**, select its Navigation block, and add, remove, rename, reorder, or nest links. Saving creates or updates the WordPress-managed Navigation entity and the shared Header customization. Because every template references the same Header part, one saved menu applies site-wide. Reverting the Header customization restores the portable menu supplied by `patterns/header-navigation.php`.
+To manage the primary menu, open **Appearance → Editor**, select the shared **Header**, select its Navigation block, and add, remove, rename, reorder, or nest links. Saving stores the result in the shared Header customization, and may also create a WordPress-managed Navigation entity. Because every template references the same Header part, one saved menu applies site-wide. Reverting the Header customization restores the portable menu supplied by `patterns/header-navigation.php`.
 
-WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduced the first theme-owned pattern, version `0.3.0` recorded the shared visual-system polish, version `0.4.0` introduced the first magazine homepage composition, version `0.5.0` narrowed that composition to the latest-posts hero, version `0.6.0` introduced the three-region hero and approved logo pattern, version `0.7.0` added the first category-led section, version `0.8.0` added the Technology showcase, version `0.9.0` added the Biology editorial section, version `0.10.0` unified the homepage's editorial visual system, version `0.11.0` flattened that system and added the dynamic category directory, version `0.12.0` established square-edged imagery, version `0.13.0` added the approved portable header navigation pattern, version `0.14.0` added the native single-article discovery sidebar, and version `0.14.2` expands its wide-screen article column into the available space.
+To set the logo, open the same **Header** and use Core's Site Logo block, or **Settings → General**. Once a logo is set, `patterns/site-logo.php` stops emitting the bundled theme asset and defers to WordPress.
+
+Two consequences of Site Editor customization are worth knowing before deploying. First, once the Header is saved, its patterns are **expanded into stored block markup**; the template part no longer re-reads `parts/header.html` or its patterns, so later theme-side changes to the header, logo, or menu will not appear until that customization is reverted. Second, saved navigation links are stored as **absolute URLs for the environment they were saved in**. Content captured on a local install will therefore carry `localhost` links, which must be rewritten or re-saved rather than copied to production as-is. Neither is a theme defect; both are standard WordPress behaviour that this theme's portable defaults are designed to survive.
+
+WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. See `CHANGELOG.md` for the version history.
 
 ## Architectural decisions
 
 1. **Native block theme:** maximizes compatibility with current WordPress editing and template APIs and avoids a parallel rendering system.
 2. **Required fallback only:** `index.html` exists to satisfy the block-theme contract and WordPress template hierarchy. It is deliberately not a homepage design.
-3. **Approved site identity:** every template uses one shared header with the supplied Parimaanam logo, approved primary navigation, and search. The homepage retains a separate screen-reader-only dynamic Site Title H1 while article and page titles remain their templates' visible H1. Core owns the Navigation and Search interactions, and the minimal footer avoids invented copy.
+3. **Approved site identity:** every template uses one shared header with the Parimaanam logo, approved primary navigation, and search. Both the logo and the menu are portable theme defaults that become WordPress-managed once an editor sets them, so neither requires a theme change to maintain. The homepage retains a separate screen-reader-only dynamic Site Title H1 while article and page titles remain their templates' visible H1. Core owns the Navigation, Site Logo, and Search interactions, and the minimal footer avoids invented copy.
 4. **Dynamic core blocks:** article metadata, content, taxonomies, adjacent posts, comments, query results, excerpts, and pagination come from WordPress data, avoiding hard-coded production assumptions.
 5. **Constrained publication design system:** `theme.json` defines semantic colors, global layout widths, a predictable Core-compatible spacing scale, Tamil-first typography, shared template-part areas, form controls, focus treatment, and readable captions. The system is intentionally distinct from the old site and avoids decorative branding that has not been approved.
 6. **Minimal PHP at defined boundaries:** patterns use PHP only for escaped translations and portable theme, home, page, category, and taxonomy URLs. The sole theme hook enqueues the responsive sidebar stylesheet in both the front end and block editor; templates remain native block markup.
@@ -181,11 +219,16 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 9. **Portable default, WordPress-managed navigation:** the approved theme pattern resolves existing pages by stable hierarchical paths and contains no imported Navigation post, menu, or page IDs. Once saved in the Site Editor, Core owns the environment-specific Navigation entity and its reference from the shared Header. Core also provides dropdown, keyboard, and mobile-overlay behavior without theme JavaScript.
 10. **Section-based magazine homepage:** the homepage begins with an eight-post hero powered by three small, non-overlapping Core queries: headline list, lead feature, and visual support. Separating these roles from future category modules keeps each query and editorial purpose explicit. It does not copy a third-party theme's branding, proprietary components, subscription features, sliders, or popularity logic, and it does not introduce Tailwind or a build toolchain for one layout requirement.
 11. **Explicit category modules:** the first category section uses the real `science` slug and resolves its local term ID at pattern-registration time. The stable slug and Core category archive URL preserve portability without hard-coding imported ID `3`, while two non-overlapping Core queries provide a lead/support hierarchy.
-12. **Image-led Technology showcase:** the real `technology` slug supplies four overlay features and six compact stories through two non-overlapping Core queries. Core Post Template columns handle responsive reflow; custom CSS is limited to the image overlay and compact media-object presentation. The section uses its taxonomy name rather than making an unsupported Breaking-news claim.
+12. **Image-led Technology showcase:** the real `technology` slug supplies four overlay features and six compact stories through two non-overlapping Core queries. Core Post Template grid layouts handle responsive reflow from available width; custom CSS is limited to the image overlay and compact media-object presentation. The section uses its taxonomy name rather than making an unsupported Breaking-news claim.
 13. **Editorial Biology section:** the real `biology` slug supplies two paired features and four smaller visual stories. Core Columns handle each feature's responsive image-and-text arrangement, while Core Post Template columns handle the outer layouts. Its deliberate first-post offset avoids repeating the Biology article already present in the hero, and its category heading remains database-driven.
 14. **Unified editorial presentation:** the existing queries and content hierarchy remain unchanged while scoped `theme.json` CSS supplies the modern presentation layer. Each section retains a distinct reading cadence, but shared typography, spacing, restrained accents, focus treatment, responsive image behavior, and reduced-motion support make the homepage feel like one publication rather than unrelated modules.
 15. **Core-powered category discovery:** the category directory uses Core's Categories block to expose the site's current non-empty taxonomy with generated archive URLs and counts. It introduces no menu ID, category ID, custom query, or PHP rendering logic, and its responsive grid is presentation-only.
 16. **Article discovery without custom data logic:** wide single posts use the available column beside a semantic sidebar, while smaller screens retain the established `44rem` maximum measure and place discovery below the article. Core Search, Categories, Archives, and Latest Posts blocks provide meaningful onward routes without custom queries, IDs, JavaScript, advertising, or invented editorial copy.
+17. **A designed not-found response:** `404.html` replaces the unstyled `index.html` fallback for missing URLs, which are an expected condition given the stored links to the site's earlier address. Its copy lives in a pattern because block templates cannot hold translatable strings.
+18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
+19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
+20. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
+21. **A footer that closes the page rather than repeating it:** the footer is the logo and one editor-managed horizontal menu. A category list and a Science Series column were each built and then removed — the first restated the homepage directory and made the mobile footer 1340px tall, the second duplicated the header dropdown. Search, categories, archives, and recent posts stay in the article sidebar where they already live. The approved page paths moved to `inc/navigation.php` so the header and footer resolve the same destinations from one list rather than two copies that can drift.
 
 ## Future extension points
 
@@ -198,6 +241,15 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 - Add `functions.php` and `inc/` modules for narrowly scoped hooks, registrations, or compatibility behavior.
 - Add CSS or dependency-free JavaScript assets only for gaps in native block capabilities, documenting each exception here.
 - Add automated linting, visual regression checks, and accessibility checks when the development toolchain is selected.
+- Generate `languages/parimaanam-2026.pot` once a WP-CLI-capable toolchain exists. The text domain is registered, but no catalogue is shipped, because a hand-maintained POT would drift without tooling to regenerate it.
+
+## Awaiting editorial approval
+
+The footer copyright sentence is no longer on this list: its wording was supplied by the publication and is therefore approved.
+
+`patterns/error-404.php` introduces Tamil copy that was not derived from the existing site: a one-sentence explanation of the missing page, plus the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release.
+
+The not-found heading itself deliberately reuses `பக்கம் காணப்படவில்லை`, the phrasing WordPress Core's Tamil translation already applies to the document title on this view. Matching it keeps the heading and the browser tab consistent and avoids inventing a second term for the same condition. The search-results heading in `patterns/search-title.php` follows the same rule and is likewise not invented copy. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
 
 ## Scope guard
 

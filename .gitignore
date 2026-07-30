@@ -1,0 +1,10 @@
+# Editor and IDE artifacts
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
+desktop.ini

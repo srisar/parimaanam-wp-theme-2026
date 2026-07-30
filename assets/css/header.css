@@ -1,0 +1,267 @@
+/*
+ * Site identity, masthead, and Core Navigation presentation.
+ *
+ * These rules live here rather than in theme.json because they style Core
+ * Navigation's internal markup and responsive overlay, which block supports
+ * and theme.json cannot address. They add no tokens and consume only the
+ * global colour, spacing, and type presets.
+ */
+.parimaanam-site-logo {
+	margin: 0;
+	width: fit-content;
+}
+
+.parimaanam-site-logo img {
+	display: block;
+	height: auto;
+	max-width: min(15rem, 48vw);
+}
+
+.site-header {
+	border-bottom: 5px solid var(--wp--preset--color--crimson);
+	position: relative;
+}
+
+.site-header > .wp-block-group {
+	min-height: 5.5rem;
+}
+
+.site-header .wp-block-search__button {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	color: var(--wp--preset--color--crimson);
+	transition: color 180ms ease;
+}
+
+.site-header .wp-block-search__button:hover {
+	background: transparent;
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+.site-navigation {
+	flex: 1 1 auto;
+}
+
+.site-navigation .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--ink);
+	font-weight: 600;
+	line-height: 1.35;
+	text-decoration: none;
+}
+
+.site-navigation .wp-block-navigation-item__content:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+.site-navigation .wp-block-navigation__submenu-icon, .site-navigation .wp-block-navigation__responsive-container-open, .site-navigation .wp-block-navigation__responsive-container-close {
+	color: var(--wp--preset--color--crimson);
+}
+
+.site-navigation .wp-block-navigation__submenu-icon {
+	height: 0.6em;
+	margin-left: 0.4em;
+	width: 0.6em;
+}
+
+.site-navigation .wp-block-navigation-submenu {
+	position: relative;
+}
+
+.site-navigation .wp-block-navigation-submenu > .wp-block-navigation-item__content {
+	padding-right: 1.5rem;
+	pointer-events: none;
+}
+
+.site-navigation .wp-block-navigation-submenu > .wp-block-navigation-submenu__toggle {
+	align-items: center;
+	background: transparent;
+	cursor: pointer;
+	display: flex;
+	height: 100%;
+	inset: 0;
+	justify-content: flex-end;
+	margin: 0;
+	position: absolute;
+	width: 100%;
+}
+
+.site-navigation .wp-block-navigation-submenu > .wp-block-navigation-submenu__toggle svg {
+	flex: 0 0 0.75rem;
+	height: 0.75rem;
+	width: 0.75rem;
+}
+
+.site-navigation .wp-block-navigation__responsive-container.is-menu-open {
+	background: var(--wp--preset--color--paper);
+	color: var(--wp--preset--color--ink);
+	padding: var(--wp--preset--spacing--50);
+}
+
+.site-navigation .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+	font-size: var(--wp--preset--font-size--medium);
+	font-weight: 500;
+}
+
+@media (min-width: 64rem) {
+	.site-navigation .wp-block-navigation__submenu-container {
+		background: var(--wp--preset--color--surface-crimson) !important;
+		border: 0 !important;
+		border-left: 3px solid var(--wp--preset--color--crimson) !important;
+		box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.5);
+		counter-reset: navigation-submenu;
+		min-width: 21rem !important;
+		padding: var(--wp--preset--spacing--30);
+	}
+
+	.site-navigation .wp-block-navigation__submenu-container > .wp-block-navigation-item {
+		border-top: 1px solid var(--wp--preset--color--line);
+		counter-increment: navigation-submenu;
+		width: 100%;
+	}
+
+	.site-navigation .wp-block-navigation__submenu-container > .wp-block-navigation-item:first-child {
+		border-top: 0;
+	}
+
+	.site-navigation .wp-block-navigation__submenu-container > .wp-block-navigation-item > .wp-block-navigation-item__content {
+		align-items: start;
+		display: grid;
+		font-size: var(--wp--preset--font-size--small);
+		font-weight: 500;
+		gap: var(--wp--preset--spacing--30);
+		grid-template-columns: 1.5rem minmax(0, 1fr);
+		padding: 1rem 0.85rem !important;
+		width: 100%;
+	}
+
+	.site-navigation .wp-block-navigation__submenu-container > .wp-block-navigation-item > .wp-block-navigation-item__content::before {
+		color: var(--wp--preset--color--crimson);
+		content: counter(navigation-submenu, decimal-leading-zero);
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		padding-top: 0.2rem;
+	}
+
+	.site-navigation .wp-block-navigation__submenu-container > .wp-block-navigation-item:hover {
+		background: rgba(212, 86, 86, 0.08);
+	}
+}
+
+@media (max-width: 63.99rem) {
+	.site-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) {
+		display: none;
+	}
+
+	.site-navigation .wp-block-navigation__responsive-container-open {
+		display: flex;
+	}
+
+	.site-navigation .wp-block-navigation__responsive-container.is-menu-open {
+		align-items: stretch;
+		overflow-y: auto;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__responsive-dialog, .site-navigation .is-menu-open .wp-block-navigation__responsive-container-content, .site-navigation .is-menu-open .wp-block-navigation__container {
+		align-items: stretch;
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__responsive-container-content {
+		padding-top: var(--wp--preset--spacing--70);
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__responsive-container-close {
+		background: var(--wp--preset--color--paper);
+		position: fixed;
+		right: var(--wp--preset--spacing--50);
+		top: var(--wp--preset--spacing--40);
+		z-index: 3;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container {
+		align-items: stretch !important;
+		gap: var(--wp--preset--spacing--40) !important;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .wp-block-navigation-item {
+		border-bottom: 1px solid var(--wp--preset--color--line);
+		display: grid !important;
+		grid-template-columns: minmax(0, 1fr) 3rem;
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content {
+		box-sizing: border-box;
+		grid-column: 1 / -1;
+		padding: 1rem 0 !important;
+		text-align: left;
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation-item__content {
+		grid-column: 1 / -1;
+		padding-right: 3.5rem !important;
+		pointer-events: none;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-icon {
+		align-items: center;
+		display: flex !important;
+		height: 3.5rem;
+		inset: 0 0 auto;
+		justify-content: flex-end;
+		margin: 0;
+		padding-right: 1rem;
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-icon svg {
+		transition: transform 180ms ease;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-icon[aria-expanded='true'] svg {
+		transform: rotate(180deg);
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-container {
+		background: var(--wp--preset--color--surface-crimson) !important;
+		border: 0 !important;
+		display: none !important;
+		grid-column: 1 / -1;
+		padding: 0.25rem 0 0.75rem 1rem;
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__container > .has-child > .wp-block-navigation__submenu-icon[aria-expanded='true'] + .wp-block-navigation__submenu-container {
+		display: flex !important;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__submenu-container > .wp-block-navigation-item {
+		border-top: 1px solid var(--wp--preset--color--line);
+		width: 100%;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__submenu-container > .wp-block-navigation-item:first-child {
+		border-top: 0;
+	}
+
+	.site-navigation .is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+		font-size: var(--wp--preset--font-size--small);
+		padding: 0.8rem 0.5rem !important;
+		text-align: left;
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.site-header .wp-block-search__button {
+		transition: none;
+	}
+
+	.site-header .wp-block-search__button:hover {
+		transform: none;
+	}
+}
