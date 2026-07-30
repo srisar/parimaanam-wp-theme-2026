@@ -161,11 +161,34 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 /*
+ * Listing cards run smaller than the preset scale. Core's has-*-font-size
+ * classes carry `!important`, so the preset variable is redefined in scope and
+ * Core's own rule resolves to the smaller value — the same technique the
+ * mobile block below uses, and the reason neither answers `!important` with
+ * `!important`.
+ *
+ * The excerpt stops at 15px and goes no lower. The reference design this scale
+ * came from runs body copy at 14px, but that is a Latin measurement and it
+ * does not transfer: Tamil glyphs carry more internal structure and more
+ * combining marks, so strokes begin to merge at a larger size.
+ */
+.posts-grid {
+	--wp--preset--font-size--large: 1.125rem;
+}
+
+.posts-grid .wp-block-post-excerpt {
+	font-size: 0.9375rem;
+}
+
+/*
  * Archive and search listings on phones.
  *
  * The global type minimums are set for reading an article; in a list of ten
  * results the same sizes make each card claim more room than it earns. Titles
- * and excerpts step down here only, leaving the article itself untouched.
+ * step down again here, leaving the article itself untouched.
+ *
+ * The excerpt does not appear below. It sits at its 15px floor from the base
+ * rule at every width, so a phone-specific declaration would only repeat it.
  *
  * Breakpoint: below 40rem (tablet). See the canonical scale above.
  */
@@ -193,10 +216,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	.page-title::before,
 	.page-title::after {
 		flex-basis: 2rem;
-	}
-
-	.posts-grid .wp-block-post-excerpt {
-		font-size: 0.9375rem;
 	}
 }
 
