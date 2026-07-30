@@ -22,7 +22,7 @@ $parimaanam_featured     = count( $parimaanam_featured_ids );
 <div class="wp-block-group alignwide home-hero"><!-- wp:group {"align":"wide","className":"home-hero__featured","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide home-hero__featured">
 
-		<!-- wp:query {"query":<?php echo parimaanam_2026_hero_slot_query( 0, $parimaanam_featured ); ?>,"className":"home-hero__lead","layout":{"type":"constrained"}} -->
+		<!-- wp:query {"query":<?php echo parimaanam_2026_hero_slot_query( 0, $parimaanam_featured ); ?>,"className":"home-hero__lead","layout":{"type":"default"}} -->
 		<div class="wp-block-query home-hero__lead"><!-- wp:heading {"className":"screen-reader-text"} -->
 			<h2 class="wp-block-heading screen-reader-text"><?php echo esc_html_x( 'முதன்மைக் கட்டுரை', 'Hidden heading naming the homepage lead story region', 'parimaanam-2026' ); ?></h2>
 			<!-- /wp:heading -->
@@ -50,7 +50,7 @@ $parimaanam_featured     = count( $parimaanam_featured_ids );
 		<div class="wp-block-group home-hero__side">
 			<?php for ( $parimaanam_slot = 1; $parimaanam_slot < 3; $parimaanam_slot++ ) : ?>
 
-			<!-- wp:query {"query":<?php echo parimaanam_2026_hero_slot_query( $parimaanam_slot, $parimaanam_featured ); ?>,"layout":{"type":"constrained"}} -->
+			<!-- wp:query {"query":<?php echo parimaanam_2026_hero_slot_query( $parimaanam_slot, $parimaanam_featured ); ?>,"layout":{"type":"default"}} -->
 			<div class="wp-block-query"><!-- wp:post-template -->
 				<!-- wp:group {"tagName":"article","className":"home-hero__side-card","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 				<article class="wp-block-group home-hero__side-card"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","width":"100%","sizeSlug":"medium_large"} /-->
@@ -70,13 +70,13 @@ $parimaanam_featured     = count( $parimaanam_featured_ids );
 		<!-- /wp:group --></div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"align":"wide","className":"home-hero__recent","style":{"spacing":{"blockGap":"var:preset|spacing|40","margin":{"top":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+	<!-- wp:group {"align":"wide","className":"home-hero__recent","style":{"spacing":{"blockGap":"var:preset|spacing|40","margin":{"top":"var:preset|spacing|60"}}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide home-hero__recent" style="margin-top:var(--wp--preset--spacing--60)"><!-- wp:heading {"className":"home-hero__eyebrow","fontSize":"large"} -->
 		<h2 class="wp-block-heading home-hero__eyebrow has-large-font-size"><?php echo esc_html_x( 'புதிய கட்டுரைகள்', 'Homepage heading for latest stories', 'parimaanam-2026' ); ?></h2>
 		<!-- /wp:heading -->
 
-		<!-- wp:query {"query":<?php echo parimaanam_2026_hero_recent_query( $parimaanam_featured_ids ); ?>,"align":"wide","layout":{"type":"constrained"}} -->
-		<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"18rem"}} -->
+		<!-- wp:query {"query":<?php echo parimaanam_2026_hero_recent_query( $parimaanam_featured_ids ); ?>,"align":"wide","layout":{"type":"default"}} -->
+		<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":3}} -->
 			<!-- wp:group {"tagName":"article","className":"home-hero__recent-card","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 			<article class="wp-block-group home-hero__recent-card"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"3/2","width":"100%","sizeSlug":"medium_large"} /-->
 

@@ -61,14 +61,37 @@
 	height: 2px;
 }
 
+/*
+ * The lead has to reach the full height of its grid track, or it leaves a
+ * pocket of dead space beneath it whenever the two companions stacked beside
+ * it come out taller. The chain runs query wrapper, post template, Core's post
+ * wrapper, then the card — every link needs the height or it stops there.
+ */
+.home-hero__lead,
 .home-hero__lead .wp-block-post-template,
 .home-hero__lead .wp-block-post,
+.home-hero__lead-card,
 .home-hero__side .wp-block-post-template,
 .home-hero__side .wp-block-post {
 	height: 100%;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+/*
+ * Core's grid packs by minimum column width, which fitted four tracks into the
+ * wide container and left three posts hugging the left edge with a gap where
+ * the fourth would be. The row holds exactly three, so the count is explicit.
+ */
+.home-hero__recent .wp-block-post-template {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 40rem) {
+	.home-hero__recent .wp-block-post-template {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
 }
 
 .home-hero__recent .wp-block-post-template {
