@@ -43,6 +43,35 @@ function parimaanam_2026_preload_fonts( $preload_resources ) {
 add_filter( 'wp_preload_resources', 'parimaanam_2026_preload_fonts' );
 
 /**
+ * Show nine posts per page on archive and search listings.
+ *
+ * The listing grid packs three columns in the wide container, and the site
+ * default of ten leaves a single card alone on the last row of every page.
+ * Nine is the nearest multiple of three, so each page fills its rows exactly.
+ *
+ * This lives in the theme rather than in Settings → Reading because the count
+ * is a property of the layout, not of the site: change the grid to two or four
+ * columns and this number is wrong. Keeping them together means the archive
+ * cannot be left mismatched by an install that never visited the setting.
+ *
+ * The homepage is unaffected. Its sections run their own queries with explicit
+ * per-page counts and `inherit` false, so they never consult this value.
+ *
+ * @param WP_Query $query The query about to run.
+ * @return void
+ */
+function parimaanam_2026_listing_posts_per_page( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	if ( $query->is_archive() || $query->is_search() || $query->is_home() ) {
+		$query->set( 'posts_per_page', 9 );
+	}
+}
+add_action( 'pre_get_posts', 'parimaanam_2026_listing_posts_per_page' );
+
+/**
  * Load the theme stylesheets on the front end and in the block editor.
  *
  * style.css carries the single-article layout; assets/css/ carries the

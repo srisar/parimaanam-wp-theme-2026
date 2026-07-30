@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.40.1
+Version: 0.42.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -44,14 +44,20 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * assets/css/homepage.css.
  * ========================================================================== */
 
-/*
- * Decorative icons are declared once and used by every component that needs
- * them. They are masks rather than markup, so they inherit the surrounding
- * colour and stay out of the accessibility tree — in each case the adjacent
- * text already carries the meaning.
- */
 :root {
-	--parimaanam-icon-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 4h-1V2h-1.5v2h-9V2H6v2H5C3.9 4 3 4.9 3 6v13c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm.5 15c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V9h15v10zm0-11.5h-15V6c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v1.5z'/%3E%3C/svg%3E");
+	/*
+	 * Four radius steps, and no others. The scale is deliberately shallow:
+	 * corners this size read as intentional, while a wider spread starts to
+	 * look like several unrelated components sharing a page.
+	 *
+	 * `settings.border.radius` stays false in theme.json so the block editor
+	 * offers no radius control, which keeps editors from introducing values
+	 * outside this scale.
+	 */
+	--parimaanam-radius-card: 1rem;
+	--parimaanam-radius-media: 0.625rem;
+	--parimaanam-radius-chip: 0.375rem;
+	--parimaanam-radius-control: 0.5rem;
 }
 
 /*
@@ -79,49 +85,113 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 /*
- * Archive and search cards carry the same meta language as the article header:
- * a short crimson rule before the category, a calendar glyph before the date.
+ * Metadata chips. Two variants carry every category and date label in the
+ * theme: a filled accent chip for the category, an outlined chip for the date.
+ *
+ * The category is a fill rather than coloured text on purpose. The accent
+ * reads at 15.5:1 on paper but only 1.3:1 on white, so it cannot survive as a
+ * text colour in a light theme — as a fill with near-black text on top it is
+ * legible against either background at one value. The light/dark work that
+ * follows depends on this.
+ *
+ * Padding and background sit on the inner anchor rather than on Core's
+ * wrapper, so the whole chip is the click target. Core renders post-terms as
+ * a wrapper holding one anchor per term, which means a post filed under two
+ * categories gets two chips for free.
+ *
+ * No letter-spacing. These labels are Tamil, and spacing the glyphs detaches
+ * combining vowel signs from the consonant they belong to.
  */
-.posts-grid__category {
-	align-items: center;
+.parimaanam-chip {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--wp--preset--spacing--30);
+	gap: 0.375rem;
 }
 
-.posts-grid__category::before {
+.parimaanam-chip a {
+	border-radius: var(--parimaanam-radius-chip);
+	display: inline-block;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	letter-spacing: normal;
+	line-height: 1.4;
+	padding: 0.1875rem 0.5rem;
+	text-decoration: none;
+}
+
+/*
+ * Core prints ", " between terms. The gap above already separates the chips,
+ * and as a flex item the separator would sit between them as stray text.
+ */
+.parimaanam-chip .wp-block-post-terms__separator {
+	display: none;
+}
+
+.parimaanam-chip--accent a {
 	background: var(--wp--preset--color--crimson);
-	content: "";
-	flex: 0 0 1.25rem;
-	height: 2px;
+	color: var(--wp--preset--color--paper);
 }
 
-.posts-grid__category a {
-	color: var(--wp--preset--color--crimson);
-	font-weight: 700;
-	letter-spacing: 0.04em;
+.parimaanam-chip--accent a:hover {
+	background: var(--wp--preset--color--crimson-hover);
+	color: var(--wp--preset--color--paper);
 	text-decoration: none;
 }
 
-.posts-grid__category a:hover {
-	color: var(--wp--preset--color--crimson-hover);
-	text-decoration: underline;
-}
-
-.posts-grid__date {
-	align-items: center;
+.parimaanam-chip--outline a {
+	border: 1px solid var(--wp--preset--color--line);
 	color: var(--wp--preset--color--muted);
-	display: flex;
-	gap: 0.4rem;
 }
 
-.posts-grid__date a {
-	color: inherit;
+.parimaanam-chip--outline a:hover {
+	border-color: var(--wp--preset--color--crimson);
+	color: var(--wp--preset--color--ink);
 	text-decoration: none;
 }
 
-.posts-grid__date a:hover {
-	color: var(--wp--preset--color--crimson-hover);
+/*
+ * Listing card metadata: a filled category chip beside an outlined date chip.
+ * Both facts are marked as metadata by the chips themselves, which is why the
+ * accent rule and calendar glyph used before 0.42.0 are gone rather than kept
+ * alongside them.
+ */
+.posts-grid__meta {
+	align-items: center;
+	row-gap: var(--wp--preset--spacing--30);
+}
+
+/*
+ * Listing cards run smaller than the preset scale. Core's has-*-font-size
+ * classes carry `!important`, so the preset variable is redefined in scope and
+ * Core's own rule resolves to the smaller value — the same technique the
+ * mobile block below uses, and the reason neither answers `!important` with
+ * `!important`.
+ *
+ * The excerpt stops at 15px and goes no lower. The reference design this scale
+ * came from runs body copy at 14px, but that is a Latin measurement and it
+ * does not transfer: Tamil glyphs carry more internal structure and more
+ * combining marks, so strokes begin to merge at a larger size.
+ */
+.posts-grid {
+	--wp--preset--font-size--large: 1.125rem;
+}
+
+.posts-grid .wp-block-post-excerpt {
+	font-size: 0.9375rem;
+}
+
+/*
+ * The listing grid is the theme's one filled card, and the rule is orientation
+ * rather than page: a box traces the outline of an image stacked above its
+ * text. Cards whose image sits beside their text — the homepage category pair,
+ * the sidebar's recent posts — are rows, and rows are separated by rules.
+ * Eight boxes stacked in a half-width column read as clutter, not structure.
+ */
+.posts-grid .wp-block-post {
+	background: var(--wp--preset--color--surface);
+	border-radius: var(--parimaanam-radius-card);
+	overflow: hidden;
+	padding: var(--wp--preset--spacing--50);
 }
 
 /*
@@ -129,7 +199,10 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * The global type minimums are set for reading an article; in a list of ten
  * results the same sizes make each card claim more room than it earns. Titles
- * and excerpts step down here only, leaving the article itself untouched.
+ * step down again here, leaving the article itself untouched.
+ *
+ * The excerpt does not appear below. It sits at its 15px floor from the base
+ * rule at every width, so a phone-specific declaration would only repeat it.
  *
  * Breakpoint: below 40rem (tablet). See the canonical scale above.
  */
@@ -157,10 +230,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	.page-title::before,
 	.page-title::after {
 		flex-basis: 2rem;
-	}
-
-	.posts-grid .wp-block-post-excerpt {
-		font-size: 0.9375rem;
 	}
 }
 
@@ -234,73 +303,18 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 /*
- * Article header: category, title, date.
- *
- * The date icon is a CSS mask rather than markup, because it is decorative —
- * the date text already carries the meaning — and a mask inherits the
- * surrounding colour instead of hard-coding a fill. No icon library is
- * introduced for one glyph.
+ * Article header: category, title, date. The category and date carry the same
+ * chip pair as the listing cards, so the two views present the same two facts
+ * the same way.
  */
 .article-header {
 	border-bottom: 1px solid var(--wp--preset--color--line);
 	padding-bottom: var(--wp--preset--spacing--50);
 }
 
-.article-header__category {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--wp--preset--spacing--30);
-}
-
-.article-header__category::before {
-	background: var(--wp--preset--color--crimson);
-	content: "";
-	flex: 0 0 1.5rem;
-	height: 2px;
-}
-
-.article-header__category a {
-	color: var(--wp--preset--color--crimson);
-	font-weight: 700;
-	letter-spacing: 0.04em;
-	text-decoration: none;
-}
-
-.article-header__category a:hover {
-	color: var(--wp--preset--color--crimson-hover);
-	text-decoration: underline;
-}
-
 .article-header__meta {
 	align-items: center;
 	color: var(--wp--preset--color--muted);
-}
-
-.article-header__meta .wp-block-post-date {
-	align-items: center;
-	display: flex;
-	gap: 0.4rem;
-}
-
-.article-header__meta .wp-block-post-date::before,
-.posts-grid__date::before {
-	background: currentColor;
-	content: "";
-	flex: 0 0 1rem;
-	height: 1rem;
-	mask-image: var(--parimaanam-icon-calendar);
-	mask-repeat: no-repeat;
-	mask-size: contain;
-}
-
-.article-header__meta .wp-block-post-date a {
-	color: inherit;
-	text-decoration: none;
-}
-
-.article-header__meta .wp-block-post-date a:hover {
-	color: var(--wp--preset--color--crimson-hover);
 }
 
 /*
@@ -532,8 +546,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	width: 4rem;
 }
 
+/*
+ * Latest Posts is a different block from Post Featured Image, so theme.json's
+ * featured-image radius does not reach it. The token is applied here so the
+ * sidebar thumbnails match the cards rather than being the one square image
+ * left on the page.
+ */
 .article-sidebar__latest .wp-block-latest-posts__featured-image img {
 	aspect-ratio: 1;
+	border-radius: var(--parimaanam-radius-media);
 	display: block;
 	height: auto;
 	object-fit: cover;
@@ -565,7 +586,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 .article-sidebar__archives select {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--line);
-	border-radius: 0;
+	border-radius: var(--parimaanam-radius-control);
 	color: var(--wp--preset--color--ink);
 	font: inherit;
 	max-width: 100%;

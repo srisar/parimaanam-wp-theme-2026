@@ -7,6 +7,60 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.42.0
+
+- The accent moves from crimson `#d45656` to lime `#c5f27e`. Every colour in
+  the theme resolves through `--wp--preset--color--*`, including Core's own
+  `has-*-background-color` utilities, so four palette entries carried the
+  change across all 62 references. `line` and `highlight` shift from warm
+  red-greys to green-greys to match. The slugs stay `crimson` and
+  `crimson-hover`: one post carries `has-crimson-color` and production
+  template parts are database-customised, so renaming would silently drop the
+  colour from content that cannot be inspected from here.
+- A four-step radius scale — card `1rem`, media `0.625rem`, chip `0.375rem`,
+  control `0.5rem` — declared once on `:root` and replacing every hardcoded
+  radius. `settings.border.radius` stays `false`, so the editor offers no
+  radius control and the scale cannot be widened by hand.
+- Category and date labels become chips: a filled accent chip and an outlined
+  chip, on listing cards, the article header and the homepage category pair.
+  The category is a fill rather than coloured text because the accent reads
+  15.5:1 on paper but 1.3:1 on white — as a fill with near-black text it works
+  against either ground, which is what will let the light theme reuse one
+  accent value.
+- The 2px accent rule, the calendar glyph and `--parimaanam-icon-calendar` are
+  all removed. They existed to make bare metadata read as designed; the chips
+  do that for both facts at once, and keeping either would put a border and an
+  icon around the same four words.
+- `letter-spacing: 0.04em` is dropped from both category rules. It is a Latin
+  habit and it is wrong in Tamil, where it detaches combining vowel signs from
+  the consonant they attach to. The remaining instance in `header.css` is
+  correct — it spaces Latin digits from a CSS counter.
+- Listing type drops to 18px titles and 15px excerpts on desktop. The
+  reference design runs body copy at 14px, but that was measured on Latin;
+  Tamil glyphs carry more internal structure, so 15px is the floor at every
+  width. The phone block's excerpt rule became an exact duplicate and is gone.
+- Listing cards gain a filled box: `surface` fill, 16px corners, 24px padding.
+  Scope is orientation, not page — a box traces an image stacked above its
+  text. The category pair and sidebar recent posts put their image beside
+  their text, so they stay rows separated by rules.
+- The listing grid fits three columns, down from 26rem minimum tracks to
+  20rem. Measured rather than guessed: a third column needs tracks of 395px or
+  less and a fourth appears at 290px, and `wideSize` caps the container so a
+  fourth can never fit. Tablets at 768px recover a second column they had been
+  wasting. The gap tightens to 24px, matching the card's own padding.
+- Archives and search show nine posts per page, set by a `pre_get_posts`
+  filter in the theme. Ten left one card alone on the last row of every page.
+  This lives with the layout rather than in Settings → Reading because the
+  count is a property of the grid: change the columns and nine is wrong.
+- The two full-bleed overlay cards take their radius on the card rather than
+  the image. Core applies the featured-image radius to the inner `img`, which
+  curved the photograph while leaving the scrim above it square — and that
+  scrim reaches 0.97 opacity, so its corners stood proud. Both cards already
+  carry `overflow: hidden`, so rounding the card clips image and scrim
+  together.
+- The search overlay's field keeps radius `0`. It is an underline rather than
+  a box, so a radius would bow its 2px rule upward at both ends.
+
 ## 0.40.1
 
 - Archive and search page titles are now centred between two crimson rules,
