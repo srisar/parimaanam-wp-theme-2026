@@ -6,7 +6,7 @@
  * numbering that cannot be expressed through block attributes. The Core Query
  * blocks still own every query, and these rules consume only global presets.
  *
- * Breakpoints used: 48rem (tablet) and 64rem (desktop). The canonical scale
+ * Breakpoints used: 40rem (tablet) and 64rem (desktop). The canonical scale
  * and the reasoning behind it live at the top of style.css. The category
  * sections themselves carry no width queries — their columns come from grid
  * minimum column widths on the Core Post Template.
@@ -281,7 +281,7 @@
 	margin-bottom: 0;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 40rem) {
 	.home-hero__layout {
 		grid-template-areas: 'lead lead' 'latest support';
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -398,7 +398,7 @@
 	color: var(--wp--preset--color--crimson-hover);
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 40rem) {
 	.home-category-directory__list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}

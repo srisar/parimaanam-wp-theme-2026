@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.25.2
+Version: 0.26.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -19,9 +19,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * the one place they are defined. Changing the look at a given size means
  * changing every file that uses that value; there are only three.
  *
- *   48rem   768px   tablet   single column becomes multi-column
+ *   40rem   640px   tablet   single column becomes multi-column
  *   64rem  1024px   desktop  navigation leaves the overlay; widest grids
  *   72rem  1152px   wide     the article gains its sidebar
+ *
+ * Tablet sits at 640px rather than the more common 768px because most tablets
+ * in portrait are narrower than 768px — an iPad mini is 744px and small
+ * Android tablets are around 600px. At 768px every one of them received the
+ * phone layout, so 744px of screen rendered a single column. Below 640px is
+ * genuinely phone territory; the widest common phone is 430px.
  *
  * 63.99rem appears as the deliberate complement of 64rem, for the half of a
  * pair that must not overlap. min-width/max-width is used rather than the

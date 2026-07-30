@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.26.0
+
+- Moved the tablet breakpoint from `48rem` to `40rem`. At 768px every tablet
+  in portrait fell into the phone tier — an iPad mini is 744px and small
+  Android tablets are around 600px — so 744px of screen rendered a single
+  column with the hero excerpt hidden. Those devices now get the tablet
+  layout.
+- Verified at the boundary: 639px mobile, 640px tablet. At 640px the hero is
+  two columns, the category directory three, the narrowest text column 181px,
+  and nothing overflows. The navigation correctly keeps its overlay until
+  1024px.
+
 ## 0.25.2
 
 - Documented the theme's three breakpoints — `48rem`, `64rem`, `72rem` — as a

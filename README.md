@@ -183,9 +183,11 @@ The theme uses three responsive breakpoints, and only three:
 
 | Value | Pixels | Tier | What changes |
 | --- | --- | --- | --- |
-| `48rem` | 768px | tablet | single column becomes multi-column |
+| `40rem` | 640px | tablet | single column becomes multi-column |
 | `64rem` | 1024px | desktop | navigation leaves the overlay; widest grids |
 | `72rem` | 1152px | wide | the article gains its sidebar |
+
+Tablet sits at 640px rather than the more usual 768px because most tablets in portrait are narrower than 768px. An iPad mini is 744px and small Android tablets are around 600px, so at the conventional value every one of them received the phone layout: 744px of screen rendering a single column with a hidden excerpt. Below 640px is genuinely phone territory, since the widest common phone is 430px. Verified at the boundary — 639px takes the mobile layout, 640px the tablet one — and at 640px the narrowest resulting text column is 181px with no element overflowing.
 
 They cannot be centralized into variables: CSS custom properties are invalid inside media query conditions, and the only alternatives are a build step or duplication. The theme has no build step, so the values are literals and the canonical list lives in a comment block at the top of `style.css`. Every stylesheet that uses a breakpoint names which ones it uses and points there. Changing the look at a given width therefore means a deliberate edit across at most three files.
 
