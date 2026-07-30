@@ -123,7 +123,7 @@
 }
 
 .home-hero__lead article::after {
-	background: linear-gradient(180deg, rgba(9, 9, 9, 0.02) 15%, rgba(9, 9, 9, 0.2) 42%, rgba(9, 9, 9, 0.97) 100%);
+	background: linear-gradient(180deg, rgba(var(--parimaanam-scrim-rgb), 0.02) 15%, rgba(var(--parimaanam-scrim-rgb), 0.2) 42%, rgba(var(--parimaanam-scrim-rgb), 0.97) 100%);
 	content: '';
 	inset: 0;
 	pointer-events: none;
@@ -167,10 +167,6 @@
 	display: none;
 }
 
-.home-hero__lead .wp-block-post-date, .home-hero__lead .wp-block-post-date a, .home-hero__lead .wp-block-post-excerpt {
-	color: var(--wp--preset--color--ink);
-}
-
 .home-hero__support .wp-block-post-template {
 	gap: var(--wp--preset--spacing--50);
 }
@@ -195,6 +191,32 @@
 
 .home-hero .wp-block-post-title a:hover, .home-category-showcase .wp-block-post-title a:hover, .home-category-editorial .wp-block-post-title a:hover {
 	color: var(--wp--preset--color--crimson-hover);
+}
+
+/*
+ * Everything printed on top of a photograph.
+ *
+ * These cannot take `ink`, which is near-black in the light skin — the text
+ * would disappear into the image. What sits underneath them is a dark scrim
+ * in both skins, so the text is light in both, and --parimaanam-on-media is
+ * how that is said.
+ *
+ * The scope is narrow on purpose. The rule above covers the numbered index
+ * and the support cards too, and those sit on paper and must follow the
+ * theme, so this cannot simply replace it.
+ *
+ * It sits *after* that rule rather than before it because the two resolve to
+ * the same specificity, (0,2,1), and source order is what decides. Ordering
+ * is the honest fix here; adding a third class to win would only disguise
+ * that these two rules overlap.
+ */
+.home-hero__lead .wp-block-post-date,
+.home-hero__lead .wp-block-post-date a,
+.home-hero__lead .wp-block-post-title a,
+.home-category-showcase__feature-card .wp-block-post-title a,
+.home-category-showcase__feature-card .wp-block-post-date,
+.home-category-showcase__feature-card .wp-block-post-date a {
+	color: var(--parimaanam-on-media);
 }
 
 /*
@@ -304,7 +326,7 @@
 }
 
 .home-category-showcase__feature-card::after {
-	background: linear-gradient(180deg, transparent 18%, rgba(9, 9, 9, 0.92) 100%) !important;
+	background: linear-gradient(180deg, transparent 18%, rgba(var(--parimaanam-scrim-rgb), 0.92) 100%) !important;
 }
 
 .home-category-showcase__compact-card {

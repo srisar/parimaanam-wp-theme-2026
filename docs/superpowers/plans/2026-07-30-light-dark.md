@@ -386,13 +386,16 @@ git commit -m "Keep the masthead and footer dark in both skins"
 - Modify: `parts/header.html`, `patterns/header-navigation.php`
 - Modify: `assets/css/header.css`
 
-**⚠ Blocked on editorial sign-off.** The two Tamil labels below are proposals,
-not approved copy. Core translates `Dark` as அடர்ந்த (*dense*) and `Light` as
-ஒளி (*illumination*) — both the wrong sense for a theme switch, so unlike the
-404 and navigation strings these cannot reuse Core's translations. Implement
-with the strings below and record them in the README's
-"Awaiting editorial approval" section; swapping them later is a one-line
-change in this file.
+**The labels are English, by editorial decision.** Core translates `Dark` as
+அடர்ந்த (*dense*) and `Light` as ஒளி (*illumination*), both the wrong sense
+for a theme switch, so unlike the 404 and navigation strings these could not
+reuse Core's Tamil. The editor's call was to keep the mode words in English
+rather than coin new Tamil, which is common for technical UI terms on Tamil
+sites.
+
+English is the source language, so these need no translation to render
+correctly — they are still wrapped in `_x()` so a future translation can
+supply Tamil without touching markup. Nothing here awaits sign-off.
 
 - [ ] **Step 1: Create the pattern**
 
@@ -409,8 +412,8 @@ change in this file.
  * reader without JavaScript is never shown a control that cannot work. They
  * still get their operating system's preference, which is expressed in CSS.
  */
-$parimaanam_to_light = esc_attr_x( 'ஒளிர் தோற்றத்திற்கு மாற்று', 'Theme toggle: switch to the light theme', 'parimaanam-2026' );
-$parimaanam_to_dark  = esc_attr_x( 'இருண்ட தோற்றத்திற்கு மாற்று', 'Theme toggle: switch to the dark theme', 'parimaanam-2026' );
+$parimaanam_to_light = esc_attr_x( 'Switch to light theme', 'Theme toggle button label', 'parimaanam-2026' );
+$parimaanam_to_dark  = esc_attr_x( 'Switch to dark theme', 'Theme toggle button label', 'parimaanam-2026' );
 ?>
 
 <!-- wp:html -->
@@ -715,7 +718,8 @@ island, and the toggle's placement.
 - [ ] **Step 3: README** — add a "Colour schemes" subsection under Styling
 model. Record the `light-dark()` mechanism, the rule that `paper`/`ink` must
 never carry text on an accent or a photograph, and the editor-canvas
-limitation. Add the two toggle strings to "Awaiting editorial approval".
+limitation. Note that the toggle's labels are English by editorial decision,
+so a later reader does not file it as a missing translation.
 
 - [ ] **Step 4: Regression pass** — all five page types, both skins, 1280 and
 375. Confirm the search overlay opens, the mobile navigation opens, and no
@@ -748,6 +752,6 @@ Editor-canvas limitation → Task 7 Step 3. No gaps.
 every task that uses them. The `probe` and `ratio` helpers are defined once at
 the top and referenced by name.
 
-**One open risk, carried deliberately.** Task 4's Tamil labels are unapproved.
-They are isolated to one file so the eventual copy is a one-line swap, and the
-plan says so at the point of use rather than only here.
+**No open risks.** Task 4's labels were the one blocker and are resolved: the
+editor chose to keep the mode words in English rather than coin Tamil for
+them, and English is the source language, so nothing awaits sign-off.

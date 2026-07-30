@@ -128,13 +128,13 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 .parimaanam-chip--accent a {
-	background: var(--wp--preset--color--crimson);
-	color: var(--wp--preset--color--paper);
+	background: var(--parimaanam-accent-fill);
+	color: var(--parimaanam-on-accent);
 }
 
 .parimaanam-chip--accent a:hover {
-	background: var(--wp--preset--color--crimson-hover);
-	color: var(--wp--preset--color--paper);
+	background: var(--parimaanam-accent-fill-hover);
+	color: var(--parimaanam-on-accent);
 	text-decoration: none;
 }
 
