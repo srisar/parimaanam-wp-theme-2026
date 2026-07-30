@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.35.0
+Version: 0.36.4
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -43,6 +43,75 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Files using this scale: style.css, assets/css/header.css,
  * assets/css/homepage.css.
  * ========================================================================== */
+
+/*
+ * Image captions in article content.
+ *
+ * Three caption shapes exist across the imported archive: modern `figcaption`,
+ * the legacy `[caption]` shortcode's `.wp-caption-text` (201 posts), and a few
+ * figures whose caption still carries `blocks-gallery-item__caption`, a class
+ * Core's gallery stylesheet positions absolutely so it overlays the image. On
+ * a standalone figure that simply covered the photograph.
+ *
+ * These rules live here rather than in theme.json because that file's `css`
+ * property silently dropped one half of a comma-separated `&` selector, and
+ * what it did emit was wrapped in `:where()` with too little specificity to
+ * override the overlay.
+ *
+ * All three now read the same: below the image, quiet, with a crimson rule
+ * marking them as commentary rather than body text.
+ */
+.wp-block-post-content figcaption,
+.wp-block-post-content .wp-caption-text {
+	background: none;
+	border-left: 2px solid var(--wp--preset--color--crimson);
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+	inset: auto;
+	line-height: 1.5;
+	margin: 0.75rem 0 0;
+	padding: 0 0 0 0.75rem;
+	position: static;
+	text-align: left;
+	width: auto;
+}
+
+/*
+ * The overlay rule for `blocks-gallery-item__caption` resolves at three
+ * classes, measured against the live page, so the rule above cannot reach it.
+ * The repeated class buys one more class of specificity without `!important`,
+ * and only these three declarations need it — the rest are inherited from the
+ * general caption rule.
+ */
+.wp-block-post-content.wp-block-post-content figcaption.blocks-gallery-item__caption {
+	color: var(--wp--preset--color--muted);
+	position: static;
+	text-align: left;
+}
+
+/*
+ * The same legacy rules make the figure a flex row, which was harmless while
+ * the caption was taken out of flow. Once it became a flow child, the image
+ * and the caption stretched to a shared height — a 1024x512 photograph was
+ * rendering 1400px tall. The figure has no class of its own, so it is matched
+ * through the caption it contains.
+ */
+.wp-block-post-content.wp-block-post-content figure:has(> .blocks-gallery-item__caption) {
+	display: block;
+}
+
+/*
+ * The gallery rules also give the image `height: 100%` with `!important`,
+ * which no specificity can reach, and against a block figure that resolves
+ * circularly — the photograph rendered 374px tall instead of 172px. This is
+ * the one place the theme answers `!important` with `!important`, scoped to
+ * the handful of figures carrying the legacy class so real galleries and every
+ * other image are untouched.
+ */
+.wp-block-post-content figure:has(> .blocks-gallery-item__caption) img {
+	height: auto !important;
+	object-fit: initial !important;
+}
 
 /*
  * Article header: category, title, date.

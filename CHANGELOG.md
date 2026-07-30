@@ -7,6 +7,25 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.36.4
+
+- Image captions now sit below the image on every template and in all three
+  shapes the archive contains: modern `figcaption`, the legacy `[caption]`
+  shortcode's `.wp-caption-text` used by 201 posts, and a handful still
+  carrying `blocks-gallery-item__caption`. All read the same — quiet, below the
+  image, with a crimson rule marking them as commentary.
+- That last class is styled by Core's gallery CSS to overlay the image, which
+  on a standalone figure simply covered the photograph. Undoing it needed three
+  separate fixes, each measured against the live page: the overlay resolves at
+  three classes, the figure is a flex row that stretched image and caption to a
+  shared height, and the image carries `height: 100%` with `!important`.
+- That last one is the only `!important` the theme answers in kind, scoped
+  through `:has()` to the affected figures so real galleries and every other
+  image are untouched.
+- These rules moved out of `theme.json`, whose `css` property silently dropped
+  one half of a comma-separated `&` selector and wrapped what it did emit in
+  `:where()`, too weak to reach the overlay.
+
 ## 0.35.0
 
 - Designed the article header. The category now carries the same short crimson
