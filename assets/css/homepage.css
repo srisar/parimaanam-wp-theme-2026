@@ -2,9 +2,9 @@
  * Homepage editorial sections: hero, category modules, and the category
  * directory.
  *
- * These are text-over-image overlays, named grid areas, and counter-based
- * numbering that cannot be expressed through block attributes. The Core Query
- * blocks still own every query, and these rules consume only global presets.
+ * These are text-over-image overlays and multi-track grids that cannot be
+ * expressed through block attributes. The Core Query blocks still own every
+ * query, and these rules consume only global presets.
  *
  * Breakpoints used: 40rem (tablet) and 64rem (desktop). The canonical scale
  * and the reasoning behind it live at the top of style.css. The category
@@ -15,26 +15,37 @@
 	padding-top: var(--wp--preset--spacing--30);
 }
 
-.home-hero__layout {
+/*
+ * Three featured slots: a dominant lead beside two stacked companions, with a
+ * row of recent posts beneath. Named grid areas are not needed — the lead and
+ * the side column are simply the two tracks, and the side column is its own
+ * grid so it can pair its cards at tablet and stack them at desktop.
+ */
+.home-hero__featured {
 	display: grid;
-	gap: var(--wp--preset--spacing--60);
-	grid-template-areas: 'lead' 'latest' 'support';
+	gap: var(--wp--preset--spacing--50);
 	grid-template-columns: minmax(0, 1fr);
 }
 
-.home-hero__latest {
-	grid-area: latest;
+.home-hero__lead,
+.home-hero__side {
 	min-width: 0;
 }
 
-.home-hero__lead {
-	grid-area: lead;
-	min-width: 0;
+.home-hero__side {
+	display: grid;
+	gap: var(--wp--preset--spacing--50);
+	grid-template-columns: minmax(0, 1fr);
 }
 
-.home-hero__support {
-	grid-area: support;
-	min-width: 0;
+.home-hero__side-card .wp-block-post-featured-image img,
+.home-hero__recent-card .wp-block-post-featured-image img {
+	transition: transform 420ms ease;
+}
+
+.home-hero__side-card:hover .wp-block-post-featured-image img,
+.home-hero__recent-card:hover .wp-block-post-featured-image img {
+	transform: scale(1.025);
 }
 
 .home-hero__eyebrow {
@@ -50,48 +61,23 @@
 	height: 2px;
 }
 
-.home-hero__latest .wp-block-post-template, .home-hero__support .wp-block-post-template {
-	display: grid;
+.home-hero__lead .wp-block-post-template,
+.home-hero__lead .wp-block-post,
+.home-hero__side .wp-block-post-template,
+.home-hero__side .wp-block-post {
+	height: 100%;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.home-hero__latest .wp-block-post-template {
-	counter-reset: hero-story;
-}
-
-.home-hero__latest .wp-block-post {
-	border-bottom: 1px solid var(--wp--preset--color--line);
-	counter-increment: hero-story;
-	display: grid;
-	gap: 0.35rem 0.75rem;
-	grid-template-columns: 2rem minmax(0, 1fr);
+.home-hero__recent .wp-block-post-template {
+	list-style: none;
 	margin: 0;
-	padding: var(--wp--preset--spacing--40) 0;
+	padding: 0;
 }
 
-.home-hero__latest .wp-block-post::before {
-	color: var(--wp--preset--color--crimson);
-	content: counter(hero-story, decimal-leading-zero);
-	font-size: 0.75rem;
-	font-weight: 700;
-	grid-column: 1;
-	grid-row: 1 / span 2;
-	line-height: 1.5;
-}
-
-.home-hero__latest .wp-block-post > * {
-	grid-column: 2;
-	margin-block: 0;
-}
-
-.home-hero__latest .wp-block-post:first-child {
-	padding-top: 0;
-}
-
-.home-hero__lead .wp-block-post-template, .home-hero__lead .wp-block-post {
-	height: 100%;
+.home-hero__recent .wp-block-post {
 	margin: 0;
 }
 
@@ -106,14 +92,14 @@
  * the hover zoom. The image's own radius is then zeroed so no sliver of card
  * shows between the two curves.
  */
-.home-hero__lead article {
+.home-hero__lead-card {
 	border-radius: var(--parimaanam-radius-card);
 	min-height: 24rem;
 	overflow: hidden;
 	position: relative;
 }
 
-.home-hero__lead .wp-block-post-featured-image img,
+.home-hero__lead-card .wp-block-post-featured-image img,
 .home-category-showcase__feature-card .wp-block-post-featured-image img {
 	border-radius: 0;
 }
@@ -122,7 +108,7 @@
 	border-radius: var(--parimaanam-radius-card);
 }
 
-.home-hero__lead article::after {
+.home-hero__lead-card::after {
 	background: linear-gradient(180deg, rgba(var(--parimaanam-scrim-rgb), 0.02) 15%, rgba(var(--parimaanam-scrim-rgb), 0.2) 42%, rgba(var(--parimaanam-scrim-rgb), 0.97) 100%);
 	content: '';
 	inset: 0;
@@ -130,26 +116,26 @@
 	position: absolute;
 }
 
-.home-hero__lead .wp-block-post-featured-image {
+.home-hero__lead-card .wp-block-post-featured-image {
 	height: 100%;
 	inset: 0;
 	margin: 0;
 	position: absolute;
 }
 
-.home-hero__lead .wp-block-post-featured-image a {
+.home-hero__lead-card .wp-block-post-featured-image a {
 	display: block;
 	height: 100%;
 }
 
-.home-hero__lead .wp-block-post-featured-image img {
+.home-hero__lead-card .wp-block-post-featured-image img {
 	height: 100%;
 	object-fit: cover;
 	transition: transform 500ms ease;
 	width: 100%;
 }
 
-.home-hero__lead article:hover .wp-block-post-featured-image img {
+.home-hero__lead-card:hover .wp-block-post-featured-image img {
 	transform: scale(1.025);
 }
 
@@ -163,24 +149,15 @@
 	z-index: 1;
 }
 
-.home-hero__lead .wp-block-post-excerpt {
+.home-hero__lead-card .wp-block-post-excerpt {
 	display: none;
 }
 
-.home-hero__support .wp-block-post-template {
-	gap: var(--wp--preset--spacing--50);
-}
-
-.home-hero__support .wp-block-post {
-	margin: 0;
-	padding: 0 0 var(--wp--preset--spacing--40);
-}
-
-.home-hero__support .wp-block-post-featured-image img, .home-category-showcase__feature-card .wp-block-post-featured-image img, .home-category-editorial .wp-block-post-featured-image img {
+.home-category-showcase__feature-card .wp-block-post-featured-image img, .home-category-editorial .wp-block-post-featured-image img {
 	transition: transform 420ms ease;
 }
 
-.home-hero__support .wp-block-post:hover .wp-block-post-featured-image img, .home-category-showcase__feature-card:hover .wp-block-post-featured-image img, .home-category-editorial article:hover .wp-block-post-featured-image img {
+.home-category-showcase__feature-card:hover .wp-block-post-featured-image img, .home-category-editorial article:hover .wp-block-post-featured-image img {
 	transform: scale(1.025);
 }
 
@@ -383,16 +360,19 @@
 }
 
 @media (min-width: 40rem) {
-	.home-hero__layout {
-		grid-template-areas: 'lead lead' 'latest support';
+	/*
+	 * The two companions pair up here and stack again at desktop, where they
+	 * become the narrow column beside the lead.
+	 */
+	.home-hero__side {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	.home-hero__lead article {
-		min-height: 36rem;
+	.home-hero__lead-card {
+		min-height: 30rem;
 	}
 
-	.home-hero__lead .wp-block-post-excerpt {
+	.home-hero__lead-card .wp-block-post-excerpt {
 		display: block;
 	}
 
@@ -419,10 +399,13 @@
 }
 
 @media (min-width: 64rem) {
-	.home-hero__layout {
-		align-items: start;
-		grid-template-areas: 'latest latest latest lead lead lead lead lead lead support support support';
-		grid-template-columns: repeat(12, minmax(0, 1fr));
+	.home-hero__featured {
+		align-items: stretch;
+		grid-template-columns: 2fr 1fr;
+	}
+
+	.home-hero__side {
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	/* Four posts, one row. See the note at the tablet breakpoint above. */
@@ -433,8 +416,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.home-hero__lead .wp-block-post-featured-image img,
-	.home-hero__support .wp-block-post-featured-image img,
+	.home-hero__lead-card .wp-block-post-featured-image img,
+	.home-hero__side-card .wp-block-post-featured-image img,
 	.home-category-showcase__feature-card .wp-block-post-featured-image img,
 	.home-category-editorial .wp-block-post-featured-image img,
 	.home-category-editorial__feature-card,
@@ -442,8 +425,8 @@
 		transition: none;
 	}
 
-	.home-hero__lead article:hover .wp-block-post-featured-image img,
-	.home-hero__support .wp-block-post:hover .wp-block-post-featured-image img,
+	.home-hero__lead-card:hover .wp-block-post-featured-image img,
+	.home-hero__side-card:hover .wp-block-post-featured-image img,
 	.home-category-showcase__feature-card:hover .wp-block-post-featured-image img,
 	.home-category-editorial article:hover .wp-block-post-featured-image img,
 	.home-category-editorial__feature-card:hover,
