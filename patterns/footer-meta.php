@@ -19,7 +19,7 @@ $parimaanam_privacy_link = get_the_privacy_policy_link();
 	<p class="site-footer__copyright has-small-font-size"><?php
 		printf(
 			/* translators: 1: four-digit year, 2: site name. */
-			esc_html_x( '© %1$s %2$s', 'Footer copyright line', 'parimaanam-2026' ),
+			esc_html_x( '© %1$s %2$s. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.', 'Footer copyright line', 'parimaanam-2026' ),
 			esc_html( wp_date( 'Y' ) ),
 			esc_html( get_bloginfo( 'name' ) )
 		);

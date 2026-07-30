@@ -7,6 +7,12 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.23.1
+
+- Extended the footer copyright to the publication's supplied wording:
+  `© <year> <site name>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.` The year and the
+  site name remain dynamic, so the sentence is not hard-coded to one install.
+
 ## 0.23.0
 
 - Reworked the footer after review: the category list is gone, the site logo

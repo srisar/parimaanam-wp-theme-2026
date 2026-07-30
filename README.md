@@ -133,7 +133,9 @@ The secondary links are a Core Navigation block, so an editor can add, rename, r
 
 The logo reuses `patterns/site-logo.php`, so it is the Core Site Logo block wherever an editor has set one and the bundled asset otherwise. Only its maximum width is overridden, since the masthead and the footer want different weights from the same mark. The linked Site Title is gone from the strip because the logo already links home.
 
-Nothing in the footer is invented copy. The series heading reuses `அறிவியல் தொடர்கள்` from the navigation, and every secondary link label already existed in the header pattern. The copyright year comes from `wp_date()` and the site name from settings, so neither can go stale. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title. The only new string is the `© %1$s %2$s` format, which is boilerplate rather than editorial content.
+Nothing in the footer is invented copy. The series heading reuses `அறிவியல் தொடர்கள்` from the navigation, and every secondary link label already existed in the header pattern. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title.
+
+The copyright line is the one piece of supplied editorial copy: `© %1$s %2$s. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.` Its wording was given by the publication rather than drafted here, because a rights assertion is an editorial and legal statement rather than boilerplate. The year comes from `wp_date()` and the name from settings, so neither can go stale and neither is hard-coded — an installation whose Site Title is not yet Tamil will render its own name in the same sentence.
 
 ### Styling model
 
@@ -242,6 +244,8 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 - Generate `languages/parimaanam-2026.pot` once a WP-CLI-capable toolchain exists. The text domain is registered, but no catalogue is shipped, because a hand-maintained POT would drift without tooling to regenerate it.
 
 ## Awaiting editorial approval
+
+The footer copyright sentence is no longer on this list: its wording was supplied by the publication and is therefore approved.
 
 `patterns/error-404.php` introduces Tamil copy that was not derived from the existing site: a one-sentence explanation of the missing page, plus the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release.
 
