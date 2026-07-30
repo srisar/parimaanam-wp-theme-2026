@@ -5,6 +5,9 @@
  * Navigation's internal markup and responsive overlay, which block supports
  * and theme.json cannot address. They add no tokens and consume only the
  * global colour, spacing, and type presets.
+ *
+ * Breakpoints used: 64rem (desktop) and its complement below 64rem. The
+ * canonical scale and the reasoning behind it live at the top of style.css.
  */
 .parimaanam-site-logo {
 	margin: 0;

@@ -5,6 +5,11 @@
  * These are text-over-image overlays, named grid areas, and counter-based
  * numbering that cannot be expressed through block attributes. The Core Query
  * blocks still own every query, and these rules consume only global presets.
+ *
+ * Breakpoints used: 48rem (tablet) and 64rem (desktop). The canonical scale
+ * and the reasoning behind it live at the top of style.css. The category
+ * sections themselves carry no width queries — their columns come from grid
+ * minimum column widths on the Core Post Template.
  */
 .home-hero {
 	padding-top: var(--wp--preset--spacing--30);

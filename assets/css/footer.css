@@ -3,6 +3,9 @@
  * thin meta strip. Core Navigation's internal markup and the logo's
  * footer-specific size cannot be expressed through block attributes. Consumes
  * global presets only.
+ *
+ * No width queries: the row wraps intrinsically, which is the preferred
+ * approach over adding a breakpoint. See the canonical scale in style.css.
  */
 .site-footer__columns {
 	align-items: center;

@@ -179,6 +179,22 @@ The masthead and homepage rules now live in `assets/css/header.css` and `assets/
 
 The split changes no rendered styling. It was verified by flattening the original string and the new files into normalised selector-and-declaration triples and diffing them; the only intended difference is the `prefers-reduced-motion` rule, whose selector list is divided so each half sits beside the component it styles. Because these rules are now an external file rather than inline global styles, browsers can also cache them between views instead of re-downloading them inside every HTML response.
 
+The theme uses three responsive breakpoints, and only three:
+
+| Value | Pixels | Tier | What changes |
+| --- | --- | --- | --- |
+| `48rem` | 768px | tablet | single column becomes multi-column |
+| `64rem` | 1024px | desktop | navigation leaves the overlay; widest grids |
+| `72rem` | 1152px | wide | the article gains its sidebar |
+
+They cannot be centralized into variables: CSS custom properties are invalid inside media query conditions, and the only alternatives are a build step or duplication. The theme has no build step, so the values are literals and the canonical list lives in a comment block at the top of `style.css`. Every stylesheet that uses a breakpoint names which ones it uses and points there. Changing the look at a given width therefore means a deliberate edit across at most three files.
+
+`63.99rem` appears once, as the deliberate complement of `64rem` where a pair must not overlap. The newer media range syntax would express that more cleanly, but the mobile navigation overlay lives inside that query: a browser that cannot parse the condition discards the entire block, and losing the overlay is a worse failure than an untidy rule. The compatible form is kept for that reason.
+
+`72rem` exists because the article cannot share `64rem` with its sidebar. A twenty-rem sidebar plus its gap would leave the article around forty-one rem, below the forty-four rem reading measure the whole type system is built on.
+
+New work should reach for intrinsic sizing before a fourth breakpoint. The homepage category sections and the entire footer carry no width queries at all: their columns come from grid minimum column widths and flex wrapping, so they respond to the space they actually have rather than to the viewport. That is why converting the sections to grid layouts allowed a media query to be deleted rather than added.
+
 Future approved global tokens and block styles should go into `theme.json`. CSS in `assets/css/` is an exception for requirements the WordPress style system cannot express. This keeps Site Editor controls and front-end output aligned.
 
 ### Code model

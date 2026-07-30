@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.25.1
+Version: 0.25.2
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -11,9 +11,38 @@ License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+/* ==========================================================================
+ * BREAKPOINTS — canonical scale for the whole theme
+ *
+ * CSS custom properties are invalid inside media query conditions, so these
+ * cannot be variables. They are literals, repeated deliberately, and this is
+ * the one place they are defined. Changing the look at a given size means
+ * changing every file that uses that value; there are only three.
+ *
+ *   48rem   768px   tablet   single column becomes multi-column
+ *   64rem  1024px   desktop  navigation leaves the overlay; widest grids
+ *   72rem  1152px   wide     the article gains its sidebar
+ *
+ * 63.99rem appears as the deliberate complement of 64rem, for the half of a
+ * pair that must not overlap. min-width/max-width is used rather than the
+ * newer range syntax because the mobile navigation overlay lives inside one of
+ * these queries: a browser that does not understand the condition drops the
+ * whole block, and losing the overlay is a worse outcome than a tidier rule.
+ *
+ * Prefer intrinsic sizing to a fourth breakpoint. The homepage sections and
+ * the footer carry no width queries at all — they use grid minimum column
+ * widths and flex wrapping, so they respond to the space they actually have
+ * rather than to the viewport.
+ *
+ * Files using this scale: style.css, assets/css/header.css,
+ * assets/css/homepage.css.
+ * ========================================================================== */
+
 /*
  * The single-post sidebar needs a responsive two-region layout and scoped
  * styling that cannot be represented by block attributes or theme.json.
+ *
+ * Breakpoint: 72rem (wide). See the canonical scale above.
  */
 .single-article-layout {
 	display: grid;

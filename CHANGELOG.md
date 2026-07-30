@@ -7,6 +7,17 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.25.2
+
+- Documented the theme's three breakpoints — `48rem`, `64rem`, `72rem` — as a
+  canonical scale at the top of `style.css`, with each stylesheet naming the
+  ones it uses and pointing there. Comments only; every media query is
+  unchanged.
+- Recorded why they cannot be variables (custom properties are invalid in
+  media query conditions), why `63.99rem` keeps the compatible `max-width`
+  form rather than range syntax, and why intrinsic sizing is preferred over
+  adding a fourth.
+
 ## 0.25.1
 
 - Replaced the red-tinted section backgrounds with two neutral graphite
