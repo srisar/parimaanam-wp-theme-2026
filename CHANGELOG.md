@@ -7,6 +7,16 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.31.0
+
+- Removed the search widget from the article sidebar; the masthead overlay now
+  covers that need on every template.
+- Reduced the sidebar category list to the small type size.
+- Hid Core's Archives dropdown label, which sat directly beneath the widget's
+  own heading and named the same thing twice. It remains in the accessibility
+  tree as the select's label.
+- Recent posts now show a 64px thumbnail beside the title and date.
+
 ## 0.30.1
 
 - Scaled the header search icon from 24px to 32px at desktop, where a 240px
