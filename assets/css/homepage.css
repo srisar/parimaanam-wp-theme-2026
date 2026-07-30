@@ -32,6 +32,21 @@
 	min-width: 0;
 }
 
+/*
+ * Both grids declare blockGap 0 in the pattern rather than being corrected
+ * here. Core writes the block gap as `margin-top` on every child after the
+ * first, and these groups use the default flow layout, so that margin survives
+ * into a grid that already spaces itself with `gap` — pushing the second item
+ * down. Across two columns that is not extra spacing but a 16px misalignment
+ * between cards that should share a top edge.
+ *
+ * The correction belongs in the markup because Core's own rule,
+ * `:root :where(.is-layout-flow) > *`, resolves to (0,1,0) and is printed
+ * after this file. Overriding it from here means winning a specificity race
+ * against inline CSS on every future WordPress release; declaring the gap as
+ * zero means Core never emits the margin at all.
+ */
+
 .home-hero__side {
 	display: grid;
 	gap: var(--wp--preset--spacing--50);

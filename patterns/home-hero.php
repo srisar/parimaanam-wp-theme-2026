@@ -19,7 +19,7 @@ $parimaanam_featured     = count( $parimaanam_featured_ids );
 ?>
 
 <!-- wp:group {"align":"wide","className":"home-hero","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignwide home-hero"><!-- wp:group {"align":"wide","className":"home-hero__featured","layout":{"type":"default"}} -->
+<div class="wp-block-group alignwide home-hero"><!-- wp:group {"align":"wide","className":"home-hero__featured","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide home-hero__featured">
 
 		<!-- wp:query {"query":<?php echo parimaanam_2026_hero_slot_query( 0, $parimaanam_featured ); ?>,"className":"home-hero__lead","layout":{"type":"default"}} -->
@@ -46,7 +46,7 @@ $parimaanam_featured     = count( $parimaanam_featured_ids );
 		<!-- /wp:post-template --></div>
 		<!-- /wp:query -->
 
-		<!-- wp:group {"className":"home-hero__side","layout":{"type":"default"}} -->
+		<!-- wp:group {"className":"home-hero__side","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
 		<div class="wp-block-group home-hero__side">
 			<?php for ( $parimaanam_slot = 1; $parimaanam_slot < 3; $parimaanam_slot++ ) : ?>
 
