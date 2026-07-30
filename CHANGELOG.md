@@ -7,6 +7,12 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.30.1
+
+- Scaled the header search icon from 24px to 32px at desktop, where a 240px
+  logo sits beside it. The tap target stays 44px at every size; only the glyph
+  grows, and mobile is unchanged.
+
 ## 0.30.0
 
 - Gave the masthead its own background: the `graphite-ascend` gradient rather

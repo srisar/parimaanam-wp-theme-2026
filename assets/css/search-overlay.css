@@ -6,8 +6,9 @@
  * <dialog>, so the focus trap, Escape handling, and backdrop come from the
  * browser rather than from theme code.
  *
- * No width queries: the overlay is centred and capped by a max-width, so it
- * needs no breakpoint. See the canonical scale in style.css.
+ * Breakpoint used: 64rem (desktop), only to scale the trigger icon. The
+ * overlay itself is centred and capped by a max-width, so it needs none. See
+ * the canonical scale in style.css.
  */
 .site-search__trigger {
 	align-items: center;
@@ -113,6 +114,18 @@
 
 .site-search__submit:hover {
 	background: var(--wp--preset--color--crimson-hover);
+}
+
+/*
+ * The desktop masthead carries a 240px logo, against which a 24px icon reads
+ * as an afterthought. The tap target stays 44px at every size; only the glyph
+ * grows.
+ */
+@media (min-width: 64rem) {
+	.site-search__icon {
+		height: 2rem;
+		width: 2rem;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
