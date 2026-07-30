@@ -7,6 +7,14 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.17.0
+
+- `patterns/site-logo.php` now emits Core's Site Logo block when an editor has
+  set a logo in WordPress, so the image becomes database-managed and editable
+  in the Site Editor like the primary navigation. The bundled theme asset
+  remains the portable first-activation fallback. Both branches keep the
+  `parimaanam-site-logo` class, so the responsive cap still applies.
+
 ## 0.16.0
 
 - Replaced the Core Query Title block on `search.html` with
