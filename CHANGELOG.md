@@ -7,6 +7,15 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.16.0
+
+- Replaced the Core Query Title block on `search.html` with
+  `patterns/search-title.php`. Core translates the search view's browser tab
+  through a string the Tamil pack covers, but the Query Title block uses a
+  separate string it does not, so a `ta-IN` site showed an English
+  `Search results for:` heading above a Tamil tab. The pattern reuses Core's
+  own Tamil phrasing for the same condition.
+
 ## 0.15.0
 
 - Added `templates/404.html` and `patterns/error-404.php` so missing URLs get a

@@ -43,6 +43,7 @@ parimaanam_2026/
 │   ├── article-sidebar.php Native single-article discovery widgets
 │   ├── error-404.php     Not-found copy, search, and recent articles
 │   ├── home-categories.php Dynamic category directory
+│   ├── search-title.php  Tamil search-results heading with the query term
 │   ├── home-hero.php     Eight latest posts in three editorial regions
 │   ├── header-navigation.php Portable approved primary navigation
 │   ├── posts-grid.php    Shared archive/search cards and empty state
@@ -91,7 +92,9 @@ Every public template, including the homepage, renders the same `parts/header.ht
 
 Archive results use the shared two-column post-card composition and inherited Query Loop.
 
-`search.html` adds a Core Query Title and Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
+`search.html` adds a results heading and a Core Search block above the same result composition. The Search block's label and icon-button accessible name come from WordPress Core at render time, so they follow the installed WordPress translation rather than embedding an English theme string. The field retains the current query, allowing readers to refine Tamil, Latin, or mixed-script searches without custom JavaScript.
+
+The heading comes from `patterns/search-title.php` rather than the Core Query Title block. Core uses two different source strings for this view: `wp_get_document_title()` renders the browser tab through a string the Tamil translation pack covers, while the Query Title block uses a separate string it does not. On a `ta-IN` installation that produced a Tamil browser tab above an English `Search results for:` heading on the same page. The pattern reuses the phrasing Core's own Tamil translation already applies to the document title, so heading and tab now match. The search term is read unescaped through `get_search_query( false )` and escaped once for HTML output, which was verified against markup-bearing input.
 
 Search and archives share the same result layout, so `patterns/posts-grid.php` owns their inherited Query Loop, semantic cards, pagination, and no-results state. The homepage has separate compositions because a posts index benefits from stronger editorial hierarchy, while search and archive results should remain predictable and uniform. These native, non-inserter patterns remain represented as Core blocks in the Site Editor. PHP is limited to escaped output, portable URL resolution for the logo and approved navigation pages, and resolving an approved category slug to its environment-specific term ID; WordPress Core Query blocks still perform all post retrieval and rendering.
 
@@ -203,6 +206,7 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 17. **A designed not-found response:** `404.html` replaces the unstyled `index.html` fallback for missing URLs, which are an expected condition given the stored links to the site's earlier address. Its copy lives in a pattern because block templates cannot hold translatable strings.
 18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
 19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
+20. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
 
 ## Future extension points
 
@@ -221,7 +225,7 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 
 `patterns/error-404.php` introduces Tamil copy that was not derived from the existing site: a one-sentence explanation of the missing page, plus the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release.
 
-The not-found heading itself deliberately reuses `பக்கம் காணப்படவில்லை`, the phrasing WordPress Core's Tamil translation already applies to the document title on this view. Matching it keeps the heading and the browser tab consistent and avoids inventing a second term for the same condition. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
+The not-found heading itself deliberately reuses `பக்கம் காணப்படவில்லை`, the phrasing WordPress Core's Tamil translation already applies to the document title on this view. Matching it keeps the heading and the browser tab consistent and avoids inventing a second term for the same condition. The search-results heading in `patterns/search-title.php` follows the same rule and is likewise not invented copy. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
 
 ## Scope guard
 
