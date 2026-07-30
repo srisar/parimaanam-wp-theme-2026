@@ -35,7 +35,7 @@
 
 	<!-- wp:query-no-results -->
 		<!-- wp:paragraph -->
-		<p><?php echo esc_html_x( 'No results were found.', 'Message shown when a query returns no content', 'parimaanam-2026' ); ?></p>
+		<p><?php echo esc_html_x( 'முடிவுகள் எதுவும் கிடைக்கவில்லை.', 'Message shown when a query returns no content', 'parimaanam-2026' ); ?></p>
 		<!-- /wp:paragraph -->
 	<!-- /wp:query-no-results -->
 </div>
