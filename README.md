@@ -219,7 +219,9 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 
 ## Awaiting editorial approval
 
-`patterns/error-404.php` introduces the theme's first Tamil copy that was not derived from the existing site: a not-found heading, a one-sentence explanation, and the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
+`patterns/error-404.php` introduces Tamil copy that was not derived from the existing site: a one-sentence explanation of the missing page, plus the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release.
+
+The not-found heading itself deliberately reuses `பக்கம் காணப்படவில்லை`, the phrasing WordPress Core's Tamil translation already applies to the document title on this view. Matching it keeps the heading and the browser tab consistent and avoids inventing a second term for the same condition. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
 
 ## Scope guard
 

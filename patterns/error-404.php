@@ -9,7 +9,7 @@
 <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50","margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide" style="margin-top:var(--wp--preset--spacing--70);margin-bottom:var(--wp--preset--spacing--70)">
 	<!-- wp:heading {"level":1,"fontSize":"x-large"} -->
-	<h1 class="wp-block-heading has-x-large-font-size"><?php echo esc_html_x( 'பக்கம் கிடைக்கவில்லை', 'Heading shown when a URL matches no content', 'parimaanam-2026' ); ?></h1>
+	<h1 class="wp-block-heading has-x-large-font-size"><?php echo esc_html_x( 'பக்கம் காணப்படவில்லை', 'Heading shown when a URL matches no content', 'parimaanam-2026' ); ?></h1>
 	<!-- /wp:heading -->
 
 	<!-- wp:paragraph {"textColor":"muted"} -->
