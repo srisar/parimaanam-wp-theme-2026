@@ -17,8 +17,8 @@ if ( $parimaanam_biology_term instanceof WP_Term ) :
 	}
 	?>
 
-<!-- wp:group {"align":"full","gradient":"graphite-descend","className":"home-category-editorial","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","right":"var:preset|spacing|40","bottom":"var:preset|spacing|70","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull home-category-editorial has-graphite-descend-gradient-background has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)"><!-- wp:heading {"align":"wide","className":"home-category-editorial__heading","fontSize":"x-large"} -->
+<!-- wp:group {"align":"full","backgroundColor":"band","className":"home-category-editorial","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","right":"var:preset|spacing|40","bottom":"var:preset|spacing|70","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull home-category-editorial has-band-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)"><!-- wp:heading {"align":"wide","className":"home-category-editorial__heading","fontSize":"x-large"} -->
 	<h2 class="wp-block-heading alignwide home-category-editorial__heading has-x-large-font-size"><a href="<?php echo esc_url( $parimaanam_biology_url ); ?>"><?php echo esc_html( $parimaanam_biology_term->name ); ?></a></h2>
 	<!-- /wp:heading -->
 

@@ -147,7 +147,13 @@ The theme defines a neutral near-black palette: black `paper` (`#090909`), a rai
 
 The palette was originally red-tinted, with three separate surface tokens shading warm, red-black, and cool charcoal. That was replaced because the accent and the grounds shared a hue: crimson sitting on red-tinted black never separated from it, and the accent read muddy rather than sharp. Removing the tint from the surfaces is what makes crimson land. Two tokens became unnecessary in the process and were deleted, taking the palette from ten colors to eight.
 
-Section backgrounds are now two `theme.json` gradient presets rather than flat fills. `graphite-descend` runs `#090909` to `#151515` and `graphite-ascend` returns; sections alternate between them, so every seam meets on the same value and the page reads as one continuous surface. Because they are presets, sections apply them through Core's native Group `gradient` attribute and no custom CSS is involved. Alternating two presets also means the sequence stays seamless however many sections are added or removed.
+Homepage sections alternate between two flat grounds: `paper` (`#090909`) and `band` (`#141414`). The footer takes `band` so it does not merge into the directory above it, which leaves every adjacent pair on the page distinct from its neighbour.
+
+This replaced an earlier scheme where each section carried a gradient chosen so its end matched the next section's start. That version was genuinely seamless — every boundary measured zero — but seamless turned out to be the wrong goal: the sections dissolved into one another and the page lost the sense of separate modules the backgrounds were introduced to create. Two flat tones read as deliberate where a continuous wash read as undifferentiated.
+
+`band` sits at `#141414` rather than anything lighter because `surface` (`#1e1e1e`) carries the cards that sit on these grounds, and the two need to stay clearly apart. The Technology feature cards moved from `paper` to `surface` in the same change, since that section's ground became `paper` and the cards would otherwise have disappeared into it.
+
+One gradient preset remains, `graphite-ascend`, used only by the masthead.
 
 `surface` sits at `#1e1e1e`, deliberately above the gradient's `#151515` peak. At the previous value a filled card in the Science section became indistinguishable from the gradient behind its lower edge — a one-value difference. Raising it keeps cards, form controls, quotes, and the navigation dropdown legible against every point of the gradient.
 

@@ -7,6 +7,19 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.38.1
+
+- Homepage sections now alternate two flat grounds, `paper` and a new `band`
+  (`#141414`), so each is distinct from its neighbour. The seamless gradient
+  scheme is gone: it worked exactly as designed, but the sections dissolved
+  into one another and stopped reading as separate modules.
+- The footer takes `band` too, or it merged into the directory above it. Every
+  adjacent pair on the page is now verified distinct.
+- Technology's feature cards moved from `paper` to `surface`, since that
+  section's ground became `paper` and the cards would have vanished into it.
+- Three gradient presets are removed as unused. `graphite-ascend` remains, used
+  only by the masthead.
+
 ## 0.37.0
 
 - Replaced the Science section with a fifty-fifty pair: Science and Environment
