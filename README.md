@@ -163,7 +163,11 @@ The theme locally hosts Google Sans under the SIL Open Font License 1.1. Two opt
 
 The files are the unmodified variable subsets served by the official Google Fonts CSS API for Google Sans. The Tamil range is `U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC`; the Latin range is the API's standard Latin subset. Their SIL Open Font License is stored beside them. One family keeps mixed-script scientific writing visually coherent, while the semantic `primary` preset decouples templates and styles from the font's product name.
 
-The global reading size scales from `1.0625rem` to `1.125rem` with a `1.8` line height. Headings use the same family at weight 700, a `1.35` line height, and a five-step fluid scale. Core's default font-size presets are disabled so the theme can intentionally redefine the existing `small`, `medium`, `large`, `x-large`, and `xx-large` slugs. Imported content using those Core-compatible classes therefore continues to resolve predictably without inheriting Core's smaller defaults.
+The global reading size scales from `1rem` to `1.125rem` with a `1.8` line height.
+
+Every fluid preset is pinned at its minimum below roughly 768px, so those minima are exactly what a phone renders and are the single lever for phone typography. They were lowered once the templates were built: headings in particular were set for desktop and carried too much weight on a narrow screen, where a 36px `xx-large` and a 28px `x-large` crowded out the text beneath them. Maximums were left alone, so desktop is untouched.
+
+The body minimum stops at `1rem` rather than going further. Sixteen pixels is the conventional floor for sustained reading, and this is long-form Tamil prose; the headings absorbed most of the reduction instead. Headings use the same family at weight 700, a `1.35` line height, and a five-step fluid scale. Core's default font-size presets are disabled so the theme can intentionally redefine the existing `small`, `medium`, `large`, `x-large`, and `xx-large` slugs. Imported content using those Core-compatible classes therefore continues to resolve predictably without inheriting Core's smaller defaults.
 
 Figure captions use the small preset with a `1.5` line height. This is the only article-specific global typography addition: it improves the dense scientific image credits and descriptions present in imported posts while remaining available to future templates through Core's caption element.
 

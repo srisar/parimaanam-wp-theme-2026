@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.34.0
+
+- Lowered the fluid type minimums so phone typography is smaller across every
+  element that uses a preset, which is all of them. Measured at 375px: body
+  17.1px to 16.1px, article H1 28.5px to 24.7px, post navigation title 20.2px
+  to 18.3px.
+- Maximums are unchanged, so desktop renders exactly as before — verified at
+  1280px: body 18px, H1 36px, navigation title 24px.
+- The body floor stops at `1rem`. Sixteen pixels is the conventional limit for
+  sustained reading and this is long-form Tamil prose, so the headings took
+  most of the reduction instead.
+
 ## 0.33.0
 
 - Moved the adjacent-post navigation and the comments inside the single-post
