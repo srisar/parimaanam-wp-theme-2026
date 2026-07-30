@@ -7,6 +7,17 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.24.1
+
+- Removed the Science Series column from the footer; the series are already one
+  click away in the header dropdown.
+- The secondary menu is now horizontal, sitting opposite the logo on one row.
+  Its own alignment is left to the parent's `space-between`, so the links sit
+  right at wide widths and fall flush with the logo once they wrap on narrow
+  ones.
+- Footer height is now 189px at desktop and 320px on a phone, against 1340px
+  when it still carried a category list.
+
 ## 0.23.1
 
 - Extended the footer copyright to the publication's supplied wording:
