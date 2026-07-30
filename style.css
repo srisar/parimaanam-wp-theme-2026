@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.31.0
+Version: 0.33.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -45,15 +45,158 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * ========================================================================== */
 
 /*
+ * Adjacent post navigation. Two panels sharing a hairline, each carrying a
+ * quiet label above the destination title, with the arrow supplied in CSS so
+ * it stays out of the link's accessible name.
+ *
+ * Breakpoint: 40rem (tablet). See the canonical scale above.
+ */
+.post-navigation {
+	border-top: 1px solid var(--wp--preset--color--line);
+	display: grid;
+	gap: 1px;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.post-navigation__item {
+	background: var(--wp--preset--color--paper);
+	padding: var(--wp--preset--spacing--50) 0;
+	position: relative;
+	transition: background-color 200ms ease;
+}
+
+.post-navigation__item + .post-navigation__item {
+	border-top: 1px solid var(--wp--preset--color--line);
+}
+
+.post-navigation__label {
+	color: var(--wp--preset--color--muted);
+	margin: 0;
+}
+
+.post-navigation .wp-block-post-navigation-link {
+	font-size: var(--wp--preset--font-size--large);
+	font-weight: 700;
+	line-height: 1.35;
+}
+
+.post-navigation .wp-block-post-navigation-link a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+
+/*
+ * Stretching the anchor over the panel makes the whole area clickable without
+ * wrapping non-link content in the link.
+ */
+.post-navigation .wp-block-post-navigation-link a::after {
+	content: "";
+	inset: 0;
+	position: absolute;
+}
+
+.post-navigation__item:hover {
+	background: var(--wp--preset--color--surface);
+}
+
+.post-navigation__item:hover .wp-block-post-navigation-link a {
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+.post-navigation__label::before {
+	color: var(--wp--preset--color--crimson);
+	display: inline-block;
+	transition: transform 200ms ease;
+}
+
+.post-navigation__item--previous .post-navigation__label::before {
+	content: "\2190\00a0";
+}
+
+.post-navigation__item--next .post-navigation__label::before {
+	content: "\2192\00a0";
+	order: 2;
+}
+
+.post-navigation__item--previous:hover .post-navigation__label::before {
+	transform: translateX(-0.25rem);
+}
+
+.post-navigation__item--next:hover .post-navigation__label::before {
+	transform: translateX(0.25rem);
+}
+
+@media (min-width: 40rem) {
+	.post-navigation {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.post-navigation__item {
+		padding: var(--wp--preset--spacing--50);
+	}
+
+	.post-navigation__item + .post-navigation__item {
+		border-left: 1px solid var(--wp--preset--color--line);
+		border-top: 0;
+	}
+
+	/*
+	 * When only a next post exists it must still sit on the right, or a first
+	 * post would show its one panel in the previous slot.
+	 */
+	.post-navigation__item--next {
+		grid-column: 2;
+		text-align: right;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-navigation__item,
+	.post-navigation__label::before {
+		transition: none;
+	}
+
+	.post-navigation__item:hover .post-navigation__label::before {
+		transform: none;
+	}
+}
+
+/*
  * The single-post sidebar needs a responsive two-region layout and scoped
  * styling that cannot be represented by block attributes or theme.json.
  *
  * Breakpoint: 72rem (wide). See the canonical scale above.
  */
 .single-article-layout {
+	column-gap: var(--wp--preset--spacing--70);
 	display: grid;
-	gap: var(--wp--preset--spacing--70);
 	grid-template-columns: minmax(0, 1fr);
+}
+
+/*
+ * The article, the adjacent-post navigation and the comments are all content;
+ * only the sidebar is aside. Source order runs article, navigation, comments,
+ * sidebar so a screen reader reaches the supplementary column last, but in the
+ * single-column layout the sidebar is pulled up behind the article rather than
+ * left trailing a long comment thread.
+ *
+ * Each of these carries its own vertical margins, so the grid contributes no
+ * row gap.
+ */
+.single-article-layout__content {
+	order: 1;
+}
+
+.single-article-layout > .article-sidebar {
+	order: 2;
+}
+
+.single-article-layout > .post-navigation {
+	order: 3;
+}
+
+.single-article-layout > .wp-block-comments {
+	order: 4;
 }
 
 .single-article-layout__content,
@@ -181,6 +324,31 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	.single-article-layout {
 		align-items: start;
 		grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+	}
+
+	/*
+	 * Rows are placed explicitly rather than left to auto-placement, because
+	 * the navigation pattern renders nothing on a first or last post and an
+	 * auto-placed sidebar would then reflow. Its empty row simply collapses.
+	 */
+	.single-article-layout__content {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.single-article-layout > .post-navigation {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.single-article-layout > .wp-block-comments {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	.single-article-layout > .article-sidebar {
+		grid-column: 2;
+		grid-row: 1 / 4;
 	}
 
 	.single-article-layout__content.single-article-layout__content > :where(header, .wp-block-post-content, .wp-block-post-terms),

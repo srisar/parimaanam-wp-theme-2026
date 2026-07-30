@@ -7,6 +7,31 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.33.0
+
+- Moved the adjacent-post navigation and the comments inside the single-post
+  grid. Both previously sat outside it and spanned the full wide measure while
+  the sidebar stopped at the end of the article; they now match the content
+  column and the sidebar runs alongside all of it.
+- Rows are placed explicitly, because the navigation renders nothing on a first
+  or last post and auto-placement would have reflowed the sidebar. Below the
+  wide breakpoint the sidebar is ordered up behind the article rather than left
+  trailing a long comment thread.
+
+## 0.32.0
+
+- Rebuilt the adjacent-post navigation as two panels sharing a hairline, each
+  with a quiet label above the destination title and a whole-panel click
+  target. It was previously two underlined links.
+- Core's Post Navigation Link prints `Previous:` and `Next:`, and those exact
+  strings are untranslated in the Tamil pack, so a `ta_IN` site showed English
+  labels beside Tamil titles. `Previous Post` and `Next Post` are translated,
+  so the labels now come from Core's own Tamil and the block's prefix is off.
+- The pattern resolves whether an adjacent post exists, so a label is never
+  rendered above a link Core is going to omit. Verified on the newest and
+  oldest posts, which correctly show one panel each.
+- Arrows are supplied in CSS, keeping them out of the link's accessible name.
+
 ## 0.31.0
 
 - Removed the search widget from the article sidebar; the masthead overlay now
