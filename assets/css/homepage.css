@@ -196,27 +196,43 @@
 /*
  * Everything printed on top of a photograph.
  *
- * These cannot take `ink`, which is near-black in the light skin — the text
- * would disappear into the image. What sits underneath them is a dark scrim
- * in both skins, so the text is light in both, and --parimaanam-on-media is
- * how that is said.
+ * None of this can take `ink` or `muted`, which are near-black and mid-grey
+ * in the light skin — the text would sink into the image. What sits under it
+ * is a dark scrim in both skins, so the text stays light in both, and
+ * --parimaanam-on-media is how that is said.
  *
- * The scope is narrow on purpose. The rule above covers the numbered index
- * and the support cards too, and those sit on paper and must follow the
- * theme, so this cannot simply replace it.
+ * The scope is the content container rather than a list of block classes.
+ * Listing the blocks meant every element added to one of these cards later
+ * had to be remembered separately, and the first version already missed the
+ * excerpt and the category.
  *
- * It sits *after* that rule rather than before it because the two resolve to
- * the same specificity, (0,2,1), and source order is what decides. Ordering
- * is the honest fix here; adding a third class to win would only disguise
- * that these two rules overlap.
+ * It sits *after* the title rule above because the two resolve to the same
+ * specificity, (0,2,1), and source order decides. Ordering is the honest fix;
+ * adding a class to win would only disguise that the two rules overlap.
  */
-.home-hero__lead .wp-block-post-date,
-.home-hero__lead .wp-block-post-date a,
-.home-hero__lead .wp-block-post-title a,
-.home-category-showcase__feature-card .wp-block-post-title a,
-.home-category-showcase__feature-card .wp-block-post-date,
-.home-category-showcase__feature-card .wp-block-post-date a {
+.home-hero__lead-content,
+.home-hero__lead-content .wp-block-post-excerpt,
+.home-hero__lead-content .wp-block-post-date,
+.home-hero__lead-content .wp-block-post-date a,
+.home-hero__lead-content .wp-block-post-title a,
+.home-category-showcase__feature-content,
+.home-category-showcase__feature-content .wp-block-post-excerpt,
+.home-category-showcase__feature-content .wp-block-post-date,
+.home-category-showcase__feature-content .wp-block-post-date a,
+.home-category-showcase__feature-content .wp-block-post-title a {
 	color: var(--parimaanam-on-media);
+}
+
+/*
+ * The category over a photograph is the one accent that keeps the lime in
+ * both skins. Elsewhere in the light skin the accent darkens to #4e7a1e so it
+ * reads on paper, but here the ground is a dark scrim, and the dark green
+ * disappeared into it. The fill value is the light one, so it behaves over a
+ * photograph exactly as it does in the dark skin.
+ */
+.home-hero__lead-content .wp-block-post-terms a,
+.home-category-showcase__feature-content .wp-block-post-terms a {
+	color: var(--parimaanam-accent-fill);
 }
 
 /*
