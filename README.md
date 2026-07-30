@@ -17,11 +17,15 @@ No Node.js build, Composer install, CSS framework, JavaScript framework, or page
 ```text
 parimaanam_2026/
 ├── AGENTS.md            Project rules for contributors and coding agents
-├── functions.php        Minimal shared stylesheet enqueue hook
+├── CHANGELOG.md         Version history and the pattern-cache version rule
+├── functions.php        Text domain, font preload, and stylesheet enqueues
 ├── README.md            Architecture and local workflow
 ├── style.css            Theme metadata and the scoped article-sidebar layout
 ├── theme.json           Design tokens, global styles, and block compatibility
 ├── assets/
+│   ├── css/
+│   │   ├── header.css   Masthead, logo, and Core Navigation presentation
+│   │   └── homepage.css Hero, category sections, and category directory
 │   ├── fonts/
 │   │   └── google-sans/
 │   │       ├── GoogleSans-Latin-Variable.woff2
@@ -37,12 +41,14 @@ parimaanam_2026/
 │   ├── category-technology.php Image-led Technology showcase
 │   ├── category-biology.php Editorial Biology feature and card section
 │   ├── article-sidebar.php Native single-article discovery widgets
+│   ├── error-404.php     Not-found copy, search, and recent articles
 │   ├── home-categories.php Dynamic category directory
 │   ├── home-hero.php     Eight latest posts in three editorial regions
 │   ├── header-navigation.php Portable approved primary navigation
 │   ├── posts-grid.php    Shared archive/search cards and empty state
 │   └── site-logo.php     Portable theme-owned logo linked to the site root
 └── templates/
+    ├── 404.html         Designed response for URLs that match no content
     ├── archive.html     Generic taxonomy, author, date, and post-type archives
     ├── home.html        Magazine-style posts index with a native Query Loop
     ├── index.html       Required, unstyled template-hierarchy fallback
@@ -58,6 +64,8 @@ Directories are added only when they have real content. Expected extension point
 WordPress resolves requests through its standard template hierarchy. Individual posts use `templates/single.html`, pages use `templates/page.html`, the posts index uses `templates/home.html`, archive requests use `templates/archive.html`, search requests use `templates/search.html`, and views without a more specific template continue to fall back to `templates/index.html`. Inherited Query Loops let WordPress supply the current query, posts, URLs, and pagination without custom logic.
 
 `index.html` is required for a valid block theme; it is not a homepage implementation. The fallback uses native block markup, a `main` landmark, and an `article` for each result, but makes no layout or visual choices.
+
+`404.html` exists because that deliberate plainness is the wrong response to a missing URL. Without it WordPress falls back to `index.html`, so a reader following a stale link would land on an unstyled page with no route onward. The imported Science Series content still contains links to the site's earlier `parimaanam.wordpress.com` address, so missing URLs are an expected condition rather than a hypothetical one. The template pairs the shared header with `patterns/error-404.php`, which supplies a Core Search block and the three newest posts. Its copy lives in a pattern because block templates cannot contain PHP, and therefore cannot hold translatable strings.
 
 `home.html` follows the WordPress posts-index hierarchy and works whether the posts index is the site's front page or is assigned to a separate page. There is no `front-page.html`: the current site setting displays the latest posts, and adding a front-page override would duplicate the posts-index responsibility without an approved static front-page requirement.
 
@@ -143,11 +151,17 @@ Arbitrary font sizes, synthetic font styles, letter spacing, line-height overrid
 
 Typography is registered and applied through `theme.json`, allowing WordPress to produce matching editor and front-end styles without a stylesheet or PHP enqueue logic. The font files and license are kept together in `assets/fonts/google-sans/`.
 
+The masthead and homepage rules now live in `assets/css/header.css` and `assets/css/homepage.css` rather than in a `theme.json` `styles.css` string. That string had grown to roughly eleven kilobytes on a single line, which made any change to navigation or homepage styling impossible to review in a diff and easy to break silently. Only genuinely global declarations remain in `theme.json`: `color-scheme`, the selection colours, and the `:focus-visible` outline. Block-scoped `css` entries stay in `theme.json` because their `&` prefix gets block scoping that a plain stylesheet cannot reproduce.
+
+The split changes no rendered styling. It was verified by flattening the original string and the new files into normalised selector-and-declaration triples and diffing them; the only intended difference is the `prefers-reduced-motion` rule, whose selector list is divided so each half sits beside the component it styles. Because these rules are now an external file rather than inline global styles, browsers can also cache them between views instead of re-downloading them inside every HTML response.
+
 Future approved global tokens and block styles should go into `theme.json`. CSS in `assets/css/` is an exception for requirements the WordPress style system cannot express. This keeps Site Editor controls and front-end output aligned.
 
 ### Code model
 
-`functions.php` contains one Core `enqueue_block_assets` hook so the responsive sidebar rules in `style.css` load both on the front end and in the block editor. It renders no markup and contains no business logic. Pattern PHP is limited to escaped translations, portable theme/home/page URLs, the dynamic site-name alternative text, translated article-sidebar headings, and category patterns' `get_category_by_slug()`/`get_category_link()` boundary. The navigation pattern uses `get_page_by_path()` and `get_permalink()` only to preserve existing hierarchical page URLs without content IDs. Larger PHP concerns should be added only for a necessary hook or registration and split into `inc/`.
+`functions.php` contains three narrowly scoped Core hooks and renders no markup. An `enqueue_block_assets` hook loads `style.css` and the two `assets/css/` files on both the front end and in the block editor, keeping editor and front-end presentation aligned. An `after_setup_theme` hook calls `load_theme_textdomain()`: the pattern strings were already marked for translation, but without this nothing loaded the domain, so none of them could actually be translated. A `wp_preload_resources` filter preloads the Tamil font subset, because WordPress emits the `@font-face` rules from `theme.json` but does not preload them, leaving the browser to discover the file only after parsing the stylesheet. Tamil carries the headline text on every view, so it is the subset worth an early connection; Latin stays lazily fetched.
+
+Source strings are Tamil throughout rather than English. The publication is Tamil-only, so an English source layer would add a translation catalogue that nobody would ever translate away from. The one English string that had survived in `patterns/posts-grid.php` was an inconsistency rather than a convention. Pattern PHP is limited to escaped translations, portable theme/home/page URLs, the dynamic site-name alternative text, translated article-sidebar headings, and category patterns' `get_category_by_slug()`/`get_category_link()` boundary. The navigation pattern uses `get_page_by_path()` and `get_permalink()` only to preserve existing hierarchical page URLs without content IDs. Larger PHP concerns should be added only for a necessary hook or registration and split into `inc/`.
 
 `style.css` begins with the metadata WordPress uses to register the theme. Its only presentation rules are the responsive single-article grid and sidebar details that cannot be represented with block attributes or `theme.json`; design tokens and global block styles remain in `theme.json`.
 
@@ -166,7 +180,7 @@ Because there is currently no compilation step, changes to HTML templates and `t
 
 To manage the primary menu, open **Appearance → Editor**, select the shared **Header**, select its Navigation block, and add, remove, rename, reorder, or nest links. Saving creates or updates the WordPress-managed Navigation entity and the shared Header customization. Because every template references the same Header part, one saved menu applies site-wide. Reverting the Header customization restores the portable menu supplied by `patterns/header-navigation.php`.
 
-WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. Version `0.2.0` introduced the first theme-owned pattern, version `0.3.0` recorded the shared visual-system polish, version `0.4.0` introduced the first magazine homepage composition, version `0.5.0` narrowed that composition to the latest-posts hero, version `0.6.0` introduced the three-region hero and approved logo pattern, version `0.7.0` added the first category-led section, version `0.8.0` added the Technology showcase, version `0.9.0` added the Biology editorial section, version `0.10.0` unified the homepage's editorial visual system, version `0.11.0` flattened that system and added the dynamic category directory, version `0.12.0` established square-edged imagery, version `0.13.0` added the approved portable header navigation pattern, version `0.14.0` added the native single-article discovery sidebar, and version `0.14.2` expands its wide-screen article column into the available space.
+WordPress caches the list of theme-owned pattern files against the `Version` header in `style.css`. Increment that version when adding, removing, or renaming files in `patterns/` so active installations discover the change without database manipulation or cache-clearing hooks. See `CHANGELOG.md` for the version history.
 
 ## Architectural decisions
 
@@ -186,6 +200,9 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 14. **Unified editorial presentation:** the existing queries and content hierarchy remain unchanged while scoped `theme.json` CSS supplies the modern presentation layer. Each section retains a distinct reading cadence, but shared typography, spacing, restrained accents, focus treatment, responsive image behavior, and reduced-motion support make the homepage feel like one publication rather than unrelated modules.
 15. **Core-powered category discovery:** the category directory uses Core's Categories block to expose the site's current non-empty taxonomy with generated archive URLs and counts. It introduces no menu ID, category ID, custom query, or PHP rendering logic, and its responsive grid is presentation-only.
 16. **Article discovery without custom data logic:** wide single posts use the available column beside a semantic sidebar, while smaller screens retain the established `44rem` maximum measure and place discovery below the article. Core Search, Categories, Archives, and Latest Posts blocks provide meaningful onward routes without custom queries, IDs, JavaScript, advertising, or invented editorial copy.
+17. **A designed not-found response:** `404.html` replaces the unstyled `index.html` fallback for missing URLs, which are an expected condition given the stored links to the site's earlier address. Its copy lives in a pattern because block templates cannot hold translatable strings.
+18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
+19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
 
 ## Future extension points
 
@@ -198,6 +215,11 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 - Add `functions.php` and `inc/` modules for narrowly scoped hooks, registrations, or compatibility behavior.
 - Add CSS or dependency-free JavaScript assets only for gaps in native block capabilities, documenting each exception here.
 - Add automated linting, visual regression checks, and accessibility checks when the development toolchain is selected.
+- Generate `languages/parimaanam-2026.pot` once a WP-CLI-capable toolchain exists. The text domain is registered, but no catalogue is shipped, because a hand-maintained POT would drift without tooling to regenerate it.
+
+## Awaiting editorial approval
+
+`patterns/error-404.php` introduces the theme's first Tamil copy that was not derived from the existing site: a not-found heading, a one-sentence explanation, and the hidden region headings added to `patterns/home-hero.php` for screen readers. A not-found page cannot exist without some text, and the hidden headings cannot name a region without one, so these were written to be plain and factual rather than left blank. They should still be reviewed by an editor before release. Every other public string in the theme continues to come from approved project inputs or from WordPress Core.
 
 ## Scope guard
 
