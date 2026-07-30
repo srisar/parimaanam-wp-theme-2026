@@ -7,6 +7,16 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.35.0
+
+- Designed the article header. The category now carries the same short crimson
+  rule the section headings use, set bold with a little letter spacing, and the
+  date is preceded by a calendar glyph. A hairline closes the header off from
+  the article body.
+- The glyph is a CSS mask rather than markup: it is decorative, since the date
+  text already carries the meaning, and a mask inherits the surrounding colour
+  instead of hard-coding a fill. No icon library is introduced for one glyph.
+
 ## 0.34.0
 
 - Lowered the fluid type minimums so phone typography is smaller across every

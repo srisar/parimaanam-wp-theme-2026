@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.34.0
+Version: 0.35.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -43,6 +43,75 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Files using this scale: style.css, assets/css/header.css,
  * assets/css/homepage.css.
  * ========================================================================== */
+
+/*
+ * Article header: category, title, date.
+ *
+ * The date icon is a CSS mask rather than markup, because it is decorative —
+ * the date text already carries the meaning — and a mask inherits the
+ * surrounding colour instead of hard-coding a fill. No icon library is
+ * introduced for one glyph.
+ */
+.article-header {
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	padding-bottom: var(--wp--preset--spacing--50);
+}
+
+.article-header__category {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.article-header__category::before {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 0 1.5rem;
+	height: 2px;
+}
+
+.article-header__category a {
+	color: var(--wp--preset--color--crimson);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+}
+
+.article-header__category a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
+
+.article-header__meta {
+	align-items: center;
+	color: var(--wp--preset--color--muted);
+}
+
+.article-header__meta .wp-block-post-date {
+	align-items: center;
+	display: flex;
+	gap: 0.4rem;
+}
+
+.article-header__meta .wp-block-post-date::before {
+	background: currentColor;
+	content: "";
+	flex: 0 0 1rem;
+	height: 1rem;
+	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 4h-1V2h-1.5v2h-9V2H6v2H5C3.9 4 3 4.9 3 6v13c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm.5 15c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V9h15v10zm0-11.5h-15V6c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v1.5z'/%3E%3C/svg%3E");
+	mask-repeat: no-repeat;
+	mask-size: contain;
+}
+
+.article-header__meta .wp-block-post-date a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.article-header__meta .wp-block-post-date a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}
 
 /*
  * Adjacent post navigation. Two panels sharing a hairline, each carrying a
