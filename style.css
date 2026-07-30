@@ -3,13 +3,36 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.18.0
+Version: 0.19.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
+/*
+ * The upward link on a child page. The arrow is decorative and lives in CSS so
+ * it is not part of the link's accessible name, which stays the parent title.
+ */
+.page-parent-link {
+	margin-bottom: var(--wp--preset--spacing--30);
+}
+
+.page-parent-link a {
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
+}
+
+.page-parent-link a::before {
+	content: "\2190";
+	margin-right: 0.4rem;
+}
+
+.page-parent-link a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
 
 /*
  * The single-post sidebar needs a responsive two-region layout and scoped

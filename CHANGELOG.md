@@ -7,6 +7,14 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.19.0
+
+- Added `patterns/page-parent-link.php`, rendered by `page.html`, giving child
+  pages an upward link to their parent. Science Series readers previously had
+  no route back to the series index except the primary menu. The parent is
+  resolved from the current query, so no page ID is stored and the behaviour
+  applies to any hierarchical page.
+
 ## 0.18.0
 
 - Converted the four remaining deprecated `displayLayout` attributes in the
