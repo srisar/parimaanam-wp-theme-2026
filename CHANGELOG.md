@@ -7,6 +7,16 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.18.0
+
+- Converted the four remaining deprecated `displayLayout` attributes in the
+  Technology and Biology sections to the Post Template's own grid `layout`.
+  Only `posts-grid.php` was migrated in 0.16.0; these were missed.
+- Removed the `48rem`–`63.99rem` media query that forced the Technology
+  features into two columns with `!important`. It existed only to override the
+  inline widths Core's flex layout sets on each post, which the grid layout
+  does not set at all.
+
 ## 0.17.0
 
 - `patterns/site-logo.php` now emits Core's Site Logo block when an editor has

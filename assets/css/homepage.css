@@ -307,17 +307,6 @@
 	}
 }
 
-@media (min-width: 48rem) and (max-width: 63.99rem) {
-	.home-category-showcase__features .wp-block-post-template {
-		display: grid !important;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.home-category-showcase__features .wp-block-post {
-		width: auto !important;
-	}
-}
-
 @media (prefers-reduced-motion: reduce) {
 	.home-hero__lead .wp-block-post-featured-image img,
 	.home-hero__support .wp-block-post-featured-image img,

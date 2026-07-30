@@ -22,8 +22,8 @@ if ( $parimaanam_technology_term instanceof WP_Term ) :
 	<h2 class="wp-block-heading alignwide home-category-showcase__heading has-large-font-size"><a href="<?php echo esc_url( $parimaanam_technology_url ); ?>"><?php echo esc_html( $parimaanam_technology_term->name ); ?></a></h2>
 	<!-- /wp:heading -->
 
-	<!-- wp:query {"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_technology_term_id; ?>]}},"displayLayout":{"type":"flex","columns":4},"align":"wide","className":"home-category-showcase__features","layout":{"type":"constrained"}} -->
-	<div class="wp-block-query alignwide home-category-showcase__features"><!-- wp:post-template {"align":"wide"} -->
+	<!-- wp:query {"query":{"perPage":4,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_technology_term_id; ?>]}},"align":"wide","className":"home-category-showcase__features","layout":{"type":"constrained"}} -->
+	<div class="wp-block-query alignwide home-category-showcase__features"><!-- wp:post-template {"align":"wide","layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"16rem"}} -->
 		<!-- wp:group {"tagName":"article","backgroundColor":"paper","className":"home-category-showcase__feature-card","layout":{"type":"constrained"}} -->
 		<article class="wp-block-group home-category-showcase__feature-card has-paper-background-color has-background"><!-- wp:post-featured-image {"isLink":true,"width":"100%","sizeSlug":"medium_large"} /-->
 
@@ -40,8 +40,8 @@ if ( $parimaanam_technology_term instanceof WP_Term ) :
 	<hr class="wp-block-separator alignwide has-alpha-channel-opacity" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--40)"/>
 	<!-- /wp:separator -->
 
-	<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":4,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_technology_term_id; ?>]}},"displayLayout":{"type":"flex","columns":3},"align":"wide","className":"home-category-showcase__compact","layout":{"type":"constrained"}} -->
-	<div class="wp-block-query alignwide home-category-showcase__compact"><!-- wp:post-template {"align":"wide"} -->
+	<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":4,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":{"category":[<?php echo $parimaanam_technology_term_id; ?>]}},"align":"wide","className":"home-category-showcase__compact","layout":{"type":"constrained"}} -->
+	<div class="wp-block-query alignwide home-category-showcase__compact"><!-- wp:post-template {"align":"wide","layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"22rem"}} -->
 		<!-- wp:group {"tagName":"article","className":"home-category-showcase__compact-card","layout":{"type":"default"}} -->
 		<article class="wp-block-group home-category-showcase__compact-card"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group"><!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /-->
