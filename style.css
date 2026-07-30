@@ -3,10 +3,105 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.13.0
+Version: 0.14.2
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
+/*
+ * The single-post sidebar needs a responsive two-region layout and scoped
+ * styling that cannot be represented by block attributes or theme.json.
+ */
+.single-article-layout {
+	display: grid;
+	gap: var(--wp--preset--spacing--70);
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.single-article-layout__content,
+.article-sidebar {
+	min-width: 0;
+}
+
+.article-sidebar__widget + .article-sidebar__widget {
+	border-top: 1px solid var(--wp--preset--color--line);
+	padding-top: var(--wp--preset--spacing--60);
+}
+
+.article-sidebar__heading {
+	align-items: center;
+	display: flex;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.article-sidebar__heading::before {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 0 1.5rem;
+	height: 2px;
+}
+
+.article-sidebar__categories,
+.article-sidebar__latest {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.article-sidebar__categories li,
+.article-sidebar__latest li {
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	margin: 0;
+	padding: 0.7rem 0;
+}
+
+.article-sidebar__categories li:first-child,
+.article-sidebar__latest li:first-child {
+	padding-top: 0;
+}
+
+.article-sidebar__categories a,
+.article-sidebar__latest a {
+	color: var(--wp--preset--color--ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.article-sidebar__categories a:hover,
+.article-sidebar__latest a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+.article-sidebar__archives select {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 0;
+	color: var(--wp--preset--color--ink);
+	font: inherit;
+	max-width: 100%;
+	padding: 0.7rem;
+	width: 100%;
+}
+
+.article-sidebar__latest .wp-block-latest-posts__post-date {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+	margin-top: 0.25rem;
+}
+
+@media (min-width: 72rem) {
+	.single-article-layout {
+		align-items: start;
+		grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+	}
+
+	.single-article-layout__content.single-article-layout__content > :where(header, .wp-block-post-content, .wp-block-post-terms),
+	.single-article-layout__content > header > :where(:not(.alignleft):not(.alignright):not(.alignfull)),
+	.single-article-layout__content > .wp-block-post-content > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+		max-width: none;
+		width: 100%;
+	}
+}
