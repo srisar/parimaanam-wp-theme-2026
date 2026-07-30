@@ -77,6 +77,11 @@
 .site-search__field {
 	background: transparent;
 	border: 0;
+	/*
+	 * Stays 0 deliberately. This field is an underline, not a box — it has
+	 * only a bottom border, and a radius here would bow that 2px rule upward
+	 * at both ends rather than rounding any visible corner.
+	 */
 	border-bottom: 2px solid var(--wp--preset--color--crimson);
 	border-radius: 0;
 	color: var(--wp--preset--color--ink);
@@ -100,7 +105,7 @@
 .site-search__submit {
 	background: var(--wp--preset--color--crimson);
 	border: 0;
-	border-radius: 0.25rem;
+	border-radius: var(--parimaanam-radius-control);
 	color: var(--wp--preset--color--paper);
 	cursor: pointer;
 	flex: 0 0 auto;
