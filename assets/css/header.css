@@ -29,20 +29,6 @@
 	min-height: 5.5rem;
 }
 
-.site-header .wp-block-search__button {
-	background: transparent;
-	border: 0;
-	border-radius: 0;
-	box-shadow: none;
-	color: var(--wp--preset--color--crimson);
-	transition: color 180ms ease;
-}
-
-.site-header .wp-block-search__button:hover {
-	background: transparent;
-	color: var(--wp--preset--color--crimson-hover);
-}
-
 .site-navigation {
 	flex: 1 1 auto;
 }
@@ -256,15 +242,5 @@
 		padding: 0.8rem 0.5rem !important;
 		text-align: left;
 		width: 100%;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.site-header .wp-block-search__button {
-		transition: none;
-	}
-
-	.site-header .wp-block-search__button:hover {
-		transform: none;
 	}
 }

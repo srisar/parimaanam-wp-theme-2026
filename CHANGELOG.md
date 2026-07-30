@@ -7,6 +7,21 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.29.1
+
+- Replaced the header's Core Search block with a full-focus overlay. The block
+  only expands its field in place, which pushed the navigation sideways as the
+  field grew; the navigation now does not move at all.
+- This adds the theme's first JavaScript: `assets/js/search-overlay.js`, around
+  forty lines, no dependencies, deferred, front end only. Native `<dialog>`
+  supplies the focus trap, Escape handling, backdrop, and focus return, so none
+  of that is reimplemented.
+- The trigger is a real link to the search results page, so the control still
+  works without the script or without `<dialog>` support.
+- No new Tamil copy: the trigger, label, placeholder and submit reuse the
+  existing `தேடல்` string, and the close control uses Core's own translation,
+  which renders as `மூடுக`.
+
 ## 0.28.1
 
 - Made the four category section headings consistent. Science was missing the

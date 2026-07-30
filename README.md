@@ -209,7 +209,13 @@ Source strings are Tamil throughout rather than English. The publication is Tami
 
 `style.css` begins with the metadata WordPress uses to register the theme. Its only presentation rules are the responsive single-article grid and sidebar details that cannot be represented with block attributes or `theme.json`; design tokens and global block styles remain in `theme.json`.
 
-There is no custom JavaScript or build pipeline. The Core Search block conditionally loads WordPress's own Interactivity API module for its expandable field; that behavior is owned and maintained by Core. Theme JavaScript can be added under `assets/js/` only for a confirmed interaction that Core blocks cannot provide. Tailwind, Bootstrap, jQuery-by-default, front-end frameworks, and page builders are excluded.
+There is no build pipeline, and the theme ships exactly one script: `assets/js/search-overlay.js`, around forty lines with no dependencies.
+
+It exists because the header search is the one interaction Core cannot provide. The Core Search block only expands its field in place, which on a masthead holding a logo, four Tamil navigation labels, and a search control pushes the navigation sideways as the field grows. A full-focus overlay is not among the block's options, so this qualifies under the rule that theme JavaScript is added only for a confirmed interaction Core blocks cannot supply.
+
+The script is a genuine enhancement rather than a requirement. `patterns/header-search.php` renders the trigger as a real link to the search results page, so the control works with the script absent, blocked, or still loading, and on any browser without `<dialog>` support — the script returns early in that case rather than degrading. It is loaded with `defer` on the front end only, since an overlay would merely obstruct the editor.
+
+Native `<dialog>` supplies the focus trap, Escape handling, the backdrop, and returning focus to the trigger on close, so none of that is reimplemented. The script only opens the dialog, moves focus to the field, and closes on the close control or a backdrop click. Tailwind, Bootstrap, jQuery-by-default, front-end frameworks, and page builders remain excluded.
 
 ## Local development
 

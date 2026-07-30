@@ -60,7 +60,7 @@ function parimaanam_2026_enqueue_block_styles() {
 		$parimaanam_version
 	);
 
-	foreach ( array( 'header', 'homepage', 'footer' ) as $parimaanam_stylesheet ) {
+	foreach ( array( 'header', 'homepage', 'footer', 'search-overlay' ) as $parimaanam_stylesheet ) {
 		wp_enqueue_style(
 			'parimaanam-2026-' . $parimaanam_stylesheet,
 			get_theme_file_uri( "assets/css/{$parimaanam_stylesheet}.css" ),
@@ -70,3 +70,26 @@ function parimaanam_2026_enqueue_block_styles() {
 	}
 }
 add_action( 'enqueue_block_assets', 'parimaanam_2026_enqueue_block_styles' );
+
+/**
+ * Load the only script the theme ships.
+ *
+ * Core's Search block can expand its field in place but cannot present a
+ * full-focus overlay, so this one interaction is not available from a block.
+ * The markup works without the script — the trigger is a real link to the
+ * search results page — so this is a progressive enhancement, and it is left
+ * out of the editor, where the overlay would only get in the way.
+ */
+function parimaanam_2026_enqueue_scripts() {
+	wp_enqueue_script(
+		'parimaanam-2026-search-overlay',
+		get_theme_file_uri( 'assets/js/search-overlay.js' ),
+		array(),
+		wp_get_theme()->get( 'Version' ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'parimaanam_2026_enqueue_scripts' );
