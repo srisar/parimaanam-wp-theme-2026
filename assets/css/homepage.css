@@ -95,10 +95,31 @@
 	margin: 0;
 }
 
+/*
+ * The two overlay cards take their radius on the card, not on the image.
+ *
+ * theme.json rounds every featured image, which on a full-bleed card would
+ * curve the photograph while leaving the scrim above it square — the scrim
+ * runs to opacity 0.97 at the bottom, so its corners would stand proud of the
+ * image beneath. Rounding the card instead clips the image and the scrim
+ * together, because these cards already carry `overflow: hidden` to contain
+ * the hover zoom. The image's own radius is then zeroed so no sliver of card
+ * shows between the two curves.
+ */
 .home-hero__lead article {
+	border-radius: var(--parimaanam-radius-card);
 	min-height: 24rem;
 	overflow: hidden;
 	position: relative;
+}
+
+.home-hero__lead .wp-block-post-featured-image img,
+.home-category-showcase__feature-card .wp-block-post-featured-image img {
+	border-radius: 0;
+}
+
+.home-category-showcase__feature-card {
+	border-radius: var(--parimaanam-radius-card);
 }
 
 .home-hero__lead article::after {

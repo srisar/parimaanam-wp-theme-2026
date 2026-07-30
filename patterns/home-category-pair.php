@@ -51,7 +51,7 @@ if ( ! $parimaanam_pair ) {
 				<!-- wp:group {"tagName":"article","className":"home-category-pair__card","layout":{"type":"default"}} -->
 				<article class="wp-block-group home-category-pair__card"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","width":"100%","sizeSlug":"thumbnail"} /-->
 
-					<!-- wp:post-date {"isLink":true,"fontSize":"small"} /-->
+					<!-- wp:post-date {"isLink":true,"className":"parimaanam-chip parimaanam-chip--outline","fontSize":"small"} /-->
 
 					<!-- wp:post-title {"level":3,"isLink":true,"fontSize":"medium"} /--></article>
 				<!-- /wp:group -->

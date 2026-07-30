@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.41.0
+Version: 0.42.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -192,10 +192,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	border-radius: var(--parimaanam-radius-card);
 	overflow: hidden;
 	padding: var(--wp--preset--spacing--50);
-}
-
-.posts-grid .wp-block-post-featured-image img {
-	border-radius: var(--parimaanam-radius-media);
 }
 
 /*
@@ -550,8 +546,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	width: 4rem;
 }
 
+/*
+ * Latest Posts is a different block from Post Featured Image, so theme.json's
+ * featured-image radius does not reach it. The token is applied here so the
+ * sidebar thumbnails match the cards rather than being the one square image
+ * left on the page.
+ */
 .article-sidebar__latest .wp-block-latest-posts__featured-image img {
 	aspect-ratio: 1;
+	border-radius: var(--parimaanam-radius-media);
 	display: block;
 	height: auto;
 	object-fit: cover;
