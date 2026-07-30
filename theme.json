@@ -61,22 +61,22 @@
           "slug": "muted"
         },
         {
-          "color": "#d45656",
-          "name": "Crimson",
+          "color": "#c5f27e",
+          "name": "Accent",
           "slug": "crimson"
         },
         {
-          "color": "#e16b6b",
-          "name": "Crimson Hover",
+          "color": "#d9f7a6",
+          "name": "Accent Hover",
           "slug": "crimson-hover"
         },
         {
-          "color": "#3a292b",
+          "color": "#2e372a",
           "name": "Line",
           "slug": "line"
         },
         {
-          "color": "#4a2024",
+          "color": "#3d4f22",
           "name": "Highlight",
           "slug": "highlight"
         }
