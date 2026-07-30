@@ -9,8 +9,8 @@
 $parimaanam_search_query = get_search_query( false );
 ?>
 
-<!-- wp:heading {"level":1,"fontSize":"x-large"} -->
-<h1 class="wp-block-heading has-x-large-font-size"><?php
+<!-- wp:heading {"level":1,"className":"page-title","fontSize":"x-large"} -->
+<h1 class="wp-block-heading page-title has-x-large-font-size"><?php
 	printf(
 		/* translators: %s: the submitted search term. */
 		esc_html_x( '“%s” க்கான தேடல் முடிவுகள்', 'Search results page heading', 'parimaanam-2026' ),

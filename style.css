@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.38.1
+Version: 0.40.1
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -43,6 +43,126 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Files using this scale: style.css, assets/css/header.css,
  * assets/css/homepage.css.
  * ========================================================================== */
+
+/*
+ * Decorative icons are declared once and used by every component that needs
+ * them. They are masks rather than markup, so they inherit the surrounding
+ * colour and stay out of the accessibility tree — in each case the adjacent
+ * text already carries the meaning.
+ */
+:root {
+	--parimaanam-icon-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 4h-1V2h-1.5v2h-9V2H6v2H5C3.9 4 3 4.9 3 6v13c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm.5 15c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V9h15v10zm0-11.5h-15V6c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v1.5z'/%3E%3C/svg%3E");
+}
+
+/*
+ * Archive and search page titles: the term centred between two crimson rules.
+ *
+ * The rules are flex items that shrink before the text does, so a long Tamil
+ * category name or a long search term keeps its full width and the rules give
+ * way rather than forcing a wrap.
+ */
+.page-title {
+	align-items: center;
+	display: flex;
+	gap: var(--wp--preset--spacing--40);
+	justify-content: center;
+	text-align: center;
+	text-wrap: balance;
+}
+
+.page-title::before,
+.page-title::after {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 1 6rem;
+	height: 2px;
+}
+
+/*
+ * Archive and search cards carry the same meta language as the article header:
+ * a short crimson rule before the category, a calendar glyph before the date.
+ */
+.posts-grid__category {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.posts-grid__category::before {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 0 1.25rem;
+	height: 2px;
+}
+
+.posts-grid__category a {
+	color: var(--wp--preset--color--crimson);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+}
+
+.posts-grid__category a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
+
+.posts-grid__date {
+	align-items: center;
+	color: var(--wp--preset--color--muted);
+	display: flex;
+	gap: 0.4rem;
+}
+
+.posts-grid__date a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.posts-grid__date a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+/*
+ * Archive and search listings on phones.
+ *
+ * The global type minimums are set for reading an article; in a list of ten
+ * results the same sizes make each card claim more room than it earns. Titles
+ * and excerpts step down here only, leaving the article itself untouched.
+ *
+ * Breakpoint: below 40rem (tablet). See the canonical scale above.
+ */
+@media (max-width: 39.99rem) {
+	/*
+	 * Core's `has-*-font-size` utility classes carry `!important`, so a plain
+	 * declaration cannot override them. Redefining the preset variable on the
+	 * element instead lets Core's own rule resolve to a smaller value, which
+	 * avoids answering `!important` with `!important` and keeps the preset
+	 * system intact.
+	 */
+	.posts-grid {
+		--wp--preset--font-size--large: 1rem;
+	}
+
+	.wp-block-query-title {
+		--wp--preset--font-size--x-large: 1.375rem;
+	}
+
+	/*
+	 * The rules and the title compete for the same row, and at six rem each
+	 * they were pushing a two-word Tamil category onto a second line. They
+	 * shorten here so the term stays on one.
+	 */
+	.page-title::before,
+	.page-title::after {
+		flex-basis: 2rem;
+	}
+
+	.posts-grid .wp-block-post-excerpt {
+		font-size: 0.9375rem;
+	}
+}
 
 /*
  * Image captions in article content.
@@ -163,12 +283,13 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	gap: 0.4rem;
 }
 
-.article-header__meta .wp-block-post-date::before {
+.article-header__meta .wp-block-post-date::before,
+.posts-grid__date::before {
 	background: currentColor;
 	content: "";
 	flex: 0 0 1rem;
 	height: 1rem;
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 4h-1V2h-1.5v2h-9V2H6v2H5C3.9 4 3 4.9 3 6v13c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm.5 15c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V9h15v10zm0-11.5h-15V6c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v1.5z'/%3E%3C/svg%3E");
+	mask-image: var(--parimaanam-icon-calendar);
 	mask-repeat: no-repeat;
 	mask-size: contain;
 }

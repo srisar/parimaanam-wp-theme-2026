@@ -7,6 +7,21 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.40.1
+
+- Archive and search page titles are now centred between two crimson rules,
+  matching the accent language used elsewhere. The rules shorten from six rem
+  to two on phones, where they were otherwise pushing a two-word Tamil category
+  onto a second line.
+- Archive and search cards gained the article header's meta treatment: a short
+  crimson rule before the category, a calendar glyph before the date. The glyph
+  is now declared once as a custom property and shared by both.
+- Reduced listing type on phones — card titles 18.3px to 16px, excerpts 16.1px
+  to 15px, page titles 24.7px to 22px. Desktop is unchanged at 24, 18 and 36.
+- Core's `has-*-font-size` classes carry `!important`, so the sizes are set by
+  redefining the preset variable in scope rather than answering with more
+  `!important`.
+
 ## 0.38.1
 
 - Homepage sections now alternate two flat grounds, `paper` and a new `band`
