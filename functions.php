@@ -43,6 +43,33 @@ function parimaanam_2026_preload_fonts( $preload_resources ) {
 add_filter( 'wp_preload_resources', 'parimaanam_2026_preload_fonts' );
 
 /**
+ * Restore the reader's theme choice before the first paint.
+ *
+ * This is inline and unminified on purpose. An external file is fetched after
+ * the document begins rendering, so a reader who chose the light theme would
+ * watch the dark one flash first. It does one thing and is small enough to
+ * cost less than the request it avoids.
+ *
+ * Only an explicit choice is written. A reader who has never touched the
+ * toggle gets no attribute at all, which leaves the CSS free to follow their
+ * operating system — and to keep following it if they change it while the
+ * page is open.
+ *
+ * Storage access is wrapped because Safari's private mode throws on it, and a
+ * theme preference is not worth a broken page.
+ *
+ * @return void
+ */
+function parimaanam_2026_theme_boot() {
+	?>
+<script>
+(function(){try{var t=localStorage.getItem('parimaanam-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}document.documentElement.className+=' has-theme-toggle';})();
+</script>
+	<?php
+}
+add_action( 'wp_head', 'parimaanam_2026_theme_boot', 1 );
+
+/**
  * Show nine posts per page on archive and search listings.
  *
  * The listing grid packs three columns in the wide container, and the site
@@ -101,24 +128,38 @@ function parimaanam_2026_enqueue_block_styles() {
 add_action( 'enqueue_block_assets', 'parimaanam_2026_enqueue_block_styles' );
 
 /**
- * Load the only script the theme ships.
+ * Load the two scripts the theme ships.
+ *
+ * Both are progressive enhancements, and both are deferred because neither is
+ * needed before the page renders.
  *
  * Core's Search block can expand its field in place but cannot present a
- * full-focus overlay, so this one interaction is not available from a block.
- * The markup works without the script — the trigger is a real link to the
- * search results page — so this is a progressive enhancement, and it is left
- * out of the editor, where the overlay would only get in the way.
+ * full-focus overlay, so that interaction is not available from a block. Its
+ * markup works without the script — the trigger is a real link to the search
+ * results page.
+ *
+ * The theme toggle only records an explicit choice; the operating-system
+ * default is expressed in CSS and needs nothing here. Restoring a stored
+ * choice happens in an inline head script instead, because a deferred file
+ * would run after the first paint and the reader would see the wrong theme
+ * flash.
+ *
+ * Both are left out of the editor, where neither has anything to act on.
  */
 function parimaanam_2026_enqueue_scripts() {
-	wp_enqueue_script(
-		'parimaanam-2026-search-overlay',
-		get_theme_file_uri( 'assets/js/search-overlay.js' ),
-		array(),
-		wp_get_theme()->get( 'Version' ),
-		array(
-			'in_footer' => true,
-			'strategy'  => 'defer',
-		)
-	);
+	$parimaanam_version = wp_get_theme()->get( 'Version' );
+
+	foreach ( array( 'search-overlay', 'theme-toggle' ) as $parimaanam_script ) {
+		wp_enqueue_script(
+			'parimaanam-2026-' . $parimaanam_script,
+			get_theme_file_uri( "assets/js/{$parimaanam_script}.js" ),
+			array(),
+			$parimaanam_version,
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'parimaanam_2026_enqueue_scripts' );
