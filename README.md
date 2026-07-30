@@ -24,6 +24,7 @@ parimaanam_2026/
 ├── theme.json           Design tokens, global styles, and block compatibility
 ├── assets/
 │   ├── css/
+│   │   ├── footer.css   Footer regions and the category column grid
 │   │   ├── header.css   Masthead, logo, and Core Navigation presentation
 │   │   └── homepage.css Hero, category sections, and category directory
 │   ├── fonts/
@@ -33,8 +34,10 @@ parimaanam_2026/
 │   │       └── OFL.txt
 │   └── images/
 │       └── parimaanam-logo-web.svg Approved light-on-dark site logo
+├── inc/
+│   └── navigation.php   Approved page paths shared by header and footer
 ├── parts/
-│   ├── footer.html      Minimal shared publication footer
+│   ├── footer.html      Shared discovery footer composition
 │   └── header.html      Shared site identity, navigation, and Core search
 ├── patterns/
 │   ├── category-science.php First category-led homepage section
@@ -42,6 +45,8 @@ parimaanam_2026/
 │   ├── category-biology.php Editorial Biology feature and card section
 │   ├── article-sidebar.php Native single-article discovery widgets
 │   ├── error-404.php     Not-found copy, search, and recent articles
+│   ├── footer-discovery.php Science Series links and the category list
+│   ├── footer-meta.php   Site title, copyright, and privacy link
 │   ├── home-categories.php Dynamic category directory
 │   ├── search-title.php  Tamil search-results heading with the query term
 │   ├── home-hero.php     Eight latest posts in three editorial regions
@@ -120,7 +125,11 @@ The reusable `parts/header.html` is the single header source for every template.
 
 The navigation uses the four labels and destinations approved from the existing site: Science Series, Downloads, Contact, and About. Science Series and Downloads expose their existing child pages as native Navigation submenus. The pattern resolves published pages by stable hierarchical path and falls back to the corresponding installation-relative URL, avoiding imported page IDs, a database-specific Navigation post reference, and production-domain URLs. This is the portable first-activation default. When an editor changes and saves the Navigation block, WordPress Core creates or updates its `wp_navigation` entity and stores the resulting reference in the customized shared Header template part. Subsequent menu changes are database-managed through the Site Editor and apply to every template; the theme never hard-codes that environment-specific entity ID.
 
-`parts/footer.html` contains only the dynamic linked Site Title. This provides a consistent semantic footer without inventing a copyright statement, slogan, menu, or editorial copy.
+`parts/footer.html` is a discovery footer. A two-region band pairs the six Science Series pages with the Core Categories block, and a thin strip beneath carries the linked Site Title, a copyright line, and a privacy link.
+
+The two regions were chosen against what the rest of the theme already offers. Search, categories, monthly archives, and latest posts all appear in the article sidebar, and the homepage ends with a category directory, so repeating search or recent posts here would put the same links in three places. The Science Series is the one substantial content group reachable only from a header dropdown, which makes it the footer's most useful addition for a reader who has just finished an article.
+
+Nothing in it is invented copy. Both region headings reuse strings the theme already ships — `அறிவியல் தொடர்கள்` from the navigation and `பிரிவுகள்` from the sidebar and homepage directory. The category list comes from Core, so it needs no maintenance and stores no term IDs. The copyright year comes from `wp_date()` and the site name from settings, so neither can go stale. The privacy link is produced by `get_the_privacy_policy_link()`, which returns nothing at all unless an editor has designated a privacy page and published it; its link text is that page's own title. The only new string is the `© %1$s %2$s` format, which is boilerplate rather than editorial content.
 
 ### Styling model
 
@@ -163,6 +172,8 @@ Future approved global tokens and block styles should go into `theme.json`. CSS 
 ### Code model
 
 `functions.php` contains three narrowly scoped Core hooks and renders no markup. An `enqueue_block_assets` hook loads `style.css` and the two `assets/css/` files on both the front end and in the block editor, keeping editor and front-end presentation aligned. An `after_setup_theme` hook calls `load_theme_textdomain()`: the pattern strings were already marked for translation, but without this nothing loaded the domain, so none of them could actually be translated. A `wp_preload_resources` filter preloads the Tamil font subset, because WordPress emits the `@font-face` rules from `theme.json` but does not preload them, leaving the browser to discover the file only after parsing the stylesheet. Tamil carries the headline text on every view, so it is the subset worth an early connection; Latin stays lazily fetched.
+
+`inc/` now exists and holds one module. `inc/navigation.php` owns the approved page-path map and resolves paths to URLs, because the header and the footer link to the same destinations and two copies of that list would eventually drift apart. `functions.php` requires it. Labels deliberately stay in the patterns that output them: translation calls must receive string literals, so `esc_html_x( $variable )` would not be extractable by tooling. `inc/` therefore owns paths and resolution only.
 
 Source strings are Tamil throughout rather than English. The publication is Tamil-only, so an English source layer would add a translation catalogue that nobody would ever translate away from. The one English string that had survived in `patterns/posts-grid.php` was an inconsistency rather than a convention. Pattern PHP is limited to escaped translations, portable theme/home/page URLs, the dynamic site-name alternative text, translated article-sidebar headings, and category patterns' `get_category_by_slug()`/`get_category_link()` boundary. The navigation pattern uses `get_page_by_path()` and `get_permalink()` only to preserve existing hierarchical page URLs without content IDs. Larger PHP concerns should be added only for a necessary hook or registration and split into `inc/`.
 
@@ -211,6 +222,7 @@ WordPress caches the list of theme-owned pattern files against the `Version` hea
 18. **Reviewable CSS:** presentation that cannot be expressed through `theme.json` lives in `assets/css/` as ordinary files rather than a single-line `styles.css` string, so it can be diffed and reviewed. Global declarations and block-scoped `&` entries stay in `theme.json`, where their scoping is meaningful.
 19. **Translation wired, not merely marked:** the theme registers its own text domain instead of relying on the just-in-time loading that only applies to themes distributed through WordPress.org, and keeps one source language rather than mixing Tamil and English sources.
 20. **No English in a Tamil publication:** where a Core block emits an untranslated English string on a `ta-IN` installation, the theme supplies the phrasing Core's own Tamil translation already uses elsewhere for the same condition, rather than inventing a term. This currently applies to the search-results heading and the not-found heading. Prefer this over filtering Core's translations, which would be fragile and invisible to editors.
+21. **Discovery-led footer, one source for navigation paths:** the footer offers onward routes rather than restating site information, pairing the Science Series with a Core-driven category list. Search and recent posts are deliberately excluded because both already appear in the article sidebar and would otherwise sit in three places. The approved page paths moved to `inc/navigation.php` so the header and footer resolve the same destinations from one list rather than two copies that can drift.
 
 ## Future extension points
 

@@ -13,8 +13,8 @@
 $parimaanam_privacy_link = get_the_privacy_policy_link();
 ?>
 
-<!-- wp:group {"className":"site-footer__meta","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-<div class="wp-block-group site-footer__meta">
+<!-- wp:group {"align":"wide","className":"site-footer__meta","style":{"spacing":{"blockGap":"var:preset|spacing|40"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+<div class="wp-block-group alignwide site-footer__meta">
 	<!-- wp:site-title {"level":0,"isLink":true,"fontSize":"small"} /-->
 
 	<!-- wp:paragraph {"className":"site-footer__copyright","fontSize":"small"} -->

@@ -1,0 +1,85 @@
+/*
+ * Footer layout. The Core Categories block renders a flat unordered list, so
+ * its columns have to come from CSS; the rest is region arrangement that block
+ * attributes cannot express. Consumes global presets only.
+ */
+.site-footer__discovery {
+	display: grid;
+	gap: var(--wp--preset--spacing--60);
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.site-footer__region {
+	min-width: 0;
+}
+
+.site-footer__heading {
+	align-items: center;
+	display: flex;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.site-footer__heading::before {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 0 1.5rem;
+	height: 2px;
+}
+
+.site-footer__series-list,
+.site-footer__category-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.site-footer__category-list {
+	display: grid;
+	gap: 0.5rem var(--wp--preset--spacing--50);
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+
+.site-footer__series-list li,
+.site-footer__category-list li {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+	margin: 0;
+	padding: 0.35rem 0;
+}
+
+.site-footer__series-list a,
+.site-footer__category-list a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+
+.site-footer__series-list a:hover,
+.site-footer__category-list a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
+
+.site-footer__meta {
+	border-top: 1px solid var(--wp--preset--color--line);
+	color: var(--wp--preset--color--muted);
+	margin-top: var(--wp--preset--spacing--60);
+	padding-top: var(--wp--preset--spacing--40);
+}
+
+.site-footer__meta p {
+	margin: 0;
+}
+
+.site-footer__meta a {
+	color: var(--wp--preset--color--muted);
+}
+
+.site-footer__meta a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+}
+
+@media (min-width: 48rem) {
+	.site-footer__discovery {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	}
+}

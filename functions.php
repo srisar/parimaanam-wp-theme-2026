@@ -60,7 +60,7 @@ function parimaanam_2026_enqueue_block_styles() {
 		$parimaanam_version
 	);
 
-	foreach ( array( 'header', 'homepage' ) as $parimaanam_stylesheet ) {
+	foreach ( array( 'header', 'homepage', 'footer' ) as $parimaanam_stylesheet ) {
 		wp_enqueue_style(
 			'parimaanam-2026-' . $parimaanam_stylesheet,
 			get_theme_file_uri( "assets/css/{$parimaanam_stylesheet}.css" ),

@@ -7,6 +7,18 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.22.1
+
+- Replaced the site-title-only footer with a discovery footer: the six Science
+  Series pages beside the Core Categories block, over a strip carrying the site
+  title, a copyright line, and a privacy link that appears only once a privacy
+  page is designated and published.
+- Moved the approved page paths into `inc/navigation.php` so the header and the
+  footer resolve the same destinations from one list. Header output verified
+  unchanged by diffing its resolved URLs before and after.
+- Added `assets/css/footer.css` for the region layout and the category column
+  grid, which the Core Categories block's flat list cannot express itself.
+
 ## 0.18.0
 
 - Converted the four remaining deprecated `displayLayout` attributes in the
