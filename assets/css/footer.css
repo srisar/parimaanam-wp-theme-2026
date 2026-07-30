@@ -31,8 +31,33 @@
 	max-width: min(11rem, 55vw);
 }
 
+/*
+ * On phones the links become a single centred column with hairline dividers.
+ * Wrapping them into rows centred each row independently, so the rows started
+ * at different x positions and the block read as scattered words rather than a
+ * menu. A fixed two-by-two grid would align them, but the menu is
+ * editor-managed: a fifth link would strand on a row of its own. One column
+ * stays tidy at any number of links.
+ */
+.site-footer__secondary {
+	margin-inline: auto;
+	max-width: 17rem;
+	width: 100%;
+}
+
 .site-footer__nav .wp-block-navigation__container {
+	flex-direction: column;
+	gap: 0;
 	justify-content: center;
+	width: 100%;
+}
+
+.site-footer__nav .wp-block-navigation-item {
+	width: 100%;
+}
+
+.site-footer__nav .wp-block-navigation-item + .wp-block-navigation-item {
+	border-top: 1px solid var(--wp--preset--color--line);
 }
 
 /*
@@ -41,9 +66,12 @@
  */
 .site-footer__nav .wp-block-navigation-item__content {
 	color: var(--wp--preset--color--ink);
+	display: block;
 	font-weight: 600;
-	padding: 0.65rem 0;
+	padding: 0.7rem 0;
+	text-align: center;
 	text-decoration: none;
+	width: 100%;
 }
 
 .site-footer__nav .wp-block-navigation-item__content:hover {
@@ -95,8 +123,30 @@
 		max-width: min(9rem, 40vw);
 	}
 
+	.site-footer__secondary {
+		margin-inline: 0;
+		max-width: none;
+		width: auto;
+	}
+
 	.site-footer__nav .wp-block-navigation__container {
+		flex-direction: row;
+		gap: var(--wp--preset--spacing--50);
 		justify-content: flex-end;
+		width: auto;
+	}
+
+	.site-footer__nav .wp-block-navigation-item {
+		width: auto;
+	}
+
+	.site-footer__nav .wp-block-navigation-item + .wp-block-navigation-item {
+		border-top: 0;
+	}
+
+	.site-footer__nav .wp-block-navigation-item__content {
+		padding: 0.5rem 0;
+		width: auto;
 	}
 
 	.site-footer .site-footer__meta {

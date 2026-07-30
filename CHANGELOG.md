@@ -7,6 +7,16 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.27.2
+
+- Made the footer menu a single centred column with hairline dividers on
+  phones. Wrapping the links centred each row independently, so the rows began
+  at different x positions and the block read as scattered words rather than a
+  menu.
+- A two-by-two grid would also have aligned them, but the menu is
+  editor-managed and a fifth link would strand on a row of its own. One column
+  stays tidy at any number of links.
+
 ## 0.27.1
 
 - Centred the footer on phones: the logo, the menu, and the copyright now sit
