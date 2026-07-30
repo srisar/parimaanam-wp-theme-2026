@@ -102,13 +102,33 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * No letter-spacing. These labels are Tamil, and spacing the glyphs detaches
  * combining vowel signs from the consonant they belong to.
  */
+/*
+ * `align-items: center` is not cosmetic here — it stops the chip growing.
+ *
+ * A flex container defaults to stretching its items, and the border that draws
+ * the chip sits on the inner anchor. Wherever the chip lands in a container
+ * that is taller than its own text — the category pair's card is a grid whose
+ * thumbnail spans both rows, so a one-line title leaves the row taller than
+ * the text — the anchor stretched and the outline grew with it, while the text
+ * stayed where it was. That produced date chips of two different heights on
+ * the same card, depending on whether the headline wrapped.
+ */
 .parimaanam-chip {
+	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.375rem;
 }
 
 .parimaanam-chip a {
+	/*
+	 * The transparent border is what keeps the two variants the same height.
+	 * Only the outlined chip draws a border, but a chip without one is 1px
+	 * shorter top and bottom, and the two sit side by side in every card's
+	 * meta row — so the filled chip reserves the space and the outlined
+	 * variant only changes the colour.
+	 */
+	border: 1px solid transparent;
 	border-radius: var(--parimaanam-radius-chip);
 	display: inline-block;
 	font-size: 0.8125rem;
@@ -139,7 +159,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 .parimaanam-chip--outline a {
-	border: 1px solid var(--wp--preset--color--line);
+	border-color: var(--wp--preset--color--line);
 	color: var(--wp--preset--color--muted);
 }
 
