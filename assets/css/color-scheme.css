@@ -123,7 +123,7 @@
 		--wp--preset--color--crimson: light-dark(#4e7a1e, #c5f27e);
 		--wp--preset--color--crimson-hover: light-dark(#3d6118, #d9f7a6);
 
-		--wp--preset--color--line: light-dark(#e3e4e6, #2e372a);
+		--wp--preset--color--line: light-dark(#9fa69c, #4b5547);
 		--wp--preset--color--highlight: light-dark(#e4f7c4, #3d4f22);
 	}
 }
@@ -171,6 +171,6 @@
 	--wp--preset--color--muted: #b9aaa8;
 	--wp--preset--color--crimson: #c5f27e;
 	--wp--preset--color--crimson-hover: #d9f7a6;
-	--wp--preset--color--line: #2e372a;
+	--wp--preset--color--line: #4b5547;
 	--wp--preset--color--highlight: #3d4f22;
 }
