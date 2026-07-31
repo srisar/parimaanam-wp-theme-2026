@@ -7,6 +7,19 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.45.1
+
+- The sidebar's recent-post titles drop from 18px to 15px and their dates from
+  14px to 13px. The leading mattered more than the size: both inherited the
+  `1.8` line-height set for reading a long article, applied to headlines
+  wrapping three and four times in a 244px column. Titles now use `1.35`, the
+  line-height the theme already gives headings, which is what these are.
+- The widget was 599px tall and is now 475px. It cannot shrink much further
+  without touching the thumbnails — the 4rem image plus padding sets an 86px
+  floor per entry, and most entries are already close to it.
+- The date's size lived in two rules at equal specificity, so the later one
+  silently won. They are merged rather than a third being added.
+
 ## 0.45.0
 
 - Archive and search pagination is designed rather than inherited. Core ships
