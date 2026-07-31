@@ -6,47 +6,65 @@
  */
 
 /*
- * Core's Post Navigation Link can print its own "Previous:" / "Next:" prefix,
- * but those exact strings are untranslated in the Tamil pack, so a ta_IN site
- * showed English labels beside Tamil titles. "Previous Post" and "Next Post"
- * are translated, so the labels are emitted here from Core's own translation
- * and the block's prefix is turned off.
+ * Rendered here rather than with Core's Post Navigation Link block, which
+ * prints a title and nothing else — it has no featured-image support, so a
+ * thumbnail is not expressible through it. The adjacent posts were already
+ * being resolved in this file to decide whether to emit a label at all, so
+ * rendering from those objects costs nothing extra and returns the image.
  *
- * Whether an adjacent post exists is resolved here too, so the label is never
- * rendered above a link Core is going to omit.
+ * Core's own "Previous:" / "Next:" prefixes are untranslated in the Tamil
+ * pack, which is why the labels come from `Previous Post` and `Next Post` —
+ * those two are translated, so no copy is invented here.
  */
-$parimaanam_previous = get_previous_post();
-$parimaanam_next     = get_next_post();
+$parimaanam_adjacent = array(
+	'previous' => get_previous_post(),
+	'next'     => get_next_post(),
+);
 
-if ( ! $parimaanam_previous && ! $parimaanam_next ) {
+if ( ! $parimaanam_adjacent['previous'] && ! $parimaanam_adjacent['next'] ) {
 	return;
 }
+
+$parimaanam_labels = array(
+	'previous' => __( 'Previous Post' ),
+	'next'     => __( 'Next Post' ),
+);
 ?>
 
-<!-- wp:group {"tagName":"nav","align":"wide","className":"post-navigation","style":{"spacing":{"margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
+<!--
+	blockGap 0, for the reason established in 0.44.0. Core writes the block gap
+	as margin-top on every child after the first, and this group uses the flow
+	layout, so that margin survived into a CSS grid that already spaces itself.
+	Down one column it read as slightly generous spacing; across two it pushed
+	the next panel 16px below the previous one, which is the misalignment.
+-->
+<!-- wp:group {"tagName":"nav","align":"wide","className":"post-navigation","style":{"spacing":{"blockGap":"0","margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
 <nav class="wp-block-group alignwide post-navigation" style="margin-top:var(--wp--preset--spacing--70);margin-bottom:var(--wp--preset--spacing--70)">
-	<?php if ( $parimaanam_previous ) : ?>
-	<!-- wp:group {"className":"post-navigation__item post-navigation__item--previous","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group post-navigation__item post-navigation__item--previous">
-		<!-- wp:paragraph {"className":"post-navigation__label","fontSize":"small"} -->
-		<p class="post-navigation__label has-small-font-size"><?php echo esc_html__( 'Previous Post' ); ?></p>
-		<!-- /wp:paragraph -->
+	<?php foreach ( $parimaanam_adjacent as $parimaanam_key => $parimaanam_post ) : ?>
+		<?php if ( ! $parimaanam_post ) { continue; } ?>
 
-		<!-- wp:post-navigation-link {"type":"previous","showTitle":true,"linkLabel":false,"arrow":"none"} /-->
+	<!-- wp:html -->
+	<div class="post-navigation__item post-navigation__item--<?php echo esc_attr( $parimaanam_key ); ?>">
+		<p class="post-navigation__label"><?php echo esc_html( $parimaanam_labels[ $parimaanam_key ] ); ?></p>
+
+		<a class="post-navigation__link" href="<?php echo esc_url( get_permalink( $parimaanam_post ) ); ?>">
+			<?php if ( has_post_thumbnail( $parimaanam_post ) ) : ?>
+			<span class="post-navigation__thumb">
+				<?php
+				/*
+				 * Decorative: the destination's own title sits beside it and
+				 * carries the meaning, so an alt text here would repeat it to a
+				 * screen reader rather than add anything.
+				 */
+				echo get_the_post_thumbnail( $parimaanam_post, 'thumbnail', array( 'alt' => '', 'loading' => 'lazy' ) );
+				?>
+			</span>
+			<?php endif; ?>
+
+			<span class="post-navigation__title"><?php echo esc_html( get_the_title( $parimaanam_post ) ); ?></span>
+		</a>
 	</div>
-	<!-- /wp:group -->
-	<?php endif; ?>
-
-	<?php if ( $parimaanam_next ) : ?>
-	<!-- wp:group {"className":"post-navigation__item post-navigation__item--next","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group post-navigation__item post-navigation__item--next">
-		<!-- wp:paragraph {"className":"post-navigation__label","fontSize":"small"} -->
-		<p class="post-navigation__label has-small-font-size"><?php echo esc_html__( 'Next Post' ); ?></p>
-		<!-- /wp:paragraph -->
-
-		<!-- wp:post-navigation-link {"showTitle":true,"linkLabel":false,"arrow":"none"} /-->
-	</div>
-	<!-- /wp:group -->
-	<?php endif; ?>
+	<!-- /wp:html -->
+	<?php endforeach; ?>
 </nav>
 <!-- /wp:group -->

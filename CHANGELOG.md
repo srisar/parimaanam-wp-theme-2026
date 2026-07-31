@@ -7,6 +7,119 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.54.0
+
+- The post navigation is two cards rather than two panels divided by rules.
+  The rules were carrying the separation, which is why they had to be visible
+  enough to do structural work; the cards take the `surface` fill and card
+  radius the listing grid already uses, and the gap separates them. Three
+  borders go with it — above the block, between the stacked panels on phones,
+  and between them at tablet and up.
+- Hover changes accordingly: the panels used to sit on `paper` and brighten to
+  `surface`, but a card that is already `surface` has nothing to brighten to,
+  so the affordance is an accent edge. The base border is transparent rather
+  than absent, so the card does not shift a pixel when it appears.
+
+## 0.53.0
+
+- Separator lines are visible. They measured 1.27:1 against the page in the
+  light skin and 1.61:1 in the dark; both now sit near 2.5:1, within 0.05 of
+  each other so a rule reads the same weight in either.
+- They stay a green-grey rather than becoming the accent. `line` is used in
+  twenty-five places and only some are separators — it is also the outline on
+  every date chip and the border on every form field, so the accent would have
+  put a lime edge on all thirty homepage chips rather than on the rules. The
+  dark value was already tinted (`#2e372a` is a green-grey), so the hue was
+  never the problem, only the contrast.
+- 2.5:1 rather than 3:1 deliberately: reaching 3:1 on white needs about
+  `#959595`, which reads as a heavy rule rather than a hairline.
+- Three places carry the value — the `light-dark()` pair, `theme.json`'s
+  fallback, and the dark island pinning the masthead and footer. Missing the
+  third would have left the footer's rules faint while the rest improved.
+
+## 0.52.1
+
+- The "next" navigation panel no longer sits 16px below the previous one. Same
+  fault fixed in the hero at `0.44.0`, in a block written before that lesson:
+  Core writes the block gap as `margin-top` on every child after the first, and
+  the flow layout let it survive into a CSS grid that already spaces itself.
+
+## 0.52.0
+
+- Post navigation gains thumbnails. Core's Post Navigation Link block renders a
+  title and nothing else — it has no featured-image support — so the pattern
+  now renders from the adjacent post objects it was already resolving. Images
+  are 4rem square on the media radius, the next panel mirrors so both lead with
+  the image on the side their arrow points towards, and a post without a
+  featured image renders without one rather than reserving an empty slot.
+- Their titles drop from 24px to 17px. Against 16px body that size competed
+  with the article's own headings, and this is a signpost rather than a heading.
+- The images carry an empty `alt`: the destination's title sits beside each one,
+  so alt text would repeat it to a screen reader rather than add anything.
+
+## 0.51.0
+
+- Body text drops from 18px to 16px on desktop and 16px to 15px on phones.
+- This reverses reasoning applied earlier in this theme. The listing excerpt
+  floor was set on the argument that Tamil needs a *larger* nominal size than
+  Latin. Measuring the ink says otherwise: in Google Sans at 100px, Latin
+  x-height renders 55 units and Tamil base glyphs render 62 — Tamil is **1.13×
+  larger at the same nominal size**. 18px Tamil was reading like 20.3px of
+  Latin. It never needed a bigger number; it was already bigger.
+- The new sizes land near 18.1px and 16.9px Latin-equivalent.
+- The root size is an explicit clamp rather than the `medium` preset, so the
+  change is confined to body copy — `medium` also carries card titles and
+  sidebar headings, which are separately tuned.
+
+## 0.50.0
+
+- The article header puts the category and date on one row above the title.
+  Splitting them either side of the headline made a reader cross it twice to
+  collect two facts that belong together, and left the date reading as a
+  footnote to the title rather than part of its byline.
+- Both chips carry a glyph — a tag and a calendar — as masks, so they take the
+  colour of the chip they sit in: near-black on the accent fill, muted on the
+  outlined one, correct in both skins with nothing hard-coded.
+- The listing cards' chips stay plain. This header shows one category and one
+  date once, where an icon is orientation; an archive page shows eighteen
+  chips, and eighteen repeated glyphs become texture rather than signal.
+- The calendar mask returns after being retired in `0.42.0`. It was removed
+  then because it decorated a bare date *beside* a chip; inside the chip it is
+  part of the label rather than a second treatment competing with it.
+
+## 0.49.0
+
+- The heading scale comes down. An in-content `h2` rendered at 36px — the same
+  size as the article title — so a heading inside a piece shouted as loudly as
+  the heading over it, and `h4`–`h6` all sat at 18px, indistinguishable from
+  the body text they introduce. Desktop is now title 36, h1 32, h2 28, h3 23,
+  h4 20, h5 18, h6 17; phones run 26, 22, 19, 18, 17, 16. Strictly descending
+  at both ends.
+- Sizes are explicit clamps rather than presets, because the presets are shared
+  with card titles and listing type, which are already tuned.
+- **Static `rem` values are not static here.** `settings.typography.fluid` is
+  true, so WordPress fluidises them too: the `1.125rem` and `1rem` first given
+  to `h5` and `h6` scaled *down* to 14.2px and 14.1px on a phone — below the
+  16.1px body text they head. Both are clamps now.
+- `settings.color.custom` becomes `true`, so the editor offers a colour picker
+  beyond the nine palette entries. Custom gradients and duotone stay off.
+  **A custom hex does not follow the light/dark toggle** — a colour chosen
+  against the dark background stays that colour on white. The palette entries
+  all adapt; custom ones cannot.
+
+## 0.48.1
+
+- The comments heading takes the accent rule every other section heading
+  carries, and steps down from x-large to large — at x-large it matched the
+  article's own title.
+- Its label is Tamil without coining a word. Core builds it from
+  `_n( '%s response', '%s responses' )` and every candidate is untranslated in
+  `ta_IN`, so turning the count off does not help either. `Comments` *is*
+  translated, as கருத்துகள், so the heading is that noun with the count in
+  parentheses — the shape the category list already uses, where a term reads
+  அறிவியல் (76). Both plural forms return the same string, so the one-comment
+  case needs no invented singular.
+
 ## 0.48.0
 
 - Comments are designed. Core shipped them as an undifferentiated stack: every

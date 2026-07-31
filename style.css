@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.49.0
+Version: 0.54.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -361,28 +361,78 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 }
 
 /*
+ * The article header's two chips carry a glyph; the listing cards' chips do
+ * not, and that difference is deliberate.
+ *
+ * This header shows one category and one date, once, at the top of a page
+ * somebody has chosen to read — an icon there is orientation. A listing page
+ * shows nine cards with two chips each, and eighteen repeated glyphs stop
+ * being a signal and become texture. Same reasoning that keeps the filled card
+ * box off row-shaped cards.
+ *
+ * inline-flex on the anchor rather than inline-block, so the glyph and the
+ * label share a baseline-independent centre. At inline-block the mask sat on
+ * the text baseline and rode low against Tamil, whose glyphs carry more
+ * below-centre weight than Latin.
+ */
+.article-header__meta .parimaanam-chip a {
+	align-items: center;
+	display: inline-flex;
+	gap: 0.375em;
+}
+
+.article-header__meta .parimaanam-chip a::before {
+	background: currentColor;
+	content: "";
+	flex: 0 0 auto;
+	height: 0.9375em;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	width: 0.9375em;
+}
+
+.article-header__meta .parimaanam-chip--accent a::before {
+	mask-image: var(--parimaanam-icon-category);
+}
+
+.article-header__meta .parimaanam-chip--outline a::before {
+	mask-image: var(--parimaanam-icon-calendar);
+}
+
+/*
  * Adjacent post navigation. Two panels sharing a hairline, each carrying a
  * quiet label above the destination title, with the arrow supplied in CSS so
  * it stays out of the link's accessible name.
  *
  * Breakpoint: 40rem (tablet). See the canonical scale above.
  */
+/*
+ * Two cards rather than two panels divided by rules.
+ *
+ * The lines were carrying the separation, which meant a hairline had to be
+ * visible enough to do structural work — and the theme already has a better
+ * tool for "here are two destinations": the same surface fill and card radius
+ * the listing grid uses. The gap separates them, so nothing has to be drawn.
+ */
 .post-navigation {
-	border-top: 1px solid var(--wp--preset--color--line);
 	display: grid;
-	gap: 1px;
+	gap: var(--wp--preset--spacing--40);
 	grid-template-columns: minmax(0, 1fr);
 }
 
+/*
+ * The transparent border reserves the space the hover state fills, so the card
+ * does not shift by a pixel when the accent edge appears — the same technique
+ * the chips use to keep their two variants the same height.
+ */
 .post-navigation__item {
-	background: var(--wp--preset--color--paper);
-	padding: var(--wp--preset--spacing--50) 0;
+	background: var(--wp--preset--color--surface);
+	border: 1px solid transparent;
+	border-radius: var(--parimaanam-radius-card);
+	padding: var(--wp--preset--spacing--50);
 	position: relative;
-	transition: background-color 200ms ease;
-}
-
-.post-navigation__item + .post-navigation__item {
-	border-top: 1px solid var(--wp--preset--color--line);
+	transition: border-color 200ms ease;
 }
 
 .post-navigation__label {
@@ -390,33 +440,73 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	margin: 0;
 }
 
-.post-navigation .wp-block-post-navigation-link {
-	font-size: var(--wp--preset--font-size--large);
-	font-weight: 700;
-	line-height: 1.35;
+/*
+ * The destination is a thumbnail beside its title. Core's Post Navigation Link
+ * block cannot express that — it renders a title and nothing else — so the
+ * pattern builds this markup from the adjacent post it was already resolving.
+ */
+.post-navigation__link {
+	align-items: center;
+	color: var(--wp--preset--color--ink);
+	display: flex;
+	gap: var(--wp--preset--spacing--40);
+	text-decoration: none;
 }
 
-.post-navigation .wp-block-post-navigation-link a {
-	color: var(--wp--preset--color--ink);
-	text-decoration: none;
+.post-navigation__thumb {
+	flex: 0 0 auto;
+	line-height: 0;
+	width: 4rem;
+}
+
+.post-navigation__thumb img {
+	aspect-ratio: 1;
+	border-radius: var(--parimaanam-radius-media);
+	display: block;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+/*
+ * Down from `large` (24px). Against 16px body that was competing with the
+ * article's own headings; this is a signpost to somewhere else, not a heading
+ * in its own right.
+ */
+.post-navigation__title {
+	font-size: clamp(0.9375rem, 0.89rem + 0.22vw, 1.0625rem);
+	font-weight: 700;
+	line-height: 1.35;
 }
 
 /*
  * Stretching the anchor over the panel makes the whole area clickable without
  * wrapping non-link content in the link.
  */
-.post-navigation .wp-block-post-navigation-link a::after {
+.post-navigation__link::after {
 	content: "";
 	inset: 0;
 	position: absolute;
 }
 
+/*
+ * The card is already `surface`, so hover cannot brighten the fill the way it
+ * did when the panels sat on `paper`. The accent edge is the affordance now.
+ */
 .post-navigation__item:hover {
-	background: var(--wp--preset--color--surface);
+	border-color: var(--wp--preset--color--crimson);
 }
 
-.post-navigation__item:hover .wp-block-post-navigation-link a {
+.post-navigation__item:hover .post-navigation__link {
 	color: var(--wp--preset--color--crimson-hover);
+}
+
+.post-navigation__thumb img {
+	transition: transform 420ms ease;
+}
+
+.post-navigation__item:hover .post-navigation__thumb img {
+	transform: scale(1.05);
 }
 
 .post-navigation__label::before {
@@ -451,11 +541,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 		padding: var(--wp--preset--spacing--50);
 	}
 
-	.post-navigation__item + .post-navigation__item {
-		border-left: 1px solid var(--wp--preset--color--line);
-		border-top: 0;
-	}
-
 	/*
 	 * When only a next post exists it must still sit on the right, or a first
 	 * post would show its one panel in the previous slot.
@@ -463,6 +548,14 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	.post-navigation__item--next {
 		grid-column: 2;
 		text-align: right;
+	}
+
+	/*
+	 * The next panel mirrors: its thumbnail sits on the outer edge so both
+	 * panels lead with the image on the side the arrow points towards.
+	 */
+	.post-navigation__item--next .post-navigation__link {
+		flex-direction: row-reverse;
 	}
 }
 
