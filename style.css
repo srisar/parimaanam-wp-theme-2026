@@ -906,25 +906,50 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * metadata and recedes; neither is underlined, because in a list of thirty
  * comments a rule under every name reads as clutter rather than as a link.
  */
-.wp-block-comment-author-name,
-.wp-block-comment-author-name a {
+/*
+ * The byline takes the chip shape the rest of the theme uses for metadata.
+ *
+ * Neither takes the accent fill, and that is the point. Lime means "category"
+ * everywhere else on this site — on listing cards, in the article header, on
+ * the homepage — so putting a person's name in it would say something untrue.
+ * The two share the chip's geometry and part on colour instead: the author in
+ * ink at weight 600, the date in muted, exactly as dates read elsewhere.
+ *
+ * The box is drawn on the block wrapper rather than on an inner anchor,
+ * because only 18 of this post's 29 authors supplied a URL. Styling the anchor
+ * would have chipped some commenters and not others.
+ */
+.comment-byline .wp-block-comment-author-name,
+.comment-byline .wp-block-comment-date {
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: var(--parimaanam-radius-chip);
+	font-size: 0.8125rem;
+	line-height: 1.4;
+	padding: 0.1875rem 0.5rem;
+}
+
+.comment-byline .wp-block-comment-author-name,
+.comment-byline .wp-block-comment-author-name a {
 	color: var(--wp--preset--color--ink);
 	font-weight: 600;
 	text-decoration: none;
 }
 
-.wp-block-comment-author-name a:hover {
-	color: var(--wp--preset--color--crimson);
-}
-
-.wp-block-comment-date,
-.wp-block-comment-date a {
+.comment-byline .wp-block-comment-date,
+.comment-byline .wp-block-comment-date a {
 	color: var(--wp--preset--color--muted);
+	font-weight: 600;
 	text-decoration: none;
 }
 
-.wp-block-comment-date a:hover {
+.comment-byline .wp-block-comment-author-name a:hover,
+.comment-byline .wp-block-comment-date a:hover {
 	color: var(--wp--preset--color--ink);
+}
+
+.comment-byline .wp-block-comment-author-name:hover,
+.comment-byline .wp-block-comment-date:hover {
+	border-color: var(--wp--preset--color--crimson);
 }
 
 .wp-block-comment-content {
