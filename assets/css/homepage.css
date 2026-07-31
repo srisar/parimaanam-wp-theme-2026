@@ -101,18 +101,15 @@
  */
 .home-hero__recent .wp-block-post-template {
 	grid-template-columns: minmax(0, 1fr);
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 @media (min-width: 40rem) {
 	.home-hero__recent .wp-block-post-template {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
-}
-
-.home-hero__recent .wp-block-post-template {
-	list-style: none;
-	margin: 0;
-	padding: 0;
 }
 
 .home-hero__recent .wp-block-post {
@@ -473,20 +470,20 @@
 	}
 }
 
-.home-category-directory__heading {
+.category-directory__heading {
 	align-items: center;
 	display: flex;
 	gap: var(--wp--preset--spacing--30);
 }
 
-.home-category-directory__heading::before {
+.category-directory__heading::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
 	flex: 0 0 2rem;
 	height: 2px;
 }
 
-.home-category-directory__list {
+.category-directory__list {
 	display: grid;
 	gap: var(--wp--preset--spacing--40) var(--wp--preset--spacing--50);
 	grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -503,7 +500,7 @@
  * rather than flexed so it centres on the label's first line at every size,
  * instead of relying on a fixed margin that only held at one font size.
  */
-.home-category-directory__list li {
+.category-directory__list li {
 	align-items: baseline;
 	color: var(--wp--preset--color--muted);
 	display: flex;
@@ -515,7 +512,7 @@
 	position: relative;
 }
 
-.home-category-directory__list li::before {
+.category-directory__list li::before {
 	background: var(--wp--preset--color--crimson);
 	content: '';
 	height: 1px;
@@ -525,7 +522,7 @@
 	width: 0.75rem;
 }
 
-.home-category-directory__list a {
+.category-directory__list a {
 	color: var(--wp--preset--color--ink);
 	font-size: 0.9375rem;
 	font-weight: 700;
@@ -533,38 +530,38 @@
 	text-decoration: none;
 }
 
-.home-category-directory__list a:hover {
+.category-directory__list a:hover {
 	color: var(--wp--preset--color--crimson-hover);
 }
 
 @media (min-width: 40rem) {
-	.home-category-directory__list {
+	.category-directory__list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	.home-category-directory__list li {
+	.category-directory__list li {
 		font-size: 0.8125rem;
 	}
 
-	.home-category-directory__list li::before {
+	.category-directory__list li::before {
 		top: 0.68rem;
 	}
 
-	.home-category-directory__list a {
+	.category-directory__list a {
 		font-size: 1rem;
 	}
 }
 
 @media (min-width: 64rem) {
-	.home-category-directory__list {
+	.category-directory__list {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 
-	.home-category-directory__list li::before {
+	.category-directory__list li::before {
 		top: 0.76rem;
 	}
 
-	.home-category-directory__list a {
+	.category-directory__list a {
 		font-size: var(--wp--preset--font-size--medium);
 	}
 }

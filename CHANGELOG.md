@@ -7,6 +7,27 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.46.0
+
+- The category directory now appears beneath the pagination on archive pages,
+  giving a reader who has reached the end of a category somewhere to go other
+  than back.
+- The pattern is renamed from `home-categories` to `category-directory`, its
+  class from `home-category-directory` to `category-directory`, and its title
+  from "Homepage category directory" to "Category directory". A `home-`
+  prefixed section rendering on archives would have been a misnomer of exactly
+  the kind this theme keeps correcting. Fourteen CSS rules, the pattern file
+  and the home template moved with it.
+- Search results deliberately do **not** get the directory. A reader whose
+  search found nothing is better served by the existing no-results message
+  than by a wall of nineteen categories, and the pattern can be added there
+  later if that judgement turns out wrong.
+- The section keeps the `paper` background it uses on the homepage, so on an
+  archive it sits on the same ground as the listing above it rather than
+  alternating. The accent rule on its heading and its own generous padding do
+  the separating. This is the one place the theme's "adjacent sections are
+  distinct" rule is not applied, and it is deliberate.
+
 ## 0.45.1
 
 - The sidebar's recent-post titles drop from 18px to 15px and their dates from
