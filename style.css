@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.49.0
+Version: 0.50.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -358,6 +358,46 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 .article-header__meta {
 	align-items: center;
 	color: var(--wp--preset--color--muted);
+}
+
+/*
+ * The article header's two chips carry a glyph; the listing cards' chips do
+ * not, and that difference is deliberate.
+ *
+ * This header shows one category and one date, once, at the top of a page
+ * somebody has chosen to read — an icon there is orientation. A listing page
+ * shows nine cards with two chips each, and eighteen repeated glyphs stop
+ * being a signal and become texture. Same reasoning that keeps the filled card
+ * box off row-shaped cards.
+ *
+ * inline-flex on the anchor rather than inline-block, so the glyph and the
+ * label share a baseline-independent centre. At inline-block the mask sat on
+ * the text baseline and rode low against Tamil, whose glyphs carry more
+ * below-centre weight than Latin.
+ */
+.article-header__meta .parimaanam-chip a {
+	align-items: center;
+	display: inline-flex;
+	gap: 0.375em;
+}
+
+.article-header__meta .parimaanam-chip a::before {
+	background: currentColor;
+	content: "";
+	flex: 0 0 auto;
+	height: 0.9375em;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	width: 0.9375em;
+}
+
+.article-header__meta .parimaanam-chip--accent a::before {
+	mask-image: var(--parimaanam-icon-category);
+}
+
+.article-header__meta .parimaanam-chip--outline a::before {
+	mask-image: var(--parimaanam-icon-calendar);
 }
 
 /*
