@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.48.0
+Version: 0.48.1
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -862,6 +862,30 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 .wp-block-comments {
 	border-top: 1px solid var(--wp--preset--color--line);
 	padding-top: var(--wp--preset--spacing--60);
+}
+
+/*
+ * The comments heading takes the accent rule every other section heading on
+ * the site carries — the sidebar widgets, the homepage sections, the category
+ * directory. It was the only one arriving as bare text, which is why it read
+ * as an orphan rather than as the start of a section.
+ *
+ * It also steps down from x-large to large. At x-large it was set in the same
+ * size as the article's own title, which put a heading over the commentary at
+ * the same weight as the heading over the writing.
+ */
+.comments-heading {
+	align-items: center;
+	display: flex;
+	gap: var(--wp--preset--spacing--30);
+	margin-bottom: var(--wp--preset--spacing--50);
+}
+
+.comments-heading::before {
+	background: var(--wp--preset--color--crimson);
+	content: "";
+	flex: 0 0 2rem;
+	height: 2px;
 }
 
 .wp-block-comment-template,

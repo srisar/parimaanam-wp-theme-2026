@@ -44,6 +44,35 @@ function parimaanam_2026_preload_fonts( $preload_resources ) {
 add_filter( 'wp_preload_resources', 'parimaanam_2026_preload_fonts' );
 
 /**
+ * Give the comments heading a Tamil label instead of an English count.
+ *
+ * Core builds it from `_n( '%s response', '%s responses', $count )`, and every
+ * candidate — `Response`, `Responses`, `One response`, `%s responses` — is
+ * untranslated in ta_IN, so turning the count off does not help either. The
+ * one word WordPress does translate is `Comments`, as கருத்துகள்.
+ *
+ * The label is therefore that translated noun with the count in parentheses:
+ * the exact shape the category list already uses elsewhere on the site, where
+ * a term reads அறிவியல் (76). Both plural forms return the same string on
+ * purpose — as a label followed by a number rather than a sentence, it needs
+ * no singular, which avoids coining a Tamil word that WordPress does not ship.
+ *
+ * @param string $translation Translated text.
+ * @param string $single      Singular source string.
+ * @param string $plural      Plural source string.
+ * @return string
+ */
+function parimaanam_2026_comments_count_label( $translation, $single, $plural ) {
+	if ( '%s response' === $single && '%s responses' === $plural ) {
+		/* translators: %s: number of comments. */
+		return sprintf( '%s (%%s)', __( 'Comments' ) );
+	}
+
+	return $translation;
+}
+add_filter( 'ngettext', 'parimaanam_2026_comments_count_label', 10, 3 );
+
+/**
  * Give the comment reply link the Tamil WordPress already has.
  *
  * Core renders that link with `_x( 'Reply', 'verb' )`. The contextual string
