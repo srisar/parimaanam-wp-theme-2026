@@ -25,7 +25,15 @@
 	<!-- /wp:group -->
 <!-- /wp:post-template -->
 
-	<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|70"}}},"fontSize":"small","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+	<!--
+		Layout is `default` with a zero block gap because style.css lays this out
+		as a grid. Core's flex layout would justify the children with
+		space-between, which throws the numbers to the far left on page one where
+		there is no previous link; and its flow layout would add a block-gap
+		margin the grid does not want. Declaring both here means Core emits
+		neither, rather than the theme out-specifying it later.
+	-->
+	<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","className":"posts-pagination","style":{"spacing":{"blockGap":"0","margin":{"top":"var:preset|spacing|70"}}},"fontSize":"small","layout":{"type":"default"}} -->
 		<!-- wp:query-pagination-previous /-->
 
 		<!-- wp:query-pagination-numbers /-->
