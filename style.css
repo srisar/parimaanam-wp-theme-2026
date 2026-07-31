@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.53.0
+Version: 0.54.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -407,22 +407,32 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Breakpoint: 40rem (tablet). See the canonical scale above.
  */
+/*
+ * Two cards rather than two panels divided by rules.
+ *
+ * The lines were carrying the separation, which meant a hairline had to be
+ * visible enough to do structural work — and the theme already has a better
+ * tool for "here are two destinations": the same surface fill and card radius
+ * the listing grid uses. The gap separates them, so nothing has to be drawn.
+ */
 .post-navigation {
-	border-top: 1px solid var(--wp--preset--color--line);
 	display: grid;
-	gap: 1px;
+	gap: var(--wp--preset--spacing--40);
 	grid-template-columns: minmax(0, 1fr);
 }
 
+/*
+ * The transparent border reserves the space the hover state fills, so the card
+ * does not shift by a pixel when the accent edge appears — the same technique
+ * the chips use to keep their two variants the same height.
+ */
 .post-navigation__item {
-	background: var(--wp--preset--color--paper);
-	padding: var(--wp--preset--spacing--50) 0;
+	background: var(--wp--preset--color--surface);
+	border: 1px solid transparent;
+	border-radius: var(--parimaanam-radius-card);
+	padding: var(--wp--preset--spacing--50);
 	position: relative;
-	transition: background-color 200ms ease;
-}
-
-.post-navigation__item + .post-navigation__item {
-	border-top: 1px solid var(--wp--preset--color--line);
+	transition: border-color 200ms ease;
 }
 
 .post-navigation__label {
@@ -479,8 +489,12 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	position: absolute;
 }
 
+/*
+ * The card is already `surface`, so hover cannot brighten the fill the way it
+ * did when the panels sat on `paper`. The accent edge is the affordance now.
+ */
 .post-navigation__item:hover {
-	background: var(--wp--preset--color--surface);
+	border-color: var(--wp--preset--color--crimson);
 }
 
 .post-navigation__item:hover .post-navigation__link {
@@ -525,11 +539,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 	.post-navigation__item {
 		padding: var(--wp--preset--spacing--50);
-	}
-
-	.post-navigation__item + .post-navigation__item {
-		border-left: 1px solid var(--wp--preset--color--line);
-		border-top: 0;
 	}
 
 	/*
