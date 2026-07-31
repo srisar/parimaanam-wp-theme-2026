@@ -9,6 +9,15 @@ without database manipulation or cache-clearing hooks.
 
 ## 0.46.0
 
+- Listing excerpts stop at five lines. The block truncates by *word* count,
+  which does not translate into a predictable depth — thirty-two words of
+  Tamil ran anywhere from five lines to eleven, so cards in the same row
+  differed by over a hundred pixels and the grid read as ragged. Card height
+  spread across a page falls from 102px to 24px.
+- The text is clamped visually rather than cut server-side, so a screen reader
+  still reads the whole excerpt; only the depth is bounded. A browser
+  supporting neither `line-clamp` nor its `-webkit-` pair shows the full
+  excerpt, which is the previous behaviour.
 - The category directory now appears beneath the pagination on archive pages,
   giving a reader who has reached the end of a category somewhere to go other
   than back.
