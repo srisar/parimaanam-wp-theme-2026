@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.51.0
+Version: 0.52.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -430,22 +430,50 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	margin: 0;
 }
 
-.post-navigation .wp-block-post-navigation-link {
-	font-size: var(--wp--preset--font-size--large);
-	font-weight: 700;
-	line-height: 1.35;
+/*
+ * The destination is a thumbnail beside its title. Core's Post Navigation Link
+ * block cannot express that — it renders a title and nothing else — so the
+ * pattern builds this markup from the adjacent post it was already resolving.
+ */
+.post-navigation__link {
+	align-items: center;
+	color: var(--wp--preset--color--ink);
+	display: flex;
+	gap: var(--wp--preset--spacing--40);
+	text-decoration: none;
 }
 
-.post-navigation .wp-block-post-navigation-link a {
-	color: var(--wp--preset--color--ink);
-	text-decoration: none;
+.post-navigation__thumb {
+	flex: 0 0 auto;
+	line-height: 0;
+	width: 4rem;
+}
+
+.post-navigation__thumb img {
+	aspect-ratio: 1;
+	border-radius: var(--parimaanam-radius-media);
+	display: block;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+/*
+ * Down from `large` (24px). Against 16px body that was competing with the
+ * article's own headings; this is a signpost to somewhere else, not a heading
+ * in its own right.
+ */
+.post-navigation__title {
+	font-size: clamp(0.9375rem, 0.89rem + 0.22vw, 1.0625rem);
+	font-weight: 700;
+	line-height: 1.35;
 }
 
 /*
  * Stretching the anchor over the panel makes the whole area clickable without
  * wrapping non-link content in the link.
  */
-.post-navigation .wp-block-post-navigation-link a::after {
+.post-navigation__link::after {
 	content: "";
 	inset: 0;
 	position: absolute;
@@ -455,8 +483,16 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	background: var(--wp--preset--color--surface);
 }
 
-.post-navigation__item:hover .wp-block-post-navigation-link a {
+.post-navigation__item:hover .post-navigation__link {
 	color: var(--wp--preset--color--crimson-hover);
+}
+
+.post-navigation__thumb img {
+	transition: transform 420ms ease;
+}
+
+.post-navigation__item:hover .post-navigation__thumb img {
+	transform: scale(1.05);
 }
 
 .post-navigation__label::before {
@@ -503,6 +539,14 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 	.post-navigation__item--next {
 		grid-column: 2;
 		text-align: right;
+	}
+
+	/*
+	 * The next panel mirrors: its thumbnail sits on the outer edge so both
+	 * panels lead with the image on the side the arrow points towards.
+	 */
+	.post-navigation__item--next .post-navigation__link {
+		flex-direction: row-reverse;
 	}
 }
 
