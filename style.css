@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.47.0
+Version: 0.48.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -845,4 +845,132 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 		grid-column: 2;
 		grid-row: 2;
 	}
+}
+
+/* ==========================================================================
+ * Comments
+ *
+ * Core ships this as an undifferentiated stack: every comment ran flush into
+ * the next, replies were indented but otherwise identical to their parents,
+ * and the author, the date and the actions all rendered as the same underlined
+ * link. Nothing said where one comment ended and another began.
+ *
+ * The treatment reuses what the rest of the theme already established — a
+ * hairline between items, the accent for actions, muted for metadata — rather
+ * than introducing a vocabulary that exists only here.
+ * ========================================================================== */
+.wp-block-comments {
+	border-top: 1px solid var(--wp--preset--color--line);
+	padding-top: var(--wp--preset--spacing--60);
+}
+
+.wp-block-comment-template,
+.wp-block-comment-template ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/*
+ * The hairline sits above each comment rather than below, so the last one in a
+ * thread does not trail a rule into the reply form.
+ */
+.wp-block-comment-template > li + li {
+	border-top: 1px solid var(--wp--preset--color--line);
+}
+
+.wp-block-comment-template > li {
+	padding: var(--wp--preset--spacing--50) 0;
+}
+
+/*
+ * A reply is indented and carries a thread line, which is what makes the
+ * nesting readable at a glance. Core indents but draws nothing, so a reply and
+ * a top-level comment looked alike and the conversation had to be inferred
+ * from horizontal position alone.
+ */
+.wp-block-comment-template ol {
+	border-left: 2px solid var(--wp--preset--color--line);
+	margin-top: var(--wp--preset--spacing--50);
+	padding-left: var(--wp--preset--spacing--50);
+}
+
+.wp-block-comment-template ol > li + li {
+	border-top: 1px solid var(--wp--preset--color--line);
+	margin-top: var(--wp--preset--spacing--50);
+	padding-top: var(--wp--preset--spacing--50);
+}
+
+/*
+ * The author is the only part of the byline that carries weight. The date is
+ * metadata and recedes; neither is underlined, because in a list of thirty
+ * comments a rule under every name reads as clutter rather than as a link.
+ */
+.wp-block-comment-author-name,
+.wp-block-comment-author-name a {
+	color: var(--wp--preset--color--ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.wp-block-comment-author-name a:hover {
+	color: var(--wp--preset--color--crimson);
+}
+
+.wp-block-comment-date,
+.wp-block-comment-date a {
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
+}
+
+.wp-block-comment-date a:hover {
+	color: var(--wp--preset--color--ink);
+}
+
+.wp-block-comment-content {
+	overflow-wrap: anywhere;
+}
+
+/*
+ * Edit and Reply are the only controls in a comment, so they take the accent
+ * and sit apart from the text above them.
+ */
+.wp-block-comment-edit-link a,
+.wp-block-comment-reply-link a {
+	color: var(--wp--preset--color--crimson);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.wp-block-comment-edit-link a:hover,
+.wp-block-comment-reply-link a:hover {
+	color: var(--wp--preset--color--crimson-hover);
+	text-decoration: underline;
+}
+
+/*
+ * The reply form is a form, not an afterthought. theme.json already gives the
+ * field its surface, border and control radius; what it needs here is room and
+ * a rule separating it from the thread it answers.
+ */
+.wp-block-post-comments-form {
+	border-top: 1px solid var(--wp--preset--color--line);
+	margin-top: var(--wp--preset--spacing--60);
+	padding-top: var(--wp--preset--spacing--60);
+}
+
+.wp-block-post-comments-form .comment-form textarea {
+	width: 100%;
+}
+
+.wp-block-post-comments-form .comment-notes,
+.wp-block-post-comments-form .logged-in-as {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.wp-block-post-comments-form label {
+	display: inline-block;
+	font-weight: 600;
+	margin-bottom: 0.35rem;
 }
