@@ -7,6 +7,52 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.48.0
+
+- Comments are designed. Core shipped them as an undifferentiated stack: every
+  comment ran flush into the next, replies were indented but otherwise
+  identical to their parents, and the author, the date and the actions all
+  rendered as the same underlined link. Nothing marked where one comment ended.
+- Comments are now separated by a hairline, replies carry a thread line down
+  their left edge so the conversation is readable at a glance, the author takes
+  weight while the date recedes to `muted`, and Edit and Reply take the accent.
+  None of that is new vocabulary — it is what the rest of the theme already
+  uses.
+- The reply form gains a rule, room and full-width field. `theme.json` already
+  gave the field its surface and control radius.
+- **The reply link is Tamil again.** Core renders it with
+  `_x( 'Reply', 'verb' )`, and that contextual string is untranslated in
+  `ta_IN` while the plain `__( 'Reply' )` is translated as பதிலளிக்க — so an
+  English word sat beside தொகுக்க in the same row. A narrowly scoped
+  `gettext_with_context` filter substitutes the Tamil WordPress already ships
+  for the same word in the same sense. No copy is invented, no other use of
+  "Reply" is touched, and if the upstream translation ever lands the filter
+  returns it unchanged and can be deleted.
+- Contrast measured in both skins: author 17.76:1 light and 17.44:1 dark, date
+  5.49:1 and 8.89:1, reply link 5.09:1 and 15.53:1.
+- **Still English: the comments heading** ("29 responses"). Core's
+  `%s responses` is untranslated and there is no existing Tamil to reuse, so
+  fixing it needs a copy decision rather than a substitution. Left alone
+  deliberately.
+
+## 0.47.0
+
+- Pages take the same two-column layout as single posts: content beside the
+  discovery sidebar, collapsing to one column below `72rem` with the sidebar
+  ordered ahead of the comments. `page.html` had been the last template still
+  wearing a bare title-and-content arrangement, which mattered more than it
+  sounds — six of the site's pages are long-form articles, two of them over
+  8,000 characters, and they were reading with no route onward.
+- The page header carries only the title. A page has no category, and its
+  publication date answers a question nobody asked, so the chips that sit
+  there on a post would be empty or noise. It keeps the rule beneath the
+  title, so a page and an article open the same way.
+- No adjacent-page navigation. Pages have no chronology; "previous" and "next"
+  would order the About page against Downloads by whichever was saved first.
+- No new CSS. `.single-article-layout` and `.article-sidebar` were already
+  keyed on class rather than on template, so the page template only had to ask
+  for them.
+
 ## 0.46.0
 
 - Listing excerpts stop at five lines. The block truncates by *word* count,
