@@ -2,19 +2,34 @@
 
 <!-- wp:group {"tagName":"main","align":"full","style":{"spacing":{"padding":{"right":"var:preset|spacing|40","bottom":"var:preset|spacing|70","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
 <main class="wp-block-group alignfull" style="padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--40)">
-	<!-- wp:group {"tagName":"article","layout":{"type":"constrained"}} -->
-	<article class="wp-block-group">
-		<!-- wp:group {"tagName":"header","style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
-		<header class="wp-block-group" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60)">
-			<!-- wp:post-title {"level":1,"fontSize":"x-large"} /-->
-		</header>
+	<!-- wp:group {"align":"wide","className":"single-article-layout","layout":{"type":"default"}} -->
+	<div class="wp-block-group alignwide single-article-layout">
+		<!-- wp:group {"tagName":"article","className":"single-article-layout__content","layout":{"type":"constrained"}} -->
+		<article class="wp-block-group single-article-layout__content">
+			<!--
+				The header carries only the title. A page has no category, and its
+				publication date is not something a reader needs — the chips that
+				sit here on a post would either be empty or answer a question
+				nobody asked. It keeps the rule beneath the title, so a page and
+				an article open the same way.
+			-->
+			<!-- wp:group {"tagName":"header","className":"article-header","style":{"spacing":{"blockGap":"var:preset|spacing|40","margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+			<header class="wp-block-group article-header" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60)">
+				<!-- wp:post-title {"level":1,"fontSize":"x-large"} /-->
+			</header>
+			<!-- /wp:group -->
+
+			<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+		</article>
 		<!-- /wp:group -->
 
-		<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
-	</article>
-	<!-- /wp:group -->
+		<!--
+			No adjacent-page navigation. Pages have no chronology, so "previous"
+			and "next" would order the About page against Downloads by whichever
+			was saved first, which means nothing to a reader.
+		-->
 
-	<!-- wp:comments {"tagName":"section","className":"wp-block-comments-query-loop","style":{"spacing":{"margin":{"top":"var:preset|spacing|70"}}}} -->
+		<!-- wp:comments {"tagName":"section","className":"wp-block-comments-query-loop","style":{"spacing":{"margin":{"top":"var:preset|spacing|70"}}}} -->
 	<section class="wp-block-comments wp-block-comments-query-loop" style="margin-top:var(--wp--preset--spacing--70)">
 		<!-- wp:comments-title {"showPostTitle":false,"fontSize":"x-large"} /-->
 
@@ -53,6 +68,14 @@
 		<!-- wp:post-comments-form /-->
 	</section>
 	<!-- /wp:comments -->
+
+		<!-- wp:group {"tagName":"aside","className":"article-sidebar","style":{"spacing":{"margin":{"top":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+		<aside class="wp-block-group article-sidebar" style="margin-top:var(--wp--preset--spacing--60)">
+			<!-- wp:pattern {"slug":"parimaanam-2026/article-sidebar"} /-->
+		</aside>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 

@@ -7,6 +7,24 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.47.0
+
+- Pages take the same two-column layout as single posts: content beside the
+  discovery sidebar, collapsing to one column below `72rem` with the sidebar
+  ordered ahead of the comments. `page.html` had been the last template still
+  wearing a bare title-and-content arrangement, which mattered more than it
+  sounds — six of the site's pages are long-form articles, two of them over
+  8,000 characters, and they were reading with no route onward.
+- The page header carries only the title. A page has no category, and its
+  publication date answers a question nobody asked, so the chips that sit
+  there on a post would be empty or noise. It keeps the rule beneath the
+  title, so a page and an article open the same way.
+- No adjacent-page navigation. Pages have no chronology; "previous" and "next"
+  would order the About page against Downloads by whichever was saved first.
+- No new CSS. `.single-article-layout` and `.article-sidebar` were already
+  keyed on class rather than on template, so the page template only had to ask
+  for them.
+
 ## 0.46.0
 
 - Listing excerpts stop at five lines. The block truncates by *word* count,
