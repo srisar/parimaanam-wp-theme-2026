@@ -3,7 +3,7 @@ Theme Name: Parimaanam 2026
 Theme URI: https://parimaanam.net/
 Author: Parimaanam
 Description: A native WordPress block theme for the Parimaanam Tamil-language publication.
-Version: 0.45.1
+Version: 0.46.0
 Requires at least: 6.6
 Requires PHP: 7.4
 Text Domain: parimaanam-2026
@@ -198,6 +198,29 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 .posts-grid .wp-block-post-excerpt {
 	font-size: 0.9375rem;
+}
+
+/*
+ * Excerpts stop at five lines.
+ *
+ * The block truncates by word count, which does not translate into a
+ * predictable depth: thirty-two words of Tamil ran anywhere from five lines to
+ * eleven, so cards in the same row differed by more than a hundred pixels and
+ * the grid read as ragged. Clamping by line caps the tall ones where word
+ * count cannot.
+ *
+ * The text stays in the document rather than being cut server-side, so a
+ * screen reader still reads the whole excerpt and nothing is lost — only the
+ * visual depth is bounded. `line-clamp` is the standard property and the
+ * `-webkit-` pair is what actually ships everywhere; a browser that honours
+ * neither simply shows the full excerpt, which is today's behaviour.
+ */
+.posts-grid .wp-block-post-excerpt__excerpt {
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 5;
+	display: -webkit-box;
+	line-clamp: 5;
+	overflow: hidden;
 }
 
 /*
