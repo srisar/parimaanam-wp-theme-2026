@@ -21,7 +21,7 @@
       "width": true
     },
     "color": {
-      "custom": false,
+      "custom": true,
       "customDuotone": false,
       "customGradient": false,
       "defaultDuotone": false,
@@ -271,32 +271,32 @@
       },
       "h1": {
         "typography": {
-          "fontSize": "var:preset|font-size|xx-large"
+          "fontSize": "clamp(1.625rem, 1.47rem + 0.66vw, 2rem)"
         }
       },
       "h2": {
         "typography": {
-          "fontSize": "var:preset|font-size|x-large"
+          "fontSize": "clamp(1.375rem, 1.22rem + 0.66vw, 1.75rem)"
         }
       },
       "h3": {
         "typography": {
-          "fontSize": "var:preset|font-size|large"
+          "fontSize": "clamp(1.1875rem, 1.08rem + 0.44vw, 1.4375rem)"
         }
       },
       "h4": {
         "typography": {
-          "fontSize": "var:preset|font-size|medium"
+          "fontSize": "clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem)"
         }
       },
       "h5": {
         "typography": {
-          "fontSize": "var:preset|font-size|medium"
+          "fontSize": "clamp(1.0625rem, 1.04rem + 0.11vw, 1.125rem)"
         }
       },
       "h6": {
         "typography": {
-          "fontSize": "var:preset|font-size|medium"
+          "fontSize": "clamp(1rem, 0.97rem + 0.11vw, 1.0625rem)"
         }
       }
     },
