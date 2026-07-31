@@ -7,6 +7,32 @@ header in `style.css`. Increment that version when adding, removing, or
 renaming files in `patterns/` so active installations discover the change
 without database manipulation or cache-clearing hooks.
 
+## 0.45.0
+
+- Archive and search pagination is designed rather than inherited. Core ships
+  it as bare links, which took the global link treatment and left every page
+  number a **6px-wide underlined word** — a tap target that fails WCAG 2.5.8
+  outright and is effectively unhittable on a phone. Every control is now a
+  44×44 minimum on the theme's control radius.
+- The current page takes the accent fill, the same object as a category chip,
+  so it reads as "this one" from a convention the rest of the site already
+  established. The ellipsis keeps its place in the rhythm but drops the box,
+  border and tap target, because it is not a control.
+- Layout is a three-track grid rather than Core's flex row. On page one there
+  is no previous link, and `space-between` then threw the numbers hard against
+  the left edge with the next link stranded at the right — visible on every
+  first page of every archive. Each control now has a named column, so the
+  numbers stay centred whether or not their neighbours exist.
+- On phones the numbers take their own row with the two directional controls
+  beneath, still anchored to the edges a thumb reaches for.
+- `blockGap` is declared `0` and the layout `default` in the pattern, for the
+  reason established in `0.44.0`: Core's flex layout would justify the
+  children and its flow layout would add a block-gap margin, and both are
+  cheaper to switch off at source than to out-specify in CSS.
+- The controls set `box-sizing: border-box` explicitly. WordPress sets no
+  global box-sizing, so the 2.75rem minimum measured content alone and padding
+  and border added on top — a single digit came out 62px wide instead of 44.
+
 ## 0.44.0
 
 - The homepage hero is rebuilt as three featured slots — a dominant lead
