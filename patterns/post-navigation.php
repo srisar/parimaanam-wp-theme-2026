@@ -31,7 +31,14 @@ $parimaanam_labels = array(
 );
 ?>
 
-<!-- wp:group {"tagName":"nav","align":"wide","className":"post-navigation","style":{"spacing":{"margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
+<!--
+	blockGap 0, for the reason established in 0.44.0. Core writes the block gap
+	as margin-top on every child after the first, and this group uses the flow
+	layout, so that margin survived into a CSS grid that already spaces itself.
+	Down one column it read as slightly generous spacing; across two it pushed
+	the next panel 16px below the previous one, which is the misalignment.
+-->
+<!-- wp:group {"tagName":"nav","align":"wide","className":"post-navigation","style":{"spacing":{"blockGap":"0","margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
 <nav class="wp-block-group alignwide post-navigation" style="margin-top:var(--wp--preset--spacing--70);margin-bottom:var(--wp--preset--spacing--70)">
 	<?php foreach ( $parimaanam_adjacent as $parimaanam_key => $parimaanam_post ) : ?>
 		<?php if ( ! $parimaanam_post ) { continue; } ?>
