@@ -203,7 +203,7 @@
     },
     "typography": {
       "fontFamily": "var:preset|font-family|primary",
-      "fontSize": "var:preset|font-size|medium",
+      "fontSize": "clamp(0.9375rem, 0.91rem + 0.11vw, 1rem)",
       "lineHeight": "1.8"
     },
     "css": "::selection { background: var(--wp--preset--color--highlight); color: var(--wp--preset--color--ink); } :where(.wp-site-blocks *:focus-visible) { outline: 3px solid var(--wp--preset--color--crimson); outline-offset: 3px; }",
